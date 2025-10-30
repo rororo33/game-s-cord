@@ -8,14 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.Instant;
 
-/**
- * 코인 내역 조회용 DTO
- *
- * 왜 별도로 만들었나?
- * - 친구 코드의 CoinHistoryResponseDTO를 확장
- * - 내역 조회 시 필요한 정보만 포함 (경량화)
- * - 리스트로 반환될 때 불필요한 필드 제거
- */
+
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor

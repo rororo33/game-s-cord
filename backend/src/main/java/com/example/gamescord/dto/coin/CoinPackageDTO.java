@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class CoinPackageDTO {
-
     private Integer packageId;
     private Integer coinAmount;
     private Integer paymentAmount;

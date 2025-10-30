@@ -1,21 +1,40 @@
 package com.example.gamescord.repository.review;
 
-import com.querydsl.core.QueryFactory;
+import com.example.gamescord.domain.Review;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
+import static com.example.gamescord.domain.QReview.review;
+
 @Repository
+@RequiredArgsConstructor
 public class ReviewRepository {
 
-    @Autowired
-    private SDJpaReviewRepository reviewRepository;
-    private EntityManager em;
-    private QueryFactory queryFactory;
+    private final SDJpaReviewRepository reviewRepository;
+    private final EntityManager em;
+    private final JPAQueryFactory queryFactory;
 
     public ReviewRepository(EntityManager em) {
         this.em = em;
-        this.queryFactory=new JPAQueryFactory(em);
+        this.queryFactory = new JPAQueryFactory(em);
+    }
+
+    // 리뷰 작성
+    public void saveReview(Review reviewEntity) {
+        reviewRepository.save(reviewEntity);
+    }
+
+    // 리뷰 수정
+    public void updateReview(Review reviewEntity) {
+        reviewRepository.save(reviewEntity);
+    }
+
+    // 리뷰 삭제
+    public void deleteReview(Review reviewEntity) {
+        reviewRepository.delete(reviewEntity);
     }
 }
