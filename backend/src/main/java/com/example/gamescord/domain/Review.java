@@ -35,11 +35,6 @@ public class Review {
     private Integer score;
 
     @Size(max = 255)
-    @Column(name = "review")
-    private String review;
-
-    @NotNull
-    @Column(name = "created_at", nullable = false)
-    @CreationTimestamp
-    private Instant createdAt;
+    @Column(name = "reviews_description")
+    private String reviewDescription;
 }

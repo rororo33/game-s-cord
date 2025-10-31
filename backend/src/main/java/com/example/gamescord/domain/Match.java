@@ -33,6 +33,7 @@ public class Match {
   @Column(name = "orders_game_id", nullable = false)
   private Long ordersGameId;
 
+  // PENDING, ACCEPTING
   @Size(max = 255)
   @Column(name = "order_status")
   private String orderStatus;

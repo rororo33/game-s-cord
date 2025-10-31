@@ -4,19 +4,20 @@ import com.example.gamescord.domain.Review;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static com.example.gamescord.domain.QReview.review;
+import static  com.example.gamescord.domain.QReview.review;
 
 @Repository
-@RequiredArgsConstructor
 public class ReviewRepository {
 
-    private final SDJpaReviewRepository reviewRepository;
-    private final EntityManager em;
-    private final JPAQueryFactory queryFactory;
+    @Autowired
+    private SDJpaReviewRepository reviewRepository;
+    private EntityManager em;
+    private JPAQueryFactory queryFactory;
 
     public ReviewRepository(EntityManager em) {
         this.em = em;

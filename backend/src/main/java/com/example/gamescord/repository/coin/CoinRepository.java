@@ -4,9 +4,11 @@ import com.example.gamescord.domain.Coin;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.example.gamescord.domain.QCoin.coin;
 
@@ -14,40 +16,28 @@ import static com.example.gamescord.domain.QCoin.coin;
 @RequiredArgsConstructor
 public class CoinRepository {
 
+    @Autowired
     private final SDJpaCoinRepository coinRepository;
     private final EntityManager em;
     private final JPAQueryFactory queryFactory;
 
-    public CoinRepository(EntityManager em) {
-        this.em = em;
-        this.queryFactory = new JPAQueryFactory(em);
-    }
-
-    // 코인 충전
-    public Coin saveCoin(Coin coinEntity) {
+    public Coin save(Coin coinEntity) {
         return coinRepository.save(coinEntity);
     }
 
-    /*// 특정 사용자의 코인 충전 내역 조회 (최신순)
-    public List<Coin> findByUsersId(Long usersId) {
+    public Optional<Coin> findById(Long coinId) {
+        return coinRepository.findById(coinId);
+    }
+
+    public List<Coin> findByUserLoginId(String loginId) {
         return queryFactory
                 .selectFrom(coin)
-                .where(coin.users.id.eq(usersId))
+                .where(coin.users.loginId.eq(loginId))
                 .orderBy(coin.createdAt.desc())
                 .fetch();
     }
 
-    // 사용자 코인 잔액 계산
-    public Long calculateUserBalance(Long usersId) {
-        List<Coin> coins = findByUsersId(usersId);
-        return coins.stream()
-                .mapToLong(Coin::getCoinAmount)
-                .sum();
-    }
-
-
-    // 코인 내역 삭제 (환불 할때)
-    public void deleteCoin(Coin coinEntity) {
+    public void delete(Coin coinEntity) {
         coinRepository.delete(coinEntity);
-    }*/
+    }
 }

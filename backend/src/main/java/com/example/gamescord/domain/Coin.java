@@ -32,19 +32,14 @@ public class Coin {
   @Column(name = "payment_amount", nullable = false)
   private Integer paymentAmount;
 
+  // 카드결제, 계좌이체, 간편결제, 충전은 "CHARGE", gamemate가 얻은 건 "GAMEMATE_PAYOUT"
   @Size(max = 45)
   @NotNull
   @Column(name = "payment_method", nullable = false, length = 45)
   private String paymentMethod;
 
-  // todo: 거래 유형 필드 추가함.
-  @Size(max = 45)
-  @Column(name = "transaction_type", length = 45)
-  private String transactionType;
-
   @NotNull
   @Column(name = "created_at", nullable = false)
-
   @CreationTimestamp
   private Instant createdAt;
 

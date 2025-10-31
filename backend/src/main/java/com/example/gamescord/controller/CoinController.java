@@ -1,19 +1,13 @@
 package com.example.gamescord.controller;
 
-import com.example.gamescord.dto.coin.CoinChargeRequestDTO;
-import com.example.gamescord.dto.coin.CoinHistoryResponseDTO;
-import com.example.gamescord.dto.coin.CoinResponseDTO;
+import com.example.gamescord.dto.coin.*;
 import com.example.gamescord.security.CustomUserDetails;
 import com.example.gamescord.service.coin.CoinService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,10 +22,8 @@ public class CoinController {
     public ResponseEntity<CoinResponseDTO> chargeCoin(
             @AuthenticationPrincipal CustomUserDetails userDetails,
             @Valid @RequestBody CoinChargeRequestDTO requestDto) {
-        
-        String loginId = userDetails.getUsername();
-        CoinResponseDTO response = coinService.chargeCoin(loginId, requestDto);
-        
+
+        CoinResponseDTO response = coinService.chargeCoin(userDetails.getUsername(), requestDto);
         return ResponseEntity.ok(response);
     }
 
@@ -39,9 +31,25 @@ public class CoinController {
     public ResponseEntity<List<CoinHistoryResponseDTO>> getCoinHistory(
             @AuthenticationPrincipal CustomUserDetails userDetails) {
 
-        String loginId = userDetails.getUsername();
-        List<CoinHistoryResponseDTO> history = coinService.getCoinHistory(loginId);
-
+        List<CoinHistoryResponseDTO> history = coinService.getCoinHistory(userDetails.getUsername());
         return ResponseEntity.ok(history);
+    }
+
+    @PostMapping("/use")
+    public ResponseEntity<CoinResponseDTO> useCoin(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @Valid @RequestBody CoinUseRequestDTO requestDto) {
+
+        CoinResponseDTO response = coinService.useCoin(userDetails.getUsername(), requestDto);
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/refund")
+    public ResponseEntity<CoinResponseDTO> refundCoin(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @Valid @RequestBody CoinRefundRequestDTO requestDto) {
+
+        CoinResponseDTO response = coinService.refundCoin(userDetails.getUsername(), requestDto);
+        return ResponseEntity.ok(response);
     }
 }

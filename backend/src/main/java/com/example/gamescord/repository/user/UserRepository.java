@@ -4,6 +4,7 @@ import com.example.gamescord.domain.User;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -11,12 +12,12 @@ import java.util.Optional;
 import static com.example.gamescord.domain.QUser.user;
 
 @Repository
-@RequiredArgsConstructor
 public class UserRepository {
 
-    private final SDJpaUserRepository userRepository;
-    private final EntityManager em;
-    private final JPAQueryFactory queryFactory;
+    @Autowired
+    private SDJpaUserRepository userRepository;
+    private EntityManager em;
+    private JPAQueryFactory queryFactory;
 
     public UserRepository(EntityManager em) {
         this.em = em;
@@ -38,7 +39,6 @@ public class UserRepository {
         return Optional.ofNullable(foundUser);
     }
 
-    // todo: 불필요 함수로 추정.
     public User findById(Long userId) {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다"));

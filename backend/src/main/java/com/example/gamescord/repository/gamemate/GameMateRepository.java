@@ -7,6 +7,8 @@ import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 import static com.example.gamescord.domain.QGamemate.gamemate;
 
 @Repository
@@ -31,6 +33,14 @@ public class GameMateRepository {
                 .from(gamemate)
                 .where(gamemate.users.id.eq(usersId),gamemate.games.id.eq(gamesId))
                 .fetchOne();
+    }
+
+    public List<Gamemate> findGamematesByUsersName(String name){
+        return queryFactory.select(gamemate)
+                .from(gamemate)
+                .where(gamemate.users.usersName.eq(name))
+                .orderBy(gamemate.users.usersName.asc())
+                .fetch();
     }
 
     public void updatePrice(Long usersId, Long gamesId, Long price){

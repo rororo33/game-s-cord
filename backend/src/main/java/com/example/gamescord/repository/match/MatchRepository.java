@@ -8,6 +8,8 @@ import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 import static com.example.gamescord.domain.QMatch.match;
 
 @Repository
@@ -25,6 +27,10 @@ public class MatchRepository {
 
     public void saveMatch(Match match) {
         matchRepository.save(match);
+    }
+
+    public Optional<Match> findById(Long id) {
+        return matchRepository.findById(id);
     }
 
     public Match findMatch(Long usersId,Long order,Long ordered,Long game){
