@@ -24,11 +24,11 @@ public class CoinRepository {
     }
 
     // 코인 충전
-    public void saveCoin(Coin coinEntity) {
-        coinRepository.save(coinEntity);
+    public Coin saveCoin(Coin coinEntity) {
+        return coinRepository.save(coinEntity);
     }
 
-    // 특정 사용자의 코인 충전 내역 조회 (최신순)
+    /*// 특정 사용자의 코인 충전 내역 조회 (최신순)
     public List<Coin> findByUsersId(Long usersId) {
         return queryFactory
                 .selectFrom(coin)
@@ -49,5 +49,5 @@ public class CoinRepository {
     // 코인 내역 삭제 (환불 할때)
     public void deleteCoin(Coin coinEntity) {
         coinRepository.delete(coinEntity);
-    }
+    }*/
 }

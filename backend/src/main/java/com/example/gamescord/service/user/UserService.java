@@ -5,7 +5,7 @@ import com.example.gamescord.dto.user.UserLoginRequestDTO;
 import com.example.gamescord.dto.user.UserResponseDTO;
 import com.example.gamescord.dto.user.UserSignupRequestDTO;
 import com.example.gamescord.dto.user.UserProfileUpdateRequestDTO;
-import com.example.gamescord.repository.UserRepository;
+import com.example.gamescord.repository.user.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -45,7 +45,7 @@ public class UserService {
         newUser.setPoint(0L);
         newUser.setLoginFailCount(0);
 
-        return userRepository.save(newUser);
+        return userRepository.saveUser(newUser);
     }
 
     /**
@@ -86,8 +86,8 @@ public class UserService {
     }
 
     @Transactional
-    public User updateUserProfile(Long userId, UserProfileUpdateRequestDTO requestDto) {
-        User user = userRepository.findById(userId)
+    public User updateUserProfile(String userLoginId, UserProfileUpdateRequestDTO requestDto) {
+        User user = userRepository.findByLoginId(userLoginId)
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
 
         if (requestDto.getUsersName() != null) user.setUsersName(requestDto.getUsersName());
@@ -96,12 +96,12 @@ public class UserService {
         if (requestDto.getGender() != null) user.setGender(requestDto.getGender());
         if (requestDto.getProfileImageUrl() != null) user.setProfileImageUrl(requestDto.getProfileImageUrl());
 
-        return userRepository.save(user);
+        return userRepository.updateUser(user);
     }
 
     @Transactional(readOnly = true)
-    public User getUserProfile(Long userId) {
-        return userRepository.findById(userId)
+    public User getUserProfile(String loginId) {
+        return userRepository.findByLoginId(loginId)
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
     }
 

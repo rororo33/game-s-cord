@@ -48,21 +48,19 @@ public class UserController {
 
     @PatchMapping("/profile")
     public ResponseEntity<UserResponseDTO> updateUserProfile(@Valid @RequestBody UserProfileUpdateRequestDTO requestDto) {
-        Long userId = ((CustomUserDetails)
-                SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
+        String loginId = ((CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
 
         return ResponseEntity.ok(
-                userService.updateUserProfile(userId, requestDto).toResponseDTO()
+                userService.updateUserProfile(loginId, requestDto).toResponseDTO()
         );
     }
 
     @GetMapping("/profile")
     public ResponseEntity<UserResponseDTO> getUserProfile() {
-        Long userId = ((CustomUserDetails)
-                SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
+        String loginId = ((CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
 
         return ResponseEntity.ok(
-                userService.getUserProfile(userId).toResponseDTO()
+                userService.getUserProfile(loginId).toResponseDTO()
         );
     }
 }

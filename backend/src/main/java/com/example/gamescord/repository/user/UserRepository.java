@@ -24,9 +24,11 @@ public class UserRepository {
     }
 
     // 회원가입
-    public void saveUser(User userEntity) {
+    public User saveUser(User userEntity) {
         userRepository.save(userEntity);
+        return userEntity;
     }
+
 
     public Optional<User> findByLoginId(String loginId) {
         User foundUser = queryFactory
@@ -34,6 +36,12 @@ public class UserRepository {
                 .where(user.loginId.eq(loginId))
                 .fetchOne();
         return Optional.ofNullable(foundUser);
+    }
+
+    // todo: 불필요 함수로 추정.
+    public User findById(Long userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다"));
     }
 
     // 중복 체크
@@ -44,11 +52,6 @@ public class UserRepository {
                 .where(user.loginId.eq(loginId))
                 .fetchFirst();
         return count != null;
-    }
-
-    public User findById(Long userId) {
-        return userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다"));
     }
 
     // 로그인 실패했을때 횟수 증가
@@ -63,7 +66,8 @@ public class UserRepository {
         userRepository.save(userEntity);
     }
 
-    public void updateUser(User userEntity) {
+    public User updateUser(User userEntity) {
         userRepository.save(userEntity);
+        return userEntity;
     }
 }

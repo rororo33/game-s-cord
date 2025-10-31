@@ -1,4 +1,4 @@
-package com.example.mvctest.domain;
+package com.example.gamescord.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;

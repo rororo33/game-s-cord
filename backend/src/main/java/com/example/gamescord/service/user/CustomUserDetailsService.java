@@ -1,7 +1,7 @@
 package com.example.gamescord.service.user;
 
 import com.example.gamescord.domain.User;
-import com.example.gamescord.repository.UserRepository;
+import com.example.gamescord.repository.user.UserRepository;
 import com.example.gamescord.security.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
