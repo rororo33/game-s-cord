@@ -2,11 +2,7 @@ package com.example.gamescord.controller;
 
 import com.example.gamescord.dto.gamemate.GamemateRegistrationRequestDTO;
 import com.example.gamescord.dto.gamemate.GamemateResponseDTO;
-<<<<<<< HEAD
-import com.example.gamescord.dto.gamemate.SingleGamemateProfileResponseDTO;
-=======
 import com.example.gamescord.dto.gamemate.GamemateProfileResponseDTO;
->>>>>>> origin/feature/backend/develop1
 import com.example.gamescord.security.CustomUserDetails;
 import com.example.gamescord.service.gamemate.GamemateService;
 import jakarta.validation.Valid;
@@ -42,19 +38,9 @@ public class GamemateController {
     }
 
     @GetMapping("/profile/{userId}")
-<<<<<<< HEAD
-    public ResponseEntity<SingleGamemateProfileResponseDTO> getGamemateProfile(
-            @PathVariable Long userId,
-            @RequestParam Long gameId) {
-        SingleGamemateProfileResponseDTO profile = gamemateService.getSingleGamemateProfile(userId, gameId);
-        return ResponseEntity.ok(profile);
-    }
-}
-=======
     public ResponseEntity<GamemateProfileResponseDTO> getGamemateProfile(
             @PathVariable Long userId) {
         GamemateProfileResponseDTO profile = gamemateService.getGamemateProfile(userId);
         return ResponseEntity.ok(profile);
     }
 }
->>>>>>> origin/feature/backend/develop1

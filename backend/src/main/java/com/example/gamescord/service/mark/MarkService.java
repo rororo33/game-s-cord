@@ -4,7 +4,7 @@ import com.example.gamescord.domain.Mark;
 import com.example.gamescord.domain.User;
 import com.example.gamescord.dto.mark.MarkedUserResponseDTO;
 import com.example.gamescord.dto.mark.MarkResponseDTO;
-import com.example.gamescord.repository.UserRepository;
+import com.example.gamescord.repository.user.UserRepository;
 import com.example.gamescord.repository.mark.MarkRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,8 +29,7 @@ public class MarkService {
             throw new IllegalArgumentException("자기 자신을 즐겨찾기할 수 없습니다.");
         }
 
-        User markingUser = userRepository.findById(markingUserId)
-                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+        User markingUser = userRepository.findById(markingUserId);
 
         if (!userRepository.existsById(markedUserId)) {
             throw new IllegalArgumentException("즐겨찾기할 사용자를 찾을 수 없습니다.");

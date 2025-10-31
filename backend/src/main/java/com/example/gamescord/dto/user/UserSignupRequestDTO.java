@@ -34,4 +34,6 @@ public class UserSignupRequestDTO {
     @NotNull(message = "생년월일은 필수입니다")
     @Past(message = "생년월일은 과거 날짜여야 합니다")
     private LocalDate usersBirthday;
+
+    // 회원가입시 gender: "None"으로 저장.
 }

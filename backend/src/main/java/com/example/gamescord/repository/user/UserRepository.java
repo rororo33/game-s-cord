@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import static com.example.gamescord.domain.QUser.user;
@@ -45,13 +46,18 @@ public class UserRepository {
     }
 
     // 중복 체크
-    public boolean existsByLoginId(String loginId) {
+    public boolean existsById(Long id) {
         Integer count = queryFactory
                 .selectOne()
                 .from(user)
-                .where(user.loginId.eq(loginId))
+                .where(user.id.eq(id))
                 .fetchFirst();
         return count != null;
+    }
+
+    // 모든 사용자 출력.
+    public List<User> findAllById(Iterable<Long> ids) {
+        return userRepository.findAllById(ids);
     }
 
     // 로그인 실패했을때 횟수 증가

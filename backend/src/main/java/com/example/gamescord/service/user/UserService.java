@@ -42,6 +42,7 @@ public class UserService {
         newUser.setUsersName(requestDto.getUsersName());
         newUser.setUsersBirthday(requestDto.getUsersBirthday());
         newUser.setUsersDescription(requestDto.getUsersDescription());
+        newUser.setGender("None"); // gender 기본값 "None"으로 설정
         newUser.setPoint(0L);
         newUser.setLoginFailCount(0);
 
