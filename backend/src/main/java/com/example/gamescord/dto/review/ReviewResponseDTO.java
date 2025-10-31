@@ -1,3 +1,4 @@
+/*
 package com.example.gamescord.dto.review;
 
 import com.example.gamescord.domain.Review;
@@ -22,3 +23,4 @@ public class ReviewResponseDTO {
                 .build();
     }
 }
+*/

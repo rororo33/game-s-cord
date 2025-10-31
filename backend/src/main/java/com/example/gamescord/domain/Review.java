@@ -26,7 +26,7 @@ public class Review {
   private Integer score;
 
   @Size(max = 255)
-  @Column(name = "review")
-  private String review;
+  @Column(name = "reviews_description")
+  private String reviewDescription;
 
 }
