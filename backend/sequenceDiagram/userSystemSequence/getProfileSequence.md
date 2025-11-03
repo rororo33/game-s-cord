@@ -1,12 +1,12 @@
 ```mermaid
 sequenceDiagram
-participant Client
-participant Controller as UserController
-participant SecurityCtx as SecurityContextHolder
-participant UserDetails as CustomUserDetails
-participant Service as UserService
-participant Repo as UserRepository
-participant DB
+    participant Client
+    participant Controller as UserController
+    participant SecurityCtx as SecurityContextHolder
+    participant UserDetails as CustomUserDetails
+    participant Service as UserService
+    participant Repo as UserRepository
+    participant DB
 
     Client->>Controller: GET /api/users/profile
     

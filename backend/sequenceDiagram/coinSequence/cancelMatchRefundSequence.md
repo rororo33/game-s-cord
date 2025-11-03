@@ -10,9 +10,7 @@ sequenceDiagram
     participant CoinRepo as CoinRepository
     participant DB
     
-    Note over Client,DB: 시나리오 1: 게임메이트가 매칭 거절 (DECLINED)
-    
-    Client->>MatchCtrl: PATCH /api/matches/status(MatchStatusUpdateByKeyDTO: orderStatus="DECLINED")
+    Client->>MatchCtrl: PATCH /api/matches/status (MatchStatusUpdateByKeyDTO: orderStatus="DECLINED")
     MatchCtrl->>MatchSvc: updateMatchStatus(requestDto, currentUserId)
     
     MatchSvc->>MatchRepo: findPendingMatch(...)
@@ -39,7 +37,6 @@ sequenceDiagram
         DB-->>UserRepo: Updated
         
         CoinSvc->>CoinSvc: Create Coin entity
-        Note over CoinSvc: coinAmount: +price (양수)paymentAmount: 0paymentMethod: "MATCH_CANCELLED"
         
         CoinSvc->>CoinRepo: save(refundCoin)
         CoinRepo->>DB: INSERT INTO coin VALUES (...)
@@ -52,55 +49,7 @@ sequenceDiagram
         DB-->>MatchRepo: Deleted
         
         MatchSvc->>MatchSvc: match.setOrderStatus("DECLINED")
-        Note over MatchSvc: 응답 DTO를 위해서만 설정
     end
-    
-    MatchSvc-->>MatchCtrl: MatchResponseDTO
-    MatchCtrl-->>Client: 200 OK (MatchResponseDTO)
-    
-    Note over Client,DB: 시나리오 2: 요청자가 매칭 취소 (본인 취소)
-    
-    Client->>MatchCtrl: DELETE /api/matches/{matchId}
-    MatchCtrl->>MatchSvc: cancelMatchByUser(matchId, requesterId)
-    
-    MatchSvc->>MatchRepo: findById(matchId)
-    MatchRepo->>DB: SELECT * FROM matches WHERE orders_id=?
-    DB-->>MatchRepo: Optional
-    MatchRepo-->>MatchSvc: match
-    
-    Note over MatchSvc: orderUsersId == requesterId 확인orderStatus == "PENDING" 확인
-    
-    MatchSvc->>UserRepo: findById(requesterId)
-    UserRepo->>DB: SELECT * FROM users WHERE users_id=?
-    DB-->>UserRepo: User requester
-    UserRepo-->>MatchSvc: requester
-    
-    MatchSvc->>GamemateRepo: findGamemateByUsersId(orderedUsersId, gameId)
-    GamemateRepo->>DB: SELECT * FROM gamemates WHERE users_id=? AND games_id=?
-    DB-->>GamemateRepo: Gamemate
-    GamemateRepo-->>MatchSvc: gamemate (with price)
-    
-    MatchSvc->>CoinSvc: cancelMatchRefund(requester, price)
-    
-    CoinSvc->>CoinSvc: requester.setPoint(currentPoint + price)
-    CoinSvc->>UserRepo: saveUser(requester)
-    UserRepo->>DB: UPDATE users SET point=? WHERE users_id=?
-    DB-->>UserRepo: Updated
-    
-    CoinSvc->>CoinSvc: Create Coin entity
-    Note over CoinSvc: coinAmount: +price (양수)paymentAmount: 0paymentMethod: "MATCH_CANCELLED"
-    
-    CoinSvc->>CoinRepo: save(refundCoin)
-    CoinRepo->>DB: INSERT INTO coin VALUES (...)
-    DB-->>CoinRepo: Coin savedCoin
-    CoinRepo-->>CoinSvc: savedCoin
-    CoinSvc-->>MatchSvc: Coin
-    
-    MatchSvc->>MatchRepo: deleteMatch(match)
-    MatchRepo->>DB: DELETE FROM matches WHERE orders_id=?
-    DB-->>MatchRepo: Deleted
-    
-    MatchSvc->>MatchSvc: responseDto.setOrderStatus("CANCELLED")
     
     MatchSvc-->>MatchCtrl: MatchResponseDTO
     MatchCtrl-->>Client: 200 OK (MatchResponseDTO)

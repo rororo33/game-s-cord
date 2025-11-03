@@ -1,11 +1,11 @@
 ```mermaid
 sequenceDiagram
-participant Client
-participant Controller as UserController
-participant Service as UserService
-participant Encoder as PasswordEncoder
-participant Repo as UserRepository
-participant DB
+    participant Client
+    participant Controller as UserController
+    participant Service as UserService
+    participant Encoder as PasswordEncoder
+    participant Repo as UserRepository
+    participant DB
 
     Client->>Controller: POST /api/users/signup (UserSignupRequestDTO)
     Controller->>Service: signup(requestDto)
@@ -24,7 +24,6 @@ participant DB
     Encoder-->>Service: encodedPassword
     
     Service->>Service: Create new User entity
-    Note over Service: Set gender="None", point=0, loginFailCount=0
     
     Service->>Repo: saveUser(newUser)
     Repo->>DB: INSERT INTO users VALUES (...)

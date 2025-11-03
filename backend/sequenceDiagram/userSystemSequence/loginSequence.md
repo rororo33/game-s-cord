@@ -38,7 +38,7 @@ sequenceDiagram
     Service->>SecurityCtx: getContext()
     SecurityCtx-->>Service: SecurityContext
     Service->>SecurityCtx: setAuthentication(authentication)
-    Service->>CtxRepo: saveContext(context, request, response)
+    Service->>CtxRepo: saveContext(context, request, null)
     
     Service->>Service: toUserResponseDTO(user)
     Service-->>Controller: UserResponseDTO

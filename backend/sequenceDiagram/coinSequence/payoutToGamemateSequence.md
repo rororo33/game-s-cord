@@ -10,10 +10,10 @@ sequenceDiagram
     participant CoinRepo as CoinRepository
     participant DB
     
-    Client->>MatchCtrl: PATCH /api/matches/status(MatchStatusUpdateByKeyDTO: orderStatus="ACCEPTED")
+    Client->>MatchCtrl: PATCH /api/matches/status (MatchStatusUpdateByKeyDTO: orderStatus="ACCEPTED")
     MatchCtrl->>MatchSvc: updateMatchStatus(requestDto, currentUserId)
     
-    Note over MatchSvc: currentUserId == orderedUsersId 확인(게임메이트만 상태 변경 가능)
+    MatchSvc->>MatchSvc: Verify currentUserId == orderedUsersId
     
     MatchSvc->>MatchRepo: findPendingMatch(...)
     MatchRepo->>DB: SELECT * FROM matches WHERE ... AND order_status='PENDING'
@@ -36,7 +36,6 @@ sequenceDiagram
         DB-->>UserRepo: Updated
         
         CoinSvc->>CoinSvc: Create Coin entity
-        Note over CoinSvc: coinAmount: +price (양수)paymentAmount: 0paymentMethod: "GAMEMATE_PAYOUT"
         
         CoinSvc->>CoinRepo: save(payoutCoin)
         CoinRepo->>DB: INSERT INTO coin VALUES (...)

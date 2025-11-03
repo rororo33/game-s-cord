@@ -1,11 +1,11 @@
 ```mermaid
 sequenceDiagram
-participant Client
-participant Controller as CoinController
-participant UserDetails as CustomUserDetails
-participant Service as CoinService
-participant CoinRepo as CoinRepository
-participant DB
+    participant Client
+    participant Controller as CoinController
+    participant UserDetails as CustomUserDetails
+    participant Service as CoinService
+    participant CoinRepo as CoinRepository
+    participant DB
 
     Client->>Controller: GET /api/coins/history (userDetails)
     Controller->>UserDetails: getUsername()
@@ -19,7 +19,6 @@ participant DB
     CoinRepo-->>Service: List<Coin> coinHistory
     
     Service->>Service: Transform to DTOs
-    Note over Service: For each coin:<br/>transactionType = coinAmount > 0 ? "CHARGE" : "USE"
     
     Service-->>Controller: List<CoinHistoryResponseDTO>
     Controller-->>Client: 200 OK (List<CoinHistoryResponseDTO>)

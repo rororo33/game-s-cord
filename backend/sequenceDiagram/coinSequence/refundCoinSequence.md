@@ -16,8 +16,8 @@ sequenceDiagram
     
     Service->>UserRepo: findByLoginId(loginId)
     UserRepo->>DB: SELECT * FROM users WHERE login_id=?
-    DB-->>UserRepo: Optional
-    UserRepo-->>Service: Optional
+    DB-->>UserRepo: Optional<User>
+    UserRepo-->>Service: Optional<User>
     
     alt If user not found
         Service->>Service: throw IllegalArgumentException("사용자를 찾을 수 없습니다")
@@ -25,8 +25,8 @@ sequenceDiagram
     
     Service->>CoinRepo: findById(coinId)
     CoinRepo->>DB: SELECT * FROM coin WHERE coin_id=?
-    DB-->>CoinRepo: Optional
-    CoinRepo-->>Service: Optional
+    DB-->>CoinRepo: Optional<Coin>
+    CoinRepo-->>Service: Optional<Coin>
     
     alt If coin not found
         Service->>Service: throw IllegalArgumentException("환불할 거래 내역을 찾을 수 없습니다")

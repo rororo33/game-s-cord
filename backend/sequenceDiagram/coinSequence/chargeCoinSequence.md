@@ -15,7 +15,6 @@ sequenceDiagram
     Controller->>Service: chargeCoin(loginId, requestDto)
 
     Service->>Service: Validate packageId and amounts
-    Note over Service: Check COIN_PACKAGES map<br/>packageId: 1-5<br/>Validate coinAmount & paymentAmount
 
     alt Invalid package or amount mismatch
         Service->>Service: throw IllegalArgumentException
@@ -38,7 +37,6 @@ sequenceDiagram
     DB-->>UserRepo: Updated
 
     Service->>Service: Create Coin entity
-    Note over Service: coinAmount: positive<br/>paymentMethod: "CHARGE"
 
     Service->>CoinRepo: save(newCoin)
     CoinRepo->>DB: INSERT INTO coin VALUES (...)
