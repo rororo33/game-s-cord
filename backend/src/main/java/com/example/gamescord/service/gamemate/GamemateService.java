@@ -25,7 +25,7 @@ public class GamemateService {
     private final UserRepository userRepository;
     private final GameRepository gameRepository;
     private final GameMateRepository gameMateRepository;
-    private final ReviewRepository reviewRepository; // 추가
+    private final ReviewRepository reviewRepository;
 
     @Transactional
     public List<GamemateResponseDTO> registerGamemate(Long userId, GamemateRegistrationRequestDTO requestDto) {
