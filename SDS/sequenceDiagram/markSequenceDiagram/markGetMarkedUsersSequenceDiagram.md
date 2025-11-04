@@ -1,4 +1,5 @@
-## markGetMarkedUsersSequence sequence diagram
+## Mark Get Marked Users Sequence Diagram
+
 ```mermaid
 sequenceDiagram
     participant Client

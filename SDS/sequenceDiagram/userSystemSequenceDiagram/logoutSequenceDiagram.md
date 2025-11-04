@@ -1,3 +1,5 @@
+## Logout Sequence Diagram
+
 ```mermaid
 sequenceDiagram
 participant Client

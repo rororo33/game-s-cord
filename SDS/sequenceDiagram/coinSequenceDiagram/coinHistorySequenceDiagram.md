@@ -1,3 +1,5 @@
+## Coin History Sequence Diagram
+
 ```mermaid
 sequenceDiagram
     participant Client

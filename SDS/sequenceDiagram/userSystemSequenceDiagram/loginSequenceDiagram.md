@@ -1,3 +1,5 @@
+## Login Sequence Diagram
+
 ```mermaid
 sequenceDiagram
     participant Client

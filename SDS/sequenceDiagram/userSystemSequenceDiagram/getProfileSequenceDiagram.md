@@ -1,3 +1,5 @@
+## Get Profile Sequence Diagram
+
 ```mermaid
 sequenceDiagram
     participant Client

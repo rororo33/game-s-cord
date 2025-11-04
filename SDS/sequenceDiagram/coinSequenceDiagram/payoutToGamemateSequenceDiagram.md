@@ -1,3 +1,5 @@
+## Payout To Gamemate Sequence Diagram
+
 ```mermaid
 sequenceDiagram
     participant Client

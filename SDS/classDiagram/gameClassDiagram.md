@@ -1,4 +1,5 @@
-## game class diagram
+## Game Class Diagram
+
 ```mermaid
     classDiagram
     direction LR

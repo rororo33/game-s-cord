@@ -1,3 +1,5 @@
+## Cancel Match Refund Sequence Diagram
+
 ```mermaid
 sequenceDiagram
     participant Client

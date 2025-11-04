@@ -1,4 +1,5 @@
-## gamemateSearch sequence diagram
+## Gamemate Search Sequence Diagram
+
 ```mermaid
 sequenceDiagram
     participant Client

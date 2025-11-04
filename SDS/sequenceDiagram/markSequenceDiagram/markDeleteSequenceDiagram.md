@@ -1,4 +1,5 @@
-## markDeleteSequence sequence diagram
+## Mark Delete Sequence Diagram
+
 ```mermaid
 sequenceDiagram
     participant Client

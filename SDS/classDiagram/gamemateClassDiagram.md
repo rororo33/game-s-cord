@@ -1,3 +1,5 @@
+## Game Mate Class Diagram
+
 ```mermaid
 classDiagram
     direction LR

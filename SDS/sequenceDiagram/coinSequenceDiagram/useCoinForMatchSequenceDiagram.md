@@ -1,3 +1,5 @@
+## Use Coin For Match Sequence Diagram
+
 ```mermaid
 sequenceDiagram
     participant Client

@@ -1,4 +1,5 @@
-## matchUpdateStatusSequence sequence diagram
+## Match Update Status Sequence Diagram
+
 ```mermaid
 sequenceDiagram
     participant Client

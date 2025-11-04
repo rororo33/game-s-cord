@@ -1,4 +1,5 @@
-## gamemateDelete sequence diagram
+## Gamemate Delete Sequence Diagram
+
 ```mermaid
 sequenceDiagram
     participant Client

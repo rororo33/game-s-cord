@@ -1,4 +1,5 @@
-## matchRequestSequence sequence diagram
+## Match Request Sequence Diagram
+
 ```mermaid
 sequenceDiagram
     participant Client

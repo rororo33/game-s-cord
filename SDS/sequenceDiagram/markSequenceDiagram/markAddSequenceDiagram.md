@@ -1,4 +1,5 @@
-## markAddSequence sequence diagram
+## Mark Add Sequence Diagram
+
 ```mermaid
 sequenceDiagram
     participant Client

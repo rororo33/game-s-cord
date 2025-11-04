@@ -1,3 +1,5 @@
+## Charge Coin Sequence Diagram
+
 ```mermaid
 sequenceDiagram
     participant Client

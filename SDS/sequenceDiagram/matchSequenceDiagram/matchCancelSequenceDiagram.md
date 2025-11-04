@@ -1,4 +1,5 @@
-## matchCancelSequence sequence diagram
+## Match Cancel Sequence Diagram
+
 ```mermaid
 sequenceDiagram
     participant Client
