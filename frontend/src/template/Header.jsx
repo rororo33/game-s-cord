@@ -9,7 +9,7 @@ const Header = () => {
     <div className={styles.wrapper}>
       <div className={styles.section}>
         <Link className={styles.link} to="/">Logo</Link>
-        <Link className={styles.link} to="/">서비스</Link>
+        <Link className={styles.link} to="/search">서비스</Link>
         <Link className={styles.link} to="/">커뮤니티</Link>
       </div>
       <div className={styles.section}>
