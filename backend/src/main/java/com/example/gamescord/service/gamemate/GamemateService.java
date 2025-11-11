@@ -16,6 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -115,6 +117,25 @@ public class GamemateService {
             throw new IllegalArgumentException("해당 게임에 대한 게임메이트 등록 정보를 찾을 수 없습니다.");
         }
         gameMateRepository.deleteGamemate(gamemate);
+    }
+
+    @Transactional(readOnly = true)
+    public List<GamemateResponseDTO> getPopularGamemates() {
+        List<Long> popularGamemateIds = reviewRepository.findTop4ByReviewsCount();
+        if (popularGamemateIds.isEmpty()) {
+            return java.util.Collections.emptyList();
+        }
+
+        List<Gamemate> popularGamemates = gameMateRepository.findAllByIds(popularGamemateIds);
+
+        Map<Long, Gamemate> gamemateMap = popularGamemates.stream()
+                .collect(Collectors.toMap(Gamemate::getId, java.util.function.Function.identity()));
+
+        return popularGamemateIds.stream()
+                .map(gamemateMap::get)
+                .filter(Objects::nonNull)
+                .map(GamemateResponseDTO::fromEntity)
+                .collect(Collectors.toList());
     }
 
     private double formatScore(Double score) {

@@ -49,19 +49,11 @@ public class GameMateRepository {
                 .fetch();
     }
 
-    public void updatePrice(Long usersId, Long gamesId, Long price){
-        queryFactory.update(gamemate)
-                .set(gamemate.price, price)
-                .where(gamemate.users.id.eq(usersId), gamemate.games.id.eq(gamesId))
-                .execute();
+    public List<Gamemate> findAllByIds(List<Long> ids) {
+        return gameMateRepository.findAllById(ids);
     }
 
     public void deleteGamemate(Gamemate gamemate){
         gameMateRepository.deleteById(gamemate.getId());
     }
-
-    public java.util.Optional<Gamemate> findById(Long id) {
-        return gameMateRepository.findById(id);
-    }
-
 }
