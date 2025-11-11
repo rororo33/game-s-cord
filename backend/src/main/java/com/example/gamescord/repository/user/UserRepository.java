@@ -24,7 +24,6 @@ public class UserRepository {
         this.queryFactory = new JPAQueryFactory(em);
     }
 
-    // 회원가입
     public User saveUser(User userEntity) {
         userRepository.save(userEntity);
         return userEntity;
@@ -54,7 +53,7 @@ public class UserRepository {
         return count != null;
     }
 
-    // 모든 사용자 출력.
+
     public List<User> findAllById(Iterable<Long> ids) {
         return userRepository.findAllById(ids);
     }

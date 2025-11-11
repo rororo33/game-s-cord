@@ -30,7 +30,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/gamemates/*/*/reviews").permitAll()
                         .requestMatchers(
                                 "/api/users/signup", "/api/users/login",
-                                "/api/gamemates/search", "/api/gamemates/profile/**",
+                                "/api/gamemates/search", "/api/gamemates/profile/**", "/api/gamemates/popular",
                                 "/swagger-ui/**", "/v3/api-docs/**", "/swagger-resources/**"
                         ).permitAll()
                         .anyRequest().authenticated() // 위 경로 제외 모두 인증 필요
