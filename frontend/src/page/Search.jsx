@@ -1,3 +1,5 @@
+import { useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
 import styles from "./Search.module.css"
 import coin from "../assets/coin.jpg"
 import user1 from "../assets/user1.png"
@@ -9,6 +11,16 @@ import user6 from "../assets/user6.png"
 import user7 from "../assets/user7.png"
 
 function Search() {
+  const location = useLocation();
+  const [keyword, setKeyword] = useState("");
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const queryValue = params.get("q") || "";
+    setKeyword(queryValue);
+  }, [location.search]);
+
+
   const user = [user1, user2, user3, user4, user5, user6, user7];
   const Usercard=({img, name, star, num, price})=>{
     return(
@@ -36,7 +48,7 @@ function Search() {
         <div style={{display:"flex", flexDirection:"row", alignItems:"end", justifyContent:"space-between"}}>
           <h1>추천 서비스</h1>
           <form className={styles.search} action="/search" method="get" style={{marginBottom:"20px"}}>
-                <input type="text" name="q" placeholder="유저 이름" />
+                <input type="text" name="q" placeholder="유저 이름" value={keyword} onChange={(e) => setKeyword(e.target.value)}/>
                 <button type="submit"></button>
           </form>
         </div>
