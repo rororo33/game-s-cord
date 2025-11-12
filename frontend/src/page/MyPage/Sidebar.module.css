@@ -1,0 +1,29 @@
+.outer{
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     width: 120px;
+     padding: 25px 0;
+     box-sizing: border-box;
+     margin-right: 80px;
+     margin-top: 30px;
+}
+
+.link {
+    text-decoration: none;
+    width: 100%;
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 15px;
+    color:rgba(0,0,0,0.3);
+}
+
+.active{
+    font-weight: 600;
+    font-size: 22px;
+    color: rgba(0,0,0,0.8);
+}
+
+a:hover {
+  color: rgba(0, 0, 0, 0.8);
+}
