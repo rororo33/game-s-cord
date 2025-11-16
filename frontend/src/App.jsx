@@ -4,6 +4,10 @@ import MyPage from "./page/MyPage/MyPage";
 import Template from "./template/Template";
 import Login from "./other/Login.jsx";
 import FindPassword from "./other/Findpassword.jsx";
+import Register from "./components/Register";
+import CoinRecharge from "./components/CoinRecharge";
+import CoinChargeHistory from "./components/CoinChargeHistory";
+import Payment from "./components/Payment";
 
 function App() {
   return (
@@ -14,6 +18,10 @@ function App() {
           <Route path="/Mypage" element={<MyPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/find-password" element={<FindPassword />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/coin" element={<CoinRecharge />} />
+          <Route path="/coinHistory" element={<CoinChargeHistory />} />
+          <Route path="/pay" element={<Payment />} />
         </Routes>
       </Template>
     </BrowserRouter>
