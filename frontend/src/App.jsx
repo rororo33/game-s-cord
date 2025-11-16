@@ -4,10 +4,10 @@ import MyPage from "./page/MyPage/MyPage";
 import Template from "./template/Template";
 import Login from "./login/Login.jsx";
 import FindPassword from "./login/Findpassword.jsx";
-import Register from "./components/Register";
-import CoinRecharge from "./components/CoinRecharge";
-import CoinChargeHistory from "./components/CoinChargeHistory";
-import Payment from "./components/Payment";
+import Register from "./Register/Register.jsx";
+import CoinRecharge from "./Coin/CoinRecharge";
+import CoinChargeHistory from "./Coin/CoinChargeHistory";
+import Payment from "./Coin/Payment.jsx";
 
 function App() {
   return (
