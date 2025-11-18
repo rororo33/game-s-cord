@@ -1,4 +1,6 @@
 import styles from "./Home.module.css";
+import { useState, useRef, useEffect } from "react";
+import axios from "axios";
 import { faCircleChevronLeft, faCircleChevronRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import LeagueofLeagends from "./assets/LeaguofLeagends.jpg"
@@ -15,11 +17,24 @@ import user5 from "./assets/user5.png"
 import user6 from "./assets/user6.png"
 import user7 from "./assets/user7.png"
 
-import { useState, useRef, useEffect } from "react";
-
 function useScroll(ref, scrollAmount){
   const [canScrollPrev, setCanScrollPrev] = useState(false);
   const [canScrollNext, setCanScrollNext] = useState(true);
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    const fetchPopularGamemates = async () => {
+      try {
+        const res = await axios.get("/api/gamemates/popular");
+        setUsers(res.data);
+        console.log(res.data);
+      } catch (e) {
+        console.error("인기 게임메이트 조회 실패:", e);
+      }
+    };
+
+    fetchPopularGamemates();
+  }, []); 
 
   const handleScroll = () => {
     const box = ref.current;
