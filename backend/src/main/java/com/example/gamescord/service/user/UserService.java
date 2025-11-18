@@ -62,8 +62,11 @@ public class UserService {
         try {
             authentication = authenticationManager.authenticate(authToken);
         } catch (BadCredentialsException e) {
+            userRepository.incrementLoginFailCount(user);
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
+
+        userRepository.resetLoginFailCount(user);
 
         SecurityContext context = SecurityContextHolder.getContext();
         context.setAuthentication(authentication);

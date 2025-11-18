@@ -44,6 +44,12 @@ public class GamemateController {
         return ResponseEntity.ok(profile);
     }
 
+    @GetMapping("/popular")
+    public ResponseEntity<List<GamemateResponseDTO>> getPopularGamemates() {
+        List<GamemateResponseDTO> results = gamemateService.getPopularGamemates();
+        return ResponseEntity.ok(results);
+    }
+
     @DeleteMapping("/{gameId}")
     public ResponseEntity<Void> deleteGamemate(
             @AuthenticationPrincipal CustomUserDetails userDetails,

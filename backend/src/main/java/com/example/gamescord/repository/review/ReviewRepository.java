@@ -3,12 +3,12 @@ package com.example.gamescord.repository.review;
 import com.example.gamescord.domain.Review;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+import static com.example.gamescord.domain.QGamemate.gamemate;
 import static  com.example.gamescord.domain.QReview.review;
 
 @Repository
@@ -24,19 +24,8 @@ public class ReviewRepository {
         this.queryFactory = new JPAQueryFactory(em);
     }
 
-    // 리뷰 작성
     public void saveReview(Review reviewEntity) {
         reviewRepository.save(reviewEntity);
-    }
-
-    // 리뷰 수정
-    public void updateReview(Review reviewEntity) {
-        reviewRepository.save(reviewEntity);
-    }
-
-    // 리뷰 삭제
-    public void deleteReview(Review reviewEntity) {
-        reviewRepository.delete(reviewEntity);
     }
 
     public boolean existsByGamemateAndUser(Long gamemateId, Long authorId) {
@@ -50,7 +39,7 @@ public class ReviewRepository {
         return count != null;
     }
 
-    public java.util.List<com.example.gamescord.domain.Review> findAllByGamemateId(Long gamemateId) {
+    public List<Review> findAllByGamemateId(Long gamemateId) {
         return queryFactory.selectFrom(review)
                 .where(review.gamemates.id.eq(gamemateId))
                 .orderBy(review.id.desc())
@@ -65,12 +54,22 @@ public class ReviewRepository {
                 .fetchOne();
     }
 
-    public java.util.List<Integer> findAllScoresByUserId(Long userId) {
+    public List<Integer> findAllScoresByUserId(Long userId) {
         return queryFactory
                 .select(review.score)
                 .from(review)
-                .join(review.gamemates, com.example.gamescord.domain.QGamemate.gamemate)
-                .where(com.example.gamescord.domain.QGamemate.gamemate.users.id.eq(userId))
+                .join(review.gamemates, gamemate)
+                .where(gamemate.users.id.eq(userId))
                 .fetch();
+    }
+
+    public List<Long> findTop4ByReviewsCount(){
+        return queryFactory
+            .select(review.gamemates.id)
+            .from(review)
+            .groupBy(review.gamemates.id)
+            .orderBy(review.count().desc())
+            .limit(4)
+            .fetch();
     }
 }
