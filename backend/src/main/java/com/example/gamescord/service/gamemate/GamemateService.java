@@ -149,9 +149,21 @@ public class GamemateService {
 
     @Transactional(readOnly = true)
     public List<GamemateResponseDTO> searchGamematesByFilter(Long gameId, String gender, String tier) {
-        // 이 부분은 친구분께서 레포지토리에 구현해주실 메소드라고 가정합니다.
-        // 인자로 받은 gameId, gender, tier를 모두 사용하여 필터링된 결과를 반환해야 합니다.
-        List<Gamemate> gamemates = gameMateRepository.findWithFilters(gameId, gender, tier);
+        boolean hasGender = gender != null && !gender.isEmpty() && !"모두".equals(gender);
+        boolean hasTier = tier != null && !tier.isEmpty();
+
+        List<Gamemate> gamemates;
+
+        if (hasGender && hasTier) {
+            gamemates = gameMateRepository.findByGenderAndTier(gender, tier, gameId);
+        } else if (hasGender) {
+            gamemates = gameMateRepository.findByGender(gender, gameId);
+        } else if (hasTier) {
+            gamemates = gameMateRepository.findByTier(tier, gameId);
+        } else {
+            gamemates = gameMateRepository.findByGameId(gameId);
+        }
+
         return gamemates.stream()
                 .map(GamemateResponseDTO::fromEntity)
                 .collect(Collectors.toList());
