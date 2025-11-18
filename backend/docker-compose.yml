@@ -1,0 +1,20 @@
+version: '3.8'
+services:
+  db:
+    image: mysql:8.0
+    container_name: gamescord-db
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'softwareassignmentdb'
+      MYSQL_USER: 'taekmin'
+      MYSQL_PASSWORD: 'Dlxorals9809!'
+      MYSQL_ROOT_PASSWORD: 'rootpassword' # root 계정 비밀번호 (임의 설정)
+    ports:
+      - '3306:3306'
+    volumes:
+      - db-data:/var/lib/mysql
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+volumes:
+  db-data:
