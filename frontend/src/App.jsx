@@ -3,6 +3,7 @@ import Home from "./Home";
 import Template from "./template/Template";
 import Register from "./Register/Register";
 import Search from "./page/Search";
+import MyPage from "./page/MyPage/MyPage";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/signup" element={<Register />} />
           <Route path="/search" element={<Search/>} />
+          <Route path="/Mypage" element={<MyPage />} />
         </Routes>
       </Template>
     </BrowserRouter>
