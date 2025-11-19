@@ -1,6 +1,8 @@
 import styles from "./MyPage.module.css"
 import Sidebar from "./Sidebar"
-import user2 from "../../assets/user2.png"
+import defaultImg from "../../assets/user2.png"
+import { faCamera } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
@@ -10,6 +12,7 @@ function MyPage(){
     const [user, setUser] = useState({});
     const [updatedUser, setUpdatedUser] = useState({});
     const [birthError, setBirthError] = useState("");
+    const [profilePreview, setProfilePreview] = useState(null);
 
     const fetchResults = async () => {
         const token = localStorage.getItem('accessToken');
@@ -23,13 +26,13 @@ function MyPage(){
             });
             setUser(res.data);
             setUpdatedUser(res.data);
+            setProfilePreview(res.data.profileImageUrl || null);
             console.log(res.data);
         } catch (e) {
             console.error("검색 결과 불러오기 실패:", e);
         }
     };
 
-    //API Get 요청
     useEffect(() => {
         fetchResults();
     }, []);
@@ -47,16 +50,40 @@ function MyPage(){
         setBirthError("");
 
         try {
-            const res = await axios.patch('/api/users/profile', updatedUser,{
+
+            const formData = new FormData();
+
+            // 이미지 파일
+            if (updatedUser.profileImageFile) {
+                formData.append("profileImage", updatedUser.profileImageFile);
+            }
+
+            formData.append("usersName", updatedUser.usersName);
+            formData.append("gender", updatedUser.gender);
+            formData.append("usersBirthday", updatedUser.usersBirthday);
+            formData.append("usersDescription", updatedUser.bio);
+
+            const res = await axios.patch('/api/users/profile', formData,{
                 headers: { Authorization: `Bearer ${token}`},
+                "Content-Type": "multipart/form-data",
             });
             setUser(res.data);
+            setProfilePreview(res.data.profileImageUrl);
             setModify(false);
             console.log(res.data);
         } catch (e) {
             console.error("검색 결과 불러오기 실패:", e);
         }
     }
+
+    //이미지 미리보기
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setUpdatedUser({ ...updatedUser, profileImageFile: file }); // 파일 저장
+            setProfilePreview(URL.createObjectURL(file)); // 미리보기
+        }
+    };
 
     const validateBirth = (date) => {
         // YYYY-MM-DD 형식 체크
@@ -73,7 +100,26 @@ function MyPage(){
                 <form style={{display: "flex", marginLeft:"80px"}} onSubmit={(e) => e.preventDefault()}>
                     <div style={{margin: "0px 50px", display:"flex", flexDirection:"column"}}>
                         <div className={styles.imgbox}>
-                            <img src={user2} style={{width:"200px"}}></img>
+                            <img
+                                src={profilePreview || defaultImg}
+                                className={modify ? styles.imgDark : ""}
+                                style={{ width: "200px", borderRadius: "10px" }}
+                                alt="profile"
+                            />
+                            <input
+                                    id="profileUpload"
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={handleImageChange}
+                                    style={{ display: "none"}}
+                            />
+                            {modify && (
+                                <FontAwesomeIcon 
+                                icon={faCamera}
+                                className={styles.cameraIcon}
+                                onClick={() => document.getElementById("profileUpload").click()}
+                                />
+                            )}
                         </div>
 
                         {modify ? <button type="submit" className={`${styles.modify} ${styles.click}`} onClick={PatchResults}>저장하기</button> :

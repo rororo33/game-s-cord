@@ -23,6 +23,30 @@
     overflow: hidden;
     border-radius: 20px;
     margin: 20px 0 10px 0;
+    position: relative;
+}
+
+.imgDark {
+  filter: brightness(80%);
+  transition: 0.2s;
+}
+
+
+.cameraIcon {
+  position: absolute;
+  bottom: 100px;
+  right: 85px;
+  font-size: 40px;
+  background: rgba(0,0,0,0.6);
+  color: white;
+  padding: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.cameraIcon:hover {
+  background: rgba(0,0,0,0.8);
 }
 
 button{
