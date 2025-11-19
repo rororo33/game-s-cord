@@ -1,11 +1,12 @@
 import styles from "./Home.module.css";
 import { useState, useRef, useEffect } from "react";
 import axios from "axios";
-import { faCircleChevronLeft, faCircleChevronRight } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleChevronLeft, faCircleChevronRight } from "@fortawesome/free-solid-svg-icons";
 import LeagueofLeagends from "./assets/LeaguofLeagends.jpg"
 import Battleground from "./assets/Battleground.jpg"
-import Teamfight from "./assets/Teamfight.jpg"
+import overwatch from "./assets/overwatch.jpg"
 import user1 from "./assets/user1.png"
 import user2 from "./assets/user2.png"
 import user3 from "./assets/user3.png"
@@ -17,21 +18,6 @@ import user7 from "./assets/user7.png"
 function useScroll(ref, scrollAmount){
   const [canScrollPrev, setCanScrollPrev] = useState(false);
   const [canScrollNext, setCanScrollNext] = useState(true);
-  const [users, setUsers] = useState([]);
-
-  useEffect(() => {
-    const fetchPopularGamemates = async () => {
-      try {
-        const res = await axios.get("/api/gamemates/popular");
-        setUsers(res.data);
-        console.log(res.data);
-      } catch (e) {
-        console.error("인기 게임메이트 조회 실패:", e);
-      }
-    };
-
-    fetchPopularGamemates();
-  }, []); 
 
   const handleScroll = () => {
     const box = ref.current;
@@ -58,27 +44,54 @@ function useScroll(ref, scrollAmount){
 }
 
 function Home() {
-  const gameList = ["LeagueofLeagends", "Battleground", "Teamfight"];
+  const gameList = ["LeagueofLeagends", "Battleground", "Overwatch"];
   const games = {
     LeagueofLeagends: LeagueofLeagends,
     Battleground: Battleground,
-    Teamfight: Teamfight
+    Overwatch: overwatch
   };
   const user = [user1, user2, user3, user4, user5, user6, user7];
+  const [users, setUsers] = useState([]);
   const gameBoxRef = useRef(null);
   const userBoxRef = useRef(null);
  
   const gameScroll = useScroll(gameBoxRef, 340);
   const userScroll = useScroll(userBoxRef, 440);
-  
 
-  const GameComponent=({game})=>{
-    return(
-      <div className={styles.game}>
+  const navigate = useNavigate();
+
+  const gameIdMap = {
+    LeagueofLeagends: 1,
+    Battleground: 2,
+    Overwatch: 3
+  };
+
+  useEffect(() => {
+    const fetchPopularGamemates = async () => {
+      try {
+        const res = await axios.get("/api/gamemates/popular");
+        setUsers(res.data);
+        console.log(res.data);
+      } catch (e) {
+        console.error("인기 게임메이트 조회 실패:", e);
+      }
+    };
+
+    fetchPopularGamemates();
+  }, []); 
+
+  
+  const GameComponent = ({ game }) => {
+    return (
+      <div 
+        className={styles.game} 
+        onClick={() => navigate("/search", { state: { gameId: gameIdMap[game] } })}
+        style={{ cursor: "pointer" }}
+      >
         <img src={games[game]} />
       </div>
-    )
-  }
+    );
+  };
 
   const UserComponent=({index})=>{
     return(
@@ -91,7 +104,7 @@ function Home() {
             <div>Game</div>
             <div>money/hours</div>
           </div>
-        </div>
+        </div>  
       </div>
     )
   }
@@ -119,7 +132,7 @@ function Home() {
         <div className={styles.visible_userbox} ref={userBoxRef}>
           <div className={styles.userbox}>
             {user.map((item, index)=>(
-              <UserComponent index={index} ></UserComponent>
+              <UserComponent key={index} index={index} ></UserComponent>
             ))}
           </div>
         </div>
