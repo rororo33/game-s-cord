@@ -40,6 +40,13 @@ public class NotificationController {
         return ResponseEntity.ok(count);
     }
 
+    @PatchMapping("/read-all")
+    public ResponseEntity<Void> markAllAsRead(
+            @AuthenticationPrincipal CustomUserDetails userDetails) {
+        notificationService.markAllAsRead(userDetails.getId());
+        return ResponseEntity.noContent().build();
+    }
+
     /**
      * 알람 읽음 처리
      * 사용자가 알람을 클릭했을 때 호출

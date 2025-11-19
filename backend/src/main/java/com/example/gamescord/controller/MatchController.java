@@ -26,6 +26,39 @@ public class MatchController {
         MatchResponseDTO responseDto = matchService.requestMatch(userDetails.getId(), requestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
     }
+     // 내가 보낸 매칭 요청 목록 조회
+    @GetMapping("/sent")
+    public ResponseEntity<List<MatchResponseDTO>> getSentMatches(
+            @AuthenticationPrincipal CustomUserDetails userDetails) {
+        List<MatchResponseDTO> matches = matchService.getSentMatches(userDetails.getId());
+        return ResponseEntity.ok(matches);
+    }
+
+     // 내가 받은 매칭 요청 목록 조회
+    @GetMapping("/received")
+    public ResponseEntity<List<MatchResponseDTO>> getReceivedMatches(
+            @AuthenticationPrincipal CustomUserDetails userDetails) {
+        List<MatchResponseDTO> matches = matchService.getReceivedMatches(userDetails.getId());
+        return ResponseEntity.ok(matches);
+    }
+
+    // 매칭 수락
+    @PatchMapping("/{matchId}/accept")
+    public ResponseEntity<MatchResponseDTO> acceptMatch(
+            @PathVariable Long matchId,
+            @AuthenticationPrincipal CustomUserDetails userDetails) {
+        MatchResponseDTO responseDto = matchService.acceptMatch(matchId, userDetails.getId());
+        return ResponseEntity.ok(responseDto);
+    }
+
+    // 매칭 거절
+    @PatchMapping("/{matchId}/decline")
+    public ResponseEntity<MatchResponseDTO> declineMatch(
+            @PathVariable Long matchId,
+            @AuthenticationPrincipal CustomUserDetails userDetails) {
+        MatchResponseDTO responseDto = matchService.declineMatch(matchId, userDetails.getId());
+        return ResponseEntity.ok(responseDto);
+    }
 
     @PatchMapping("/status")
     public ResponseEntity<MatchResponseDTO> updateMatchStatus(

@@ -21,7 +21,7 @@ public class NotificationService {
     private final UserRepository userRepository;
 
 
-    //알람 생성
+    // 알람 생성
     @Transactional
     public void createNotification(Long userId, String notificationType, Long matchId, String message) {
         User user = userRepository.findById(userId);
@@ -37,7 +37,7 @@ public class NotificationService {
     }
 
 
-    //사용자의 모든 알람 조회
+    // 모든 알람 조회
     @Transactional(readOnly = true)
     public List<NotificationResponseDTO> getNotifications(Long userId) {
         List<Notification> notifications = notificationRepository.findAllByUserId(userId);
@@ -47,13 +47,24 @@ public class NotificationService {
     }
 
 
-    //읽지 않은 알람 개수 조회
+    // 읽지 않은 알람 개수 조회
     @Transactional(readOnly = true)
     public UnreadCountResponseDTO getUnreadCount(Long userId) {
         Long count = notificationRepository.countUnreadByUserId(userId);
         return UnreadCountResponseDTO.builder()
                 .unreadCount(count != null ? count : 0L)
                 .build();
+    }
+    // 모든 알람 읽음 처리
+    @Transactional
+    public void markAllAsRead(Long userId) {
+        List<Notification> notifications = notificationRepository.findAllByUserId(userId);
+        for (Notification notification : notifications) {
+            if (!notification.getIsRead()) {
+                notification.setIsRead(true);
+                notificationRepository.saveNotification(notification);
+            }
+        }
     }
 
     //알람 읽음
