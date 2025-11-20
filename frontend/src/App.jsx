@@ -4,6 +4,8 @@ import Template from "./template/Template";
 import Register from "./Register/Register";
 import Search from "./page/Search";
 import MyPage from "./page/MyPage/MyPage";
+import Login from "./login/Login";
+
 
 function App() {
   return (
@@ -12,6 +14,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/signup" element={<Register />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/search" element={<Search/>} />
           <Route path="/Mypage" element={<MyPage />} />
         </Routes>
