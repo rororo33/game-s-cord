@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 import "./MatchDetail.css";
 import profileImage from "./assets/user1.png";
+import pubg from "./assets/Battleground.jpg";
+import lol from "./assets/LeaguofLeagends.jpg";
+import overwatch from "./assets/Overwatch.jpg";
+
+
+
 
 const MatchDetail = () => {
 
@@ -14,27 +20,27 @@ const MatchDetail = () => {
     games: [
       {
         name: "배틀그라운드",
-        iconUrl: "https://via.placeholder.com/40",
+        iconUrl: pubg,
         price: 999,
         rating: 4.97,
         reviewCount: 100,
-        imageUrl: "https://via.placeholder.com/150/0000FF/808080?text=Battlegrounds",
-      },
-      {
-        name: "전략적 팀 전투",
-        iconUrl: "https://via.placeholder.com/40",
-        price: 999,
-        rating: 4.5,
-        reviewCount: 200,
-        imageUrl: "https://via.placeholder.com/150/FF5733/FFFFFF?text=TeamFight",
+        imageUrl: pubg,
       },
       {
         name: "리그오브레전드",
-        iconUrl: "https://via.placeholder.com/40",
+        iconUrl: lol,
+        price: 999,
+        rating: 4.5,
+        reviewCount: 200,
+        imageUrl: lol,
+      },
+      {
+        name: "오버워치",
+        iconUrl: overwatch,
         price: 999,
         rating: 4.3,
         reviewCount: 300,
-        imageUrl: "https://via.placeholder.com/150/33FF57/FFFFFF?text=LeagueOfLegends",
+        imageUrl: overwatch,
       },
     ],
     reviews: [
