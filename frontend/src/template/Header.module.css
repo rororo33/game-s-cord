@@ -49,3 +49,140 @@
     color: white;
     padding-bottom: 1px;
 }
+
+.search {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search input{
+    outline: none;
+    background-color: white;
+    border: 1px solid rgba(0,0,0,0.3);
+    padding: 7px 12px;
+    border-radius: 30px;
+    font-size: 14px;
+    width: 200px;
+    height: 20px;
+
+}
+
+.search input:focus {
+  border: 2px solid #3b82f6; /* 클릭 시 파란색으로 */
+  outline: none; /* 기본 파란 outline 제거 */
+}
+
+.search button[type="submit"]{
+    display: none;
+}
+
+.searchicon:hover{
+    cursor: pointer;
+}
+
+.hidden{
+    display: none;
+    width: 0;
+    height: 0;
+}
+
+.serviceWrapper {
+  position: relative;
+}
+
+.serviceBtn {
+    color: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 30px;
+    border-radius: 8px;
+    box-sizing: border-box;
+    padding-left: 50px;
+    cursor: pointer;
+}
+
+.dropdownMenu {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  position: absolute;
+  top: 30px;
+  left: 20px;
+  background: white;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  z-index: 100;
+  overflow: hidden;
+}
+
+.dropdownMenu li {
+  padding: 10px 15px;
+  cursor: pointer;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  width: 250px;
+  font-size: 16px;
+  border-radius: 6px;
+}
+
+.dropdownMenu li:hover {
+  background: #f1f1f1;
+}
+
+.dropdownMenu li div{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.dropdownMenu img{
+    width: 120px;
+    border-radius: 10px;
+}
+
+.suggestionBox {
+  position: absolute;
+  top: 55px;
+  left: 0;
+  width: 250px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+  list-style: none;
+  padding: 10px 0;
+  z-index: 20;
+}
+
+.suggestionItem {
+  padding: 10px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.suggestionItem:hover {
+  background: #f5f5f5;
+}
+
+.clearButton {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 14px;
+  color: #888;
+  cursor: pointer;
+  padding: 0;
+  z-index: 10;
+}
+
+.clearButton:hover {
+  color: #555;
+}
