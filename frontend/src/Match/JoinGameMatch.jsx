@@ -50,6 +50,8 @@ const JoinGameMatch = () => {
     time: "--:00",
   });
 
+  const [tierImages, setTierImages] = useState([null, null, null]); // 게임별 티어 인증 이미지
+
   // 이미지 처리 함수
   const handleImageChange = (index, event) => {
     const file = event.target.files[0];
@@ -60,8 +62,22 @@ const JoinGameMatch = () => {
     }
   };
 
+  const handleTierImageChange = (index, event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const newTierImages = [...tierImages];
+      newTierImages[index] = URL.createObjectURL(file);
+      setTierImages(newTierImages);
+    }
+  };
+
   const handleRateChange = (event) => {
     // ... (실제 상태 업데이트 로직)
+  };
+
+  // TODO : 등록 버튼 클릭시 API 로직 필요
+  const handleSubmit = () => {
+    return true;
   };
 
   return (
@@ -222,26 +238,45 @@ const JoinGameMatch = () => {
             </div>
           </div>
 
-          {/* 게임 별 티어 인증 */}
+          {/* 게임별 티어 인증 */}
           <div className="setting-box tier-verification-box">
             <h3 className="setting-header">
               <FaGamepad /> 게임 별 티어 인증
             </h3>
             <div className="tier-images">
-              <div className="tier-image-wrapper">
-                <img src={TFTTear} alt="티어 인증 1" className="tier-image" />
-              </div>
-              <div className="tier-image-wrapper">
-                <img src={PUBGTear} alt="티어 인증 2" className="tier-image" />
-              </div>
-              <div className="tier-image-wrapper">
-                <img src={LOLTear} alt="티어 인증 3" className="tier-image" />
-              </div>
+              {tierImages.map((img, index) => (
+                <div key={index} className="tier-image-wrapper">
+                  {img ? (
+                    <img
+                      src={img}
+                      alt={`티어 인증 ${index + 1}`}
+                      className="tier-image"
+                    />
+                  ) : (
+                    <>
+                      <label
+                        htmlFor={`tier-upload-${index}`}
+                        className="plus-label"
+                      >
+                        <FaPlus className="plus-icon-sm" />
+                      </label>
+                    </>
+                  )}
+                  <input
+                    type="file"
+                    id={`tier-upload-${index}`}
+                    className="hidden-file-input"
+                    onChange={(e) => handleTierImageChange(index, e)}
+                  />
+                </div>
+              ))}
             </div>
           </div>
 
           <div className="action-buttons">
-            <button className="register-button">등록하기</button>
+            <button className="register-button" onClick={handleSubmit}>
+              등록하기
+            </button>
             <button className="cancel-button">취소</button>
           </div>
         </div>

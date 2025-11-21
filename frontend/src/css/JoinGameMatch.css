@@ -344,6 +344,10 @@
   object-fit: cover;
 }
 
+.plus-icon-sm {
+  cursor: pointer;
+}
+
 /* 등록/취소 버튼 */
 .action-buttons {
   display: flex;
