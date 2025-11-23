@@ -2,6 +2,7 @@ package com.example.gamescord.repository.gamemate;
 
 import com.example.gamescord.domain.Gamemate;
 import com.example.gamescord.domain.QGamemate;
+import com.example.gamescord.domain.QReview;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 import static com.example.gamescord.domain.QGamemate.gamemate;
+import static com.example.gamescord.domain.QReview.review;
 
 @Repository
 public class GameMateRepository {
@@ -64,10 +66,94 @@ public class GameMateRepository {
             .fetch();
     }
 
-    public List<Gamemate> findByGenderAndTier(String gender, String tier, Long gameId){
+    public List<Gamemate> findByReviewsCount(Long gameId){
         return queryFactory.select(gamemate)
             .from(gamemate)
-            .where(gamemate.users.gender.eq(gender), gamemate.tier.eq(tier), gamemate.games.id.eq(gameId))
+            .leftJoin(review).on(review.gamemates.eq(gamemate))
+            .where(gamemate.games.id.eq(gameId))
+            .groupBy(gamemate)
+            .orderBy(review.count().desc())
+            .fetch();
+    }
+
+    public List<Gamemate> findByReviewsScore(Long gameId){
+        return queryFactory.select(gamemate)
+            .from(gamemate)
+            .leftJoin(review).on(review.gamemates.eq(gamemate))
+            .where(gamemate.games.id.eq(gameId))
+            .groupBy(gamemate)
+            .orderBy(review.score.sum().coalesce(0).desc())
+            .fetch();
+    }
+
+    public List<Gamemate> findByHighPrice(Long gameId){
+        return queryFactory.select(gamemate)
+            .from(gamemate)
+            .orderBy(gamemate.price.desc())
+            .fetch();
+    }
+
+    public List<Gamemate> findByLowPrice(Long gameId){
+        return queryFactory.select(gamemate)
+            .from(gamemate)
+            .orderBy(gamemate.price.asc())
+            .fetch();
+    }
+
+    public List<Gamemate> findByGenderAndTierAndReviewsCount(String gender, String tier, Long gameId) {
+        return queryFactory.select(gamemate)
+            .from(gamemate)
+            .leftJoin(review).on(review.gamemates.eq(gamemate))
+            .where(
+                gamemate.users.gender.eq(gender),
+                gamemate.tier.eq(tier),
+                gamemate.games.id.eq(gameId)
+            )
+            .groupBy(gamemate)
+            .orderBy(review.count().desc())
+            .fetch();
+    }
+
+    public List<Gamemate> findByGenderAndTierAndReviewsScore(String gender, String tier, Long gameId) {
+
+        return queryFactory.select(gamemate)
+            .from(gamemate)
+            .leftJoin(review).on(review.gamemates.eq(gamemate))
+            .where(
+                gamemate.users.gender.eq(gender),
+                gamemate.tier.eq(tier),
+                gamemate.games.id.eq(gameId)
+            )
+            .groupBy(gamemate)
+            .orderBy(review.score.sum().coalesce(0).desc())
+            .fetch();
+    }
+
+    public List<Gamemate> findByGenderAndTierAndHighPrice(String gender, String tier, Long gameId) {
+
+        return queryFactory.select(gamemate)
+            .from(gamemate)
+            .where(
+                gamemate.users.gender.eq(gender),
+                gamemate.tier.eq(tier),
+                gamemate.games.id.eq(gameId)
+            )
+            .groupBy(gamemate)
+            .orderBy(gamemate.price.desc())
+            .fetch();
+    }
+
+    public List<Gamemate> findByGenderAndTierAndLowPrice(String gender, String tier, Long gameId) {
+
+        return queryFactory.select(gamemate)
+            .from(gamemate)
+            .where(
+                gamemate.users.gender.eq(gender),
+                gamemate.tier.eq(tier),
+                gamemate.games.id.eq(gameId)
+            )
+            .groupBy(gamemate)
+            .orderBy(gamemate.price.asc())
             .fetch();
     }
 
