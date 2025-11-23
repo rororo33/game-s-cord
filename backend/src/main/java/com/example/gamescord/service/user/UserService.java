@@ -16,6 +16,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -55,17 +57,34 @@ public class UserService {
         User user = userRepository.findByLoginId(requestDto.getLoginId())
                 .orElseThrow(() -> new IllegalArgumentException("등록된 사용자가 없습니다."));
 
+        // 계정 잠금 상태 확인
+        if (user.getLockoutUntil() != null && user.getLockoutUntil().isAfter(LocalDateTime.now())) {
+            throw new IllegalStateException("잦은 로그인 실패로 계정이 잠겼습니다. 잠금 해제 시간: " + user.getLockoutUntil());
+        }
+
         UsernamePasswordAuthenticationToken authToken =
                 new UsernamePasswordAuthenticationToken(requestDto.getLoginId(), requestDto.getLoginPwd());
 
         try {
             authenticationManager.authenticate(authToken);
         } catch (BadCredentialsException e) {
-            userRepository.incrementLoginFailCount(user);
-            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+            // 로그인 실패 처리
+            user.setLoginFailCount(user.getLoginFailCount() + 1);
+            String message = "비밀번호가 일치하지 않습니다.";
+            if (user.getLoginFailCount() >= 3) {
+                user.setLockoutUntil(LocalDateTime.now().plusMinutes(5));
+                message += " 5분간 계정이 잠깁니다.";
+            } else {
+                message += " (남은 시도 횟수: " + (3 - user.getLoginFailCount()) + ")";
+            }
+            userRepository.saveUser(user); // 변경된 상태 저장
+            throw new IllegalArgumentException(message);
         }
 
-        userRepository.resetLoginFailCount(user);
+        // 로그인 성공 처리
+        user.setLoginFailCount(0);
+        user.setLockoutUntil(null);
+        userRepository.saveUser(user);
 
         String accessToken = jwtUtil.generateAccessToken(user.getLoginId());
         RefreshToken refreshToken = refreshTokenService.createRefreshToken(user.getLoginId());
@@ -98,13 +117,7 @@ public class UserService {
         return toUserResponseDTO(user);
     }
 
-    // 공개용 사용자 프로필 조회
-    @Transactional(readOnly = true)
-    public UserResponseDTO getUserProfile(String loginId) {
-        User user = userRepository.findByLoginId(loginId)
-                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
-        return toUserResponseDTO(user);
-    }
+    
 
     // SecurityContext에서 현재 사용자 정보 가져오기
     private User getCurrentUser() {

@@ -53,4 +53,11 @@ public class RefreshTokenService {
         }
         return token;
     }
+
+    // 사용자 ID로 리프레시 토큰 삭제
+    @Transactional
+    public int deleteByUserId(Long userId) {
+        User user = userRepository.findById(userId);
+        return refreshTokenRepository.deleteByUser(user);
+    }
 }

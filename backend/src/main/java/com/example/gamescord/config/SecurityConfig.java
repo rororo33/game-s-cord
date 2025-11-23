@@ -27,16 +27,29 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable()) // csrf 비활성화
+                .httpBasic(httpBasic -> httpBasic.disable()) // httpBasic 인증 방식 비활성화
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // 세션을 사용하지 않도록 변경
                 .formLogin(form -> form.disable()) // Spring 기본 로그인 폼 비활성화
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers(HttpMethod.GET, "/api/gamemates/*/*/reviews").permitAll()
                         .requestMatchers(
-                                "/api/users/signup", "/api/users/login", "/api/auth/refresh",
-                                "/api/gamemates/search", "/api/gamemates/profile/**", "/api/gamemates/popular","/api/gamemates/filter/**",
-                                "/swagger-ui/**", "/v3/api-docs/**", "/swagger-resources/**"
+                                // User & Auth
+                                "/api/users/signup",
+                                "/api/users/login",
+                                "/api/auth/refresh",
+
+                                // Gamemate Public
+                                "/api/gamemates/search",
+                                "/api/gamemates/profile/**",
+                                "/api/gamemates/popular",
+                                "/api/gamemates/filter",
+
+                                // Swagger
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**",
+                                "/swagger-resources/**"
                         ).permitAll()
-                        .anyRequest().authenticated() // 위 경로 제외 모두 인증 필요
+                        .anyRequest().authenticated() // 위 경로 외 모든 요청은 인증 필요
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class); // JWT 필터 추가
 

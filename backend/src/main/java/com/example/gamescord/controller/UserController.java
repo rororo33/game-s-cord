@@ -2,6 +2,7 @@ package com.example.gamescord.controller;
 
 import com.example.gamescord.dto.user.*;
 import com.example.gamescord.service.user.UserService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -31,19 +32,17 @@ public class UserController {
 
     // 현재 로그인된 사용자 정보(내 정보) 조회
     @GetMapping("/me")
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<UserResponseDTO> getMyProfile() {
         return ResponseEntity.ok(userService.getMyProfile());
     }
 
     // 현재 로그인된 사용자 정보(내 정보) 수정
-    @PatchMapping("/me/profile")
+    @PatchMapping("/me")
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<UserResponseDTO> updateUserProfile(@Valid @RequestBody UserProfileUpdateRequestDTO requestDto) {
         return ResponseEntity.ok(userService.updateUserProfile(requestDto));
     }
 
-    // 특정 사용자(타인)의 공개 프로필 조회
-    @GetMapping("/profile/{loginId}")
-    public ResponseEntity<UserResponseDTO> getUserProfile(@PathVariable String loginId) {
-        return ResponseEntity.ok(userService.getUserProfile(loginId));
-    }
+    
 }
