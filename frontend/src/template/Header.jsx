@@ -353,9 +353,8 @@ const Header = () => {
 
         {isLoggedIn ? (
           <button
-            className={`${styles.link} ${styles.login}`}
+            className={`${styles.link} ${styles.logout}`}
             onClick={logout}
-            style={{ background: "none", border: "none", cursor: "pointer" }}
           >
             Logout
           </button>

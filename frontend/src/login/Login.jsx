@@ -55,9 +55,11 @@ const Login = () => {
         }
 
         navigate("/");
-        setTimeout(() => {
+
+        setTimeout(() => {                        //navigate용 delay 
             window.location.reload();
-        }, 1000);
+        }, 100);
+
       } else {
         console.error(`로그인 실패 응답 (${response.status}):`, responseData);
         if (isJson && responseData.message) {
