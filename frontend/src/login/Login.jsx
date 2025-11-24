@@ -44,9 +44,11 @@ const Login = () => {
 
       if (response.ok) {
         console.log("로그인 성공:", responseData);
-        const token = responseData.token;
-        if (token) {
-          localStorage.setItem("accessToken", token);
+        const accessToken = responseData.accessToken; 
+        const refreshToken = responseData.refreshToken;
+        if (accessToken && refreshToken) {
+          localStorage.setItem("accessToken", accessToken);
+          localStorage.setItem("refreshToken", refreshToken);
           console.log("JWT 토큰 저장 완료");
         } else {
           console.warn("응답 데이터에 토큰이 없습니다.");
