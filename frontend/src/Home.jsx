@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleChevronLeft, faCircleChevronRight } from "@fortawesome/free-solid-svg-icons";
 import LeagueofLeagends from "./assets/LeaguofLeagends.jpg";
 import Battleground from "./assets/Battleground.jpg";
-import overwatch from "./assets/overwatch.jpg";
+import overwatch from "./assets/Overwatch.jpg";
 import user1 from "./assets/user1.png";
 import user2 from "./assets/user2.png";
 import user3 from "./assets/user3.png";
