@@ -12,7 +12,7 @@ import coin from "../assets/coin.jpg";
 import logo from "../assets/logo.png";
 import LeagueofLeagends from "../assets/LeaguofLeagends.jpg";
 import Battleground from "../assets/Battleground.jpg";
-import overwatch from "../assets/overwatch.jpg";
+import overwatch from "../assets/Overwatch.jpg";
 import user from "../assets/user2.png";
 
 const Header = () => {

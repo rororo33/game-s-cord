@@ -22,20 +22,26 @@ function useScroll(ref, scrollAmount) {
 
   const handleScroll = () => {
     const box = ref.current;
+    if (!box) return; // box가 null일 때 방어
     setCanScrollPrev(box.scrollLeft > 0);
     setCanScrollNext(box.scrollLeft < box.scrollWidth - box.clientWidth - 1);
   };
 
   const scrollNext = () => {
-    ref.current.scrollBy({ left: scrollAmount, behavior: "smooth" });
+    if (ref.current) { // ref.current가 null이 아닐 때만 실행
+        ref.current.scrollBy({ left: scrollAmount, behavior: "smooth" });
+    }
   };
 
   const scrollPrev = () => {
-    ref.current.scrollBy({ left: -scrollAmount, behavior: "smooth" });
+    if (ref.current) { // ref.current가 null이 아닐 때만 실행
+        ref.current.scrollBy({ left: -scrollAmount, behavior: "smooth" });
+    }
   };
 
   useEffect(() => {
     const box = ref.current;
+    if (!box) return; // box가 null일 때 이벤트 리스너 등록 방지
     box.addEventListener("scroll", handleScroll);
     handleScroll();
     return () => box.removeEventListener("scroll", handleScroll);
@@ -59,10 +65,19 @@ function Home() {
 
   const [users, setUsers] = useState([]);
   const gameBoxRef = useRef(null);
-  const userBoxRef = useRef(null);
+  
+  // 1. Ref 중복 사용 문제 해결: 각 사용자 박스에 고유한 Ref를 할당
+  const lolUserBoxRef = useRef(null); 
+  const bgUserBoxRef = useRef(null); 
+  const owUserBoxRef = useRef(null);
 
   const gameScroll = useScroll(gameBoxRef, 340);
-  const userScroll = useScroll(userBoxRef, 440);
+  
+  // 1. Ref 중복 사용 문제 해결: 각 섹션에 고유한 스크롤 훅을 적용
+  const lolUserScroll = useScroll(lolUserBoxRef, 440); 
+  const bgUserScroll = useScroll(bgUserBoxRef, 440); 
+  const owUserScroll = useScroll(owUserBoxRef, 440);
+  
   const navigate = useNavigate();
 
   const gameIdMap = {
@@ -78,13 +93,16 @@ function Home() {
         const bg = await axios.get("/api/gamemates/popular/2");
         const ow = await axios.get("/api/gamemates/popular/3");
 
-        setLolUsers(lol.data);
-        setBgUsers(bg.data);
-        setOwUsers(ow.data);
+        // API 응답 데이터가 배열인지 확인하고 설정
+        setLolUsers(Array.isArray(lol.data) ? lol.data : []); 
+        setBgUsers(Array.isArray(bg.data) ? bg.data : []);
+        setOwUsers(Array.isArray(ow.data) ? ow.data : []);
+        
         console.log(lol.data);
         console.log(bg.data);
         console.log(ow.data);
       } catch (e) {
+        // API 요청 실패 시에도 빈 배열을 유지하므로 map 오류는 발생하지 않음
         console.error("추천 유저 조회 실패:", e);
       }
     };
@@ -144,22 +162,23 @@ function Home() {
         <h1>리그 오브 레전드</h1>
 
         <button
-          onClick={() => userScroll.scrollPrev()}
-          className={!userScroll.canScrollPrev ? styles.hidden : styles.prev}
+          onClick={() => lolUserScroll.scrollPrev()} // ⬅️ 1. 스크롤 훅 변경
+          className={!lolUserScroll.canScrollPrev ? styles.hidden : styles.prev} // ⬅️ 1. 스크롤 훅 변경
         >
           <FontAwesomeIcon icon={faCircleChevronLeft} />
         </button>
 
         <button
-          onClick={() => userScroll.scrollNext()}
-          className={!userScroll.canScrollNext ? styles.hidden : styles.next}
+          onClick={() => lolUserScroll.scrollNext()} // ⬅️ 1. 스크롤 훅 변경
+          className={!lolUserScroll.canScrollNext ? styles.hidden : styles.next} // ⬅️ 1. 스크롤 훅 변경
         >
           <FontAwesomeIcon icon={faCircleChevronRight} />
         </button>
 
-        <div className={styles.visible_userbox} ref={userBoxRef}>
+        <div className={styles.visible_userbox} ref={lolUserBoxRef}> // ⬅️ 1. Ref 변경
           <div className={styles.userbox}>
-            {lolUsers.map((item, index) => (
+            {/* 2. lolUsers가 배열이 아닐 경우 (u.map 오류) 빈 배열로 대체 */}
+            {(lolUsers || []).map((item, index) => (
               <UserComponent
                 key={index}
                 index={index}
@@ -178,22 +197,23 @@ function Home() {
         <h1>배틀 그라운드</h1>
 
         <button
-          onClick={() => userScroll.scrollPrev()}
-          className={!userScroll.canScrollPrev ? styles.hidden : styles.prev}
+          onClick={() => bgUserScroll.scrollPrev()} // ⬅️ 1. 스크롤 훅 변경
+          className={!bgUserScroll.canScrollPrev ? styles.hidden : styles.prev} // ⬅️ 1. 스크롤 훅 변경
         >
           <FontAwesomeIcon icon={faCircleChevronLeft} />
         </button>
 
         <button
-          onClick={() => userScroll.scrollNext()}
-          className={!userScroll.canScrollNext ? styles.hidden : styles.next}
+          onClick={() => bgUserScroll.scrollNext()} // ⬅️ 1. 스크롤 훅 변경
+          className={!bgUserScroll.canScrollNext ? styles.hidden : styles.next} // ⬅️ 1. 스크롤 훅 변경
         >
           <FontAwesomeIcon icon={faCircleChevronRight} />
         </button>
 
-        <div className={styles.visible_userbox} ref={userBoxRef}>
+        <div className={styles.visible_userbox} ref={bgUserBoxRef}> // ⬅️ 1. Ref 변경
           <div className={styles.userbox}>
-            {bgUsers.map((item, index) => (
+            {/* 3. bgUsers가 배열이 아닐 경우 빈 배열로 대체 */}
+            {(bgUsers || []).map((item, index) => (
               <UserComponent
                 key={index}
                 index={index}
@@ -212,22 +232,23 @@ function Home() {
         <h1>오버워치</h1>
 
         <button
-          onClick={() => userScroll.scrollPrev()}
-          className={!userScroll.canScrollPrev ? styles.hidden : styles.prev}
+          onClick={() => owUserScroll.scrollPrev()} // ⬅️ 1. 스크롤 훅 변경
+          className={!owUserScroll.canScrollPrev ? styles.hidden : styles.prev} // ⬅️ 1. 스크롤 훅 변경
         >
           <FontAwesomeIcon icon={faCircleChevronLeft} />
         </button>
 
         <button
-          onClick={() => userScroll.scrollNext()}
-          className={!userScroll.canScrollNext ? styles.hidden : styles.next}
+          onClick={() => owUserScroll.scrollNext()} // ⬅️ 1. 스크롤 훅 변경
+          className={!owUserScroll.canScrollNext ? styles.hidden : styles.next} // ⬅️ 1. 스크롤 훅 변경
         >
           <FontAwesomeIcon icon={faCircleChevronRight} />
         </button>
 
-        <div className={styles.visible_userbox} ref={userBoxRef}>
+        <div className={styles.visible_userbox} ref={owUserBoxRef}> // ⬅️ 1. Ref 변경
           <div className={styles.userbox}>
-            {owUsers.map((item, index) => (
+            {/* 4. owUsers가 배열이 아닐 경우 빈 배열로 대체 */}
+            {(owUsers || []).map((item, index) => (
               <UserComponent
                 key={index}
                 index={index}
