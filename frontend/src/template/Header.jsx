@@ -1,4 +1,8 @@
-import { faMagnifyingGlass, faAngleUp, faAngleDown } from "@fortawesome/free-solid-svg-icons";
+import {
+  faMagnifyingGlass,
+  faAngleUp,
+  faAngleDown,
+} from "@fortawesome/free-solid-svg-icons";
 import { faBell } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState, useRef } from "react";
@@ -175,7 +179,7 @@ const Header = () => {
 
       await axios.delete(`/api/notifications/${notificationId}`, {
         headers: { Authorization: `Bearer ${token}` },
-      });      
+      });
 
       navigate("/search");
       setShowNoti(false);
@@ -303,7 +307,8 @@ const Header = () => {
                         {item.userName}
                       </div>
                       <div className={styles.suggestionSkill}>
-                        Skill: {item.games.map((g) => g.gameName).join(", ")}
+                        Skill:{" "}
+                        {(item.games || []).map((g) => g.gameName).join(", ")}
                       </div>
                     </div>
 
@@ -354,9 +359,9 @@ const Header = () => {
                           ? styles.decline
                           : ""
                       }`}
-                       onClick={() => handleNotificationClick(n.id)}
+                      onClick={() => handleNotificationClick(n.id)}
                     >
-                      <b style={{fontSize:"14px"}}>{n.message}</b>
+                      <b style={{ fontSize: "14px" }}>{n.message}</b>
                       <div className={styles.notiTime}>
                         {new Date(n.createdAt).toLocaleString()}
                       </div>
@@ -375,14 +380,16 @@ const Header = () => {
 
         {isLoggedIn ? (
           <>
-          <Link className={`${styles.link} ${styles.login}`} to="/Mypage">MyPage</Link>
-          <button
-            className={`${styles.link} ${styles.logout}`}
-            onClick={logout}
-            style={{}}
-          >
-            Logout
-          </button>
+            <Link className={`${styles.link} ${styles.login}`} to="/Mypage">
+              MyPage
+            </Link>
+            <button
+              className={`${styles.link} ${styles.logout}`}
+              onClick={logout}
+              style={{}}
+            >
+              Logout
+            </button>
           </>
         ) : (
           <>
