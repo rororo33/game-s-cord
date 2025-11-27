@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
-import axios from "axios";
+import api from "../api/axios";
 import styles from "./Search.module.css"
 import coin from "../assets/coin.jpg"
 import user1 from "../assets/user1.png"
@@ -57,7 +57,7 @@ function Search() {
   //API 요청 함수
   const fetchResults = async () => {
       try {
-        const res = await axios.get(`/api/gamemates/filter`, {
+        const res = await api.get(`/gamemates/filter`, {
           params: {
             gameId: filters.gameId || undefined,
             gender: filters.gender || undefined,

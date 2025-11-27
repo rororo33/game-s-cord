@@ -4,7 +4,7 @@ import { PiLockKeyBold } from "react-icons/pi";
 import { LiaBirthdayCakeSolid } from "react-icons/lia";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../api/axios";
 
 //회원가입 컴포넌트
 const Register = () => {
@@ -66,8 +66,8 @@ const Register = () => {
     }
 
     try {
-      const response = await axios.post(
-        "http://localhost:8080/api/users/signup",
+      const response = await api.post(
+        "/users/signup",
         {
           loginId: id,
           loginPwd: password,

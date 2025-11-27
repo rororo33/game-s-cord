@@ -1,6 +1,6 @@
 import styles from "./Home.module.css";
 import { useState, useRef, useEffect } from "react";
-import axios from "axios";
+import api from "../api/axios";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleChevronLeft, faCircleChevronRight } from "@fortawesome/free-solid-svg-icons";
@@ -91,9 +91,9 @@ function Home() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const lol = await axios.get("/api/gamemates/popular/1");
-        const bg = await axios.get("/api/gamemates/popular/2");
-        const ow = await axios.get("/api/gamemates/popular/3");
+        const lol = await api.get("/gamemates/popular/1");
+        const bg = await api.get("/gamemates/popular/2");
+        const ow = await api.get("/gamemates/popular/3");
 
         // API 응답 데이터가 배열인지 확인하고 설정, 배열이 아니면 빈 배열로 설정
         setLolUsers(Array.isArray(lol.data) ? lol.data : []); 

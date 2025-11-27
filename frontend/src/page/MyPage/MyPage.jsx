@@ -4,7 +4,7 @@ import defaultImg from "../../assets/user2.png"
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../../api/axios";
 
 
 function MyPage(){
@@ -21,7 +21,7 @@ function MyPage(){
             return;
         }
         try {
-            const res = await axios.get('/api/users/me', {
+            const res = await api.get('/users/me', {
               headers: { Authorization: `Bearer ${token}` },
             });
             setUser(res.data);
@@ -63,7 +63,7 @@ function MyPage(){
             formData.append("usersBirthday", updatedUser.usersBirthday);
             formData.append("usersDescription", updatedUser.usersDescription);
 
-            const res = await axios.patch('/api/users/me',
+            const res = await api.patch('/users/me',
                 formData,
                 {
                     headers: {

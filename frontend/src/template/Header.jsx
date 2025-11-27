@@ -7,7 +7,7 @@ import { faBell } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../api/axios.js";
 import styles from "./Header.module.css";
 import useAuth from "../login/useAuth.js";
 import useLogout from "../login/Logout.js";
@@ -105,7 +105,7 @@ const Header = () => {
     if (!query.trim()) return;
 
     try {
-      const res = await axios.get("/api/gamemates/search", {
+      const res = await api.get("/gamemates/search", {
         params: { userName: query },
       });
 
@@ -123,7 +123,7 @@ const Header = () => {
     try {
       const token = localStorage.getItem("accessToken");
 
-      const res = await axios.get("/api/notifications", {
+      const res = await api.get("/notifications", {
         headers: { Authorization: `Bearer ${token}` },
       });
       setNotifications(res.data);
@@ -138,7 +138,7 @@ const Header = () => {
     const fetchUnreadCount = async () => {
       try {
         const token = localStorage.getItem("accessToken");
-        const res = await axios.get("/api/notifications/unread-count", {
+        const res = await api.get("/notifications/unread-count", {
           headers: { Authorization: `Bearer ${token}` },
         });
         setUnreadCount(res.data.unreadCount);
@@ -158,8 +158,8 @@ const Header = () => {
     if (newState) {
       try {
         const token = localStorage.getItem("accessToken");
-        await axios.patch(
-          "/api/notifications/read-all",
+        await api.patch(
+          "/notifications/read-all",
           {},
           {
             headers: { Authorization: `Bearer ${token}` },
@@ -177,7 +177,7 @@ const Header = () => {
     try {
       const token = localStorage.getItem("accessToken");
 
-      await axios.delete(`/api/notifications/${notificationId}`, {
+      await api.delete(`/notifications/${notificationId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
