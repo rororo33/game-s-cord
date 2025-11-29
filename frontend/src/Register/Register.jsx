@@ -2,6 +2,8 @@ import "../css/Register.css";
 import { FaRegIdCard, FaUser } from "react-icons/fa";
 import { PiLockKeyBold } from "react-icons/pi";
 import { LiaBirthdayCakeSolid } from "react-icons/lia";
+import { MdOutlineMailOutline } from "react-icons/md";
+import { IoIosBarcode } from "react-icons/io";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -12,6 +14,9 @@ const Register = () => {
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
+  const [email, setEmail] = useState("");
+  const [isEmailVerified, setIsEmailVerified] = useState(false);
+  const [verificationCode, setVerificationCode] = useState("");
   const [name, setName] = useState("");
   const [birth, setBirth] = useState(""); // 생년월일
   const navigate = useNavigate();
@@ -21,21 +26,55 @@ const Register = () => {
     return false; // 임시: 중복 아님
   };
 
+  const onEmailVerificationHandle = async () => {
+    if (!email.trim()) {
+      alert("이메일 주소를 입력해주세요!");
+      return;
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      alert("유효한 이메일 주소를 입력해주세요!");
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/api/auth/request-verification",
+        {
+          email: email,
+        }
+      );
+      alert("인증코드가 발급되었습니다.");
+      setIsEmailVerified(true);
+    } catch (error) {
+      console.error("이메일 인증 요청 오류:", error);
+      alert(error.response?.data || "이메일 인증 요청 중 오류가 발생했습니다.");
+    }
+  };
+
   const validateForm = async () => {
     const emptyFields = [];
     if (!id.trim()) emptyFields.push("아이디");
     if (!password.trim()) emptyFields.push("비밀번호");
     if (!passwordConfirm.trim()) emptyFields.push("비밀번호 재입력");
+    if (!email.trim()) emptyFields.push("이메일");
+    if (!verificationCode.trim()) emptyFields.push("인증코드");
     if (!name.trim()) emptyFields.push("이름");
     if (!birth.trim()) emptyFields.push("생년월일");
 
-    if (emptyFields.length === 5) {
+    if (emptyFields.length === 7) {
       return "필수 항목을 모두 입력해주세요!";
     }
 
     if (!id.trim()) return "아이디를 입력해주세요!";
     if (!password.trim()) return "비밀번호를 입력해주세요!";
     if (!passwordConfirm.trim()) return "비밀번호 재입력을 입력해주세요!";
+    if (!email.trim()) return "이메일을 입력해주세요!";
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) return "유효한 이메일 주소를 입력해주세요!";
+    if (!isEmailVerified)
+      return "이메일 인증을 완료해야 회원가입이 가능합니다!";
+    if (!verificationCode.trim()) return "이메일 인증 코드를 입력해주세요!";
     if (!name.trim()) return "이름을 입력해주세요!";
     if (!birth.trim()) return "생년월일을 입력해주세요!";
 
@@ -71,6 +110,8 @@ const Register = () => {
         {
           loginId: id,
           loginPwd: password,
+          email: email,
+          verificationCode: verificationCode,
           usersName: name,
           usersBirthday: birth, // "YYYY-MM-DD" 형식
           usersDescription: "", // 선택값
@@ -92,6 +133,8 @@ const Register = () => {
     setId("");
     setPassword("");
     setPasswordConfirm("");
+    setEmail("");
+    setIsEmailVerified(false);
     setName("");
     setBirth("");
     navigate(-1);
@@ -118,7 +161,6 @@ const Register = () => {
               중복 확인
             </button>
           </div>
-
           <p className="form-title">비밀번호</p>
           <div className="input-with-icon">
             <PiLockKeyBold className="icon" />
@@ -130,7 +172,6 @@ const Register = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-
           <p className="form-title">비밀번호 확인</p>
           <div className="input-with-icon">
             <PiLockKeyBold className="icon" />
@@ -142,7 +183,42 @@ const Register = () => {
               onChange={(e) => setPasswordConfirm(e.target.value)}
             />
           </div>
+          <p className="form-title">이메일</p>
+          <div className="input-with-icon">
+            <MdOutlineMailOutline className="icon" />
+            <input
+              className="input-placeholder"
+              type="email"
+              placeholder="Sample@gmail.com"
+              value={email}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                setIsEmailVerified(false);
+              }}
+              disabled={isEmailVerified}
+            />
 
+            <button
+              className="dup-check"
+              type="button"
+              onClick={onEmailVerificationHandle}
+              disabled={isEmailVerified}
+            >
+              인증 요청
+            </button>
+          </div>
+          <p className="form-title">인증코드</p>
+          <div className="input-with-icon">
+            <IoIosBarcode className="icon" />
+            <input
+              className="input-placeholder"
+              type="text"
+              placeholder="인증코드 입력"
+              value={verificationCode}
+              onChange={(e) => setVerificationCode(e.target.value)}
+              disabled={!isEmailVerified}
+            />
+          </div>
           <p className="form-title">이름</p>
           <div className="input-with-icon">
             <FaUser className="icon" />
@@ -154,7 +230,6 @@ const Register = () => {
               onChange={(e) => setName(e.target.value)}
             />
           </div>
-
           <p className="form-title">생년월일</p>
           <div className="input-with-icon">
             <LiaBirthdayCakeSolid className="icon" />
@@ -166,7 +241,6 @@ const Register = () => {
               onChange={(e) => setBirth(e.target.value)}
             />
           </div>
-
           <div className="form-buttons">
             <button
               className="register-btn"
