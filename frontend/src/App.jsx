@@ -11,6 +11,7 @@ import Search from "./page/Search";
 import MyPage from "./page/MyPage/MyPage";
 import Login from "./login/Login";
 import Requestdetail from "./requestdetail.jsx";
+import RequestReceived from "./RequestReceived/RequestReceived.jsx";
 
 const App = () => {
   return (
@@ -27,6 +28,7 @@ const App = () => {
           <Route path="/Mypage" element={<MyPage />} />
           <Route path="/matchdetail" element={<MatchDetail />} />
           <Route path="/requestdetail" element={<Requestdetail />} />
+          <Route path="/requestReceived" element={<RequestReceived />} />
         </Routes>
       </Template>
     </BrowserRouter>
