@@ -13,27 +13,6 @@
   gap: 40px;
 }
 
-/* Sidebar */
-.request-sidebar ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.request-sidebar li {
-  padding: 10px 0;
-  font-size: 14px;
-}
-
-.request-sidebar .active-menu {
-  color: #000;
-  font-weight: 600;
-}
-
-.request-sidebar .disabled-menu {
-  color: #c8c8c8;
-}
-
 /* Content Area */
 .request-content {
   background: #fff;
@@ -127,7 +106,7 @@
   background: #ffb700; /* 주황 (응답 없음/대기) */
 }
 
-/* ---------- Common List ---------- */
+/* Common List */
 .request-list {
   margin: 0;
   padding: 0;
@@ -159,7 +138,7 @@
   color: #555;
 }
 
-/* ---------- 상대 정보 확인하기 버튼 (info-button) ---------- */
+/* 상대 정보 확인하기 버튼  */
 
 .info-button {
   border: none;
@@ -178,7 +157,7 @@
   background: #f2f2f2;
 }
 
-/* ---------- 수락·거절 버튼 (pill-button) ---------- */
+/* 수락·거절 버튼 (pill-button)  */
 
 .pill-button {
   background: #fff;

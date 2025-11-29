@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import "../page/MyPage/Sidebar";
 import "../css/RequestReceived.css";
+import Sidebar from "../page/MyPage/Sidebar";
 
+//더미데이터
 const dummyReceivedRequests = [
   { id: 10, nickname: "USER1", status: "waiting" },
   { id: 11, nickname: "USER2", status: "waiting" },
@@ -54,20 +57,14 @@ export default function RequestReceived() {
   return (
     <div className="page">
       <div className="request-layout">
-        <aside className="request-sidebar">
-          <ul>
-            <li className="disabled-menu">마이페이지</li>
-            <li className="active-menu">신청내역</li>
-            <li className="disabled-menu">결제 및 정산</li>
-          </ul>
-        </aside>
+        <Sidebar />
 
         <section className="request-content">
-          <Link to="/requestReceived" className="request-title">
-            받은내역
-          </Link>
           <Link to="/requestdetail" className="request-title">
             신청내역
+          </Link>
+          <Link to="/requestReceived" className="request-title">
+            받은내역
           </Link>
           <div className="request-tabs">
             <button
@@ -90,7 +87,6 @@ export default function RequestReceived() {
             </button>
           </div>
 
-          {/* ------------------- 상태 범례 (처리 완료 탭에만 표시) ------------------- */}
           {activeTab === "processed" && (
             <div className="status-legend">
               <span>
@@ -102,7 +98,6 @@ export default function RequestReceived() {
             </div>
           )}
 
-          {/* ------------------- 내가 받은 요청 목록 (request & processed 공통) ------------------- */}
           <ul className="request-list">
             {filteredRequests.length > 0 ? (
               filteredRequests.map((item) => (
