@@ -63,7 +63,7 @@ function MyPage(){
 
     useEffect(() => {
         fetchResults();
-    }, [isLoggedIn]);
+    },[]);
 
     const fetchResults = async () => {
         const token = localStorage.getItem('accessToken');
