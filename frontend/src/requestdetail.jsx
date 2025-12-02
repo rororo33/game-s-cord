@@ -66,15 +66,13 @@ export default function RequestHistoryPage() {
       <div className="request-layout">
         <Sidebar />
 
-        <Link to="/requestdetail" className="request-title">
-          신청내역
-        </Link>
-        <Link to="/requestReceived" className="request-title">
-          받은내역
-        </Link>
-
         <section className="request-content">
-          <h1 className="request-title">신청 내역</h1>
+          <Link to="/requestdetail" className="request-title">
+            신청내역
+          </Link>
+          <Link to="/requestReceived" className="request-title">
+            받은내역
+          </Link>
 
           <div className="request-tabs">
             <button
