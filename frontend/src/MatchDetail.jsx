@@ -4,9 +4,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 import api from "./api/axios";
 
 import profileImage from "./assets/user1.png";
-import pubg from "../assets/Battleground.jpg";
-import lol from "../assets/LeaguofLeagends.jpg";
-import overwatch from "../assets/Overwatch.jpg";
+import pubg from "./assets/Battleground.jpg";
+import lol from "./assets/LeaguofLeagends.jpg";
+import overwatch from "./assets/Overwatch.jpg";
 
 
 const fetchGameReviews = async (userId, gameId, setReviews) => {
