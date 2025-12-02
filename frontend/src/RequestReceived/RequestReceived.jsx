@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import "../page/MyPage/Sidebar";
 import "../css/RequestReceived.css";
 import Sidebar from "../page/MyPage/Sidebar";
+import styles from ".././page/MyPage/MyPage.module.css";
 
 // API 호출 기본 URL 설정
 const BASE_URL = "/api/matches";
@@ -135,123 +136,126 @@ export default function RequestReceived() {
   };
 
   return (
-    <div className="page">
-      <div className="request-layout">
-        <Sidebar />
+    // ⭐️ CoinRecharge와 동일한 styles.wrapper 사용
+    <div className={styles.wrapper}>
+      <Sidebar />
 
-        <section className="request-content">
-          <Link to="/requestdetail" className="request-title">
-            신청내역
-          </Link>
-          <Link to="/requestReceived" className="request-title">
-            받은내역
-          </Link>
-          <div className="request-tabs">
-            <button
-              className={
-                "request-tab" +
-                (activeTab === "request" ? " request-tab--active" : "")
-              }
-              onClick={() => setActiveTab("request")}
-            >
-              매칭요청
-            </button>
-            <button
-              className={
-                "request-tab" +
-                (activeTab === "processed" ? " request-tab--active" : "")
-              }
-              onClick={() => setActiveTab("processed")}
-            >
-              매칭수락
-            </button>
+      {/* ⭐️ CoinRecharge와 동일하게 flex: 1 스타일 적용 */}
+      <section
+        className="request-content"
+        style={{ flex: 1, marginRight: "80px", minHeight: "500px" }}
+      >
+        {/* ⭐️ Link to /requestdetail 대신, /mypage/requestdetail 로 경로를 확인해주세요. */}
+        <Link to="/requestdetail" className="request-title">
+          신청내역
+        </Link>
+        <Link to="/requestReceived" className="request-title">
+          받은내역
+        </Link>
+        <div className="request-tabs">
+          <button
+            className={
+              "request-tab" +
+              (activeTab === "request" ? " request-tab--active" : "")
+            }
+            onClick={() => setActiveTab("request")}
+          >
+            매칭요청
+          </button>
+          <button
+            className={
+              "request-tab" +
+              (activeTab === "processed" ? " request-tab--active" : "")
+            }
+            onClick={() => setActiveTab("processed")}
+          >
+            매칭수락
+          </button>
+        </div>
+
+        {activeTab === "processed" && (
+          <div className="status-legend">
+            <span>
+              <span className="status-dot status-dot--accepted" /> 수락됨
+            </span>
+            <span>
+              <span className="status-dot status-dot--rejected" /> 거절됨
+            </span>
           </div>
+        )}
 
-          {activeTab === "processed" && (
-            <div className="status-legend">
-              <span>
-                <span className="status-dot status-dot--accepted" /> 수락됨
-              </span>
-              <span>
-                <span className="status-dot status-dot--rejected" /> 거절됨
-              </span>
-            </div>
-          )}
+        {isLoading ? (
+          <div className="loading-state">매칭 요청을 불러오는 중...</div>
+        ) : (
+          <ul className="request-list">
+            {filteredRequests.length > 0 ? (
+              filteredRequests.map((item) => (
+                // ordersId를 key로 사용
+                <li key={item.ordersId} className="request-row">
+                  <div className="request-row-left">
+                    <span className="request-row-title">
+                      {/* 임시 닉네임 사용 */}
+                      {item.nickname} 님의 매칭요청
+                    </span>
+                  </div>
 
-          {isLoading ? (
-            <div className="loading-state">매칭 요청을 불러오는 중...</div>
-          ) : (
-            <ul className="request-list">
-              {filteredRequests.length > 0 ? (
-                filteredRequests.map((item) => (
-                  //  ordersId를 key로 사용
-                  <li key={item.ordersId} className="request-row">
-                    <div className="request-row-left">
-                      <span className="request-row-title">
-                        {/*  임시 닉네임 사용 */}
-                        {item.nickname} 님의 매칭요청
-                      </span>
-                    </div>
-
-                    <div className="request-row-right">
-                      {activeTab === "request" ? (
-                        // 1. 처리 대기 탭: 수락/거절 버튼 표시
-                        <>
-                          <button
-                            className={"pill-button pill-button--accept"}
-                            //  ordersId 전달
-                            onClick={() =>
-                              handleDecision(item.ordersId, "accepted")
-                            }
-                          >
-                            수락
-                          </button>
-                          <button
-                            className={"pill-button pill-button--reject"}
-                            //  ordersId 전달
-                            onClick={() =>
-                              handleDecision(item.ordersId, "rejected")
-                            }
-                          >
-                            거절
-                          </button>
-                        </>
-                      ) : (
-                        // 2. 처리 완료 탭: 처리 상태 표시 및 상대 정보 확인 버튼
-                        <>
-                          <span className="request-row-status-label">
-                            처리상태 :
-                          </span>
-                          <span
-                            className={
-                              //  orderStatus 사용
-                              "status-dot " +
-                              getStatusDotClass(item.orderStatus)
-                            }
-                          />
-                          <button
-                            className="info-button"
-                            //  orderStatus 사용
-                            disabled={item.orderStatus === "REJECTED"}
-                          >
-                            상대 정보 확인하기
-                          </button>
-                        </>
-                      )}
-                    </div>
-                  </li>
-                ))
-              ) : (
-                <div className="no-requests">
-                  {activeTab === "request"
-                    ? "새로운 매칭 요청이 없습니다."
-                    : "처리 완료된 매칭 내역이 없습니다."}
-                </div>
-              )}
-            </ul>
-          )}
-        </section>
-      </div>
+                  <div className="request-row-right">
+                    {activeTab === "request" ? (
+                      // 1. 처리 대기 탭: 수락/거절 버튼 표시
+                      <>
+                        <button
+                          className={"pill-button pill-button--accept"}
+                          // ordersId 전달
+                          onClick={() =>
+                            handleDecision(item.ordersId, "accepted")
+                          }
+                        >
+                          수락
+                        </button>
+                        <button
+                          className={"pill-button pill-button--reject"}
+                          // ordersId 전달
+                          onClick={() =>
+                            handleDecision(item.ordersId, "rejected")
+                          }
+                        >
+                          거절
+                        </button>
+                      </>
+                    ) : (
+                      // 2. 처리 완료 탭: 처리 상태 표시 및 상대 정보 확인 버튼
+                      <>
+                        <span className="request-row-status-label">
+                          처리상태 :
+                        </span>
+                        <span
+                          className={
+                            // orderStatus 사용
+                            "status-dot " + getStatusDotClass(item.orderStatus)
+                          }
+                        />
+                        <button
+                          className="info-button"
+                          // orderStatus 사용
+                          disabled={item.orderStatus === "REJECTED"}
+                        >
+                          상대 정보 확인하기
+                        </button>
+                      </>
+                    )}
+                  </div>
+                </li>
+              ))
+            ) : (
+              <div className="no-requests">
+                {activeTab === "request"
+                  ? "새로운 매칭 요청이 없습니다."
+                  : "처리 완료된 매칭 내역이 없습니다."}
+              </div>
+            )}
+          </ul>
+        )}
+      </section>
     </div>
   );
 }
