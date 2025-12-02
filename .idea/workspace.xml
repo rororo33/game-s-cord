@@ -5,7 +5,229 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e9a366f9-2870-42ef-8e25-d42d6d6b1b49" name="변경" comment="">
-      <change beforePath="$PROJECT_DIR$/frontend/src/Register/Register.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Register/Register.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gradle/8.14.3/checksums/checksums.lock" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gradle/8.14.3/fileChanges/last-build.bin" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gradle/8.14.3/fileHashes/fileHashes.lock" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gradle/8.14.3/gc.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/cache.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gradle/vcs-1/gc.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/GameMate.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/jpa.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules/gamescord.main.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SDS/classDiagram/authClassDiagram.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SDS/classDiagram/coinSystemClassDiagram.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SDS/classDiagram/emailClassDiagram.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SDS/classDiagram/gameClassDiagram.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SDS/classDiagram/gamemateClassDiagram.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SDS/classDiagram/markClassDiagram.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SDS/classDiagram/matchClassDiagram.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SDS/classDiagram/notificationClassDiagram.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SDS/classDiagram/refreshTokenClassDiagram.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SDS/classDiagram/reviewClassDiagram.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SDS/classDiagram/securityClassDiagram.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SDS/classDiagram/userClassDiagram.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SDS/glossary/glossary.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SDS/implementationRequirements/implementationRequirements.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SDS/references/references.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SDS/sequenceDiagram/coinSequenceDiagram/cancelMatchRefundSequenceDiagram.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SDS/sequenceDiagram/coinSequenceDiagram/chargeCoinSequenceDiagram.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SDS/sequenceDiagram/coinSequenceDiagram/coinHistorySequenceDiagram.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SDS/sequenceDiagram/coinSequenceDiagram/payoutToGamemateSequenceDiagram.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SDS/sequenceDiagram/coinSequenceDiagram/refundCoinSequenceDiagram.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SDS/sequenceDiagram/coinSequenceDiagram/useCoinForMatchSequenceDiagram.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SDS/sequenceDiagram/gamemateSequenceDiagram/gamemateDeleteSequenceDiagram.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SDS/sequenceDiagram/gamemateSequenceDiagram/gamemateDetailSearchSequenceDiagram.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SDS/sequenceDiagram/gamemateSequenceDiagram/gamemateRegisterSequenceDiagram.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SDS/sequenceDiagram/gamemateSequenceDiagram/gamemateSearchSequenceDiagram.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SDS/sequenceDiagram/markSequenceDiagram/markAddSequenceDiagram.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SDS/sequenceDiagram/markSequenceDiagram/markDeleteSequenceDiagram.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SDS/sequenceDiagram/markSequenceDiagram/markGetMarkedUsersSequenceDiagram.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SDS/sequenceDiagram/matchSequenceDiagram/matchCancelSequenceDiagram.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SDS/sequenceDiagram/matchSequenceDiagram/matchRequestSequenceDiagram.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SDS/sequenceDiagram/matchSequenceDiagram/matchUpdateStatusSequenceDiagram.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SDS/sequenceDiagram/notificationSequenceDiagram/deleteNotificationSequenceDiagram.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SDS/sequenceDiagram/notificationSequenceDiagram/getNotificationsSequenceDiagram.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SDS/sequenceDiagram/notificationSequenceDiagram/getUnreadCountSequenceDiagram.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SDS/sequenceDiagram/notificationSequenceDiagram/markAllAsReadSequenceDiagram.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SDS/sequenceDiagram/reviewSequenceDiagram/reviewCreateSequenceDiagram.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SDS/sequenceDiagram/reviewSequenceDiagram/reviewGetSequenceDiagram.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SDS/sequenceDiagram/userSystemSequenceDiagram/emailVerificationSequenceDiagram.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SDS/sequenceDiagram/userSystemSequenceDiagram/getProfileSequenceDiagram.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SDS/sequenceDiagram/userSystemSequenceDiagram/loginSequenceDiagram.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SDS/sequenceDiagram/userSystemSequenceDiagram/logoutSequenceDiagram.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SDS/sequenceDiagram/userSystemSequenceDiagram/passwordResetRequestSequenceDiagram.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SDS/sequenceDiagram/userSystemSequenceDiagram/passwordResetSequenceDiagram.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SDS/sequenceDiagram/userSystemSequenceDiagram/signupSequenceDiagram.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SDS/sequenceDiagram/userSystemSequenceDiagram/tokenRefreshSequenceDiagram.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SDS/sequenceDiagram/userSystemSequenceDiagram/updateProfileSequenceDiagram.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/docker-compose.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/mysql-init/init.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/GamescordApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/config/SecurityConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/config/SwaggerConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/controller/AuthController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/controller/CoinController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/controller/GamemateController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/controller/MarkController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/controller/MatchController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/controller/NotificationController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/controller/ReviewController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/controller/UserController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/domain/Coin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/domain/Mark.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/domain/Notification.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/domain/RefreshToken.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/domain/Review.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/domain/User.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/dto/auth/EmailVerificationRequestDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/dto/auth/PasswordResetDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/dto/auth/PasswordResetRequestDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/dto/auth/TokenRefreshRequestDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/dto/auth/TokenRefreshResponseDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/dto/coin/CoinChargeRequestDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/dto/coin/CoinHistoryResponseDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/dto/coin/CoinRefundRequestDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/dto/coin/CoinResponseDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/dto/coin/PrepareChargeRequestDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/dto/coin/PrepareChargeResponseDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/dto/gamemate/GamemateProfileResponseDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/dto/gamemate/GamemateRegistrationRequestDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/dto/gamemate/GamemateResponseDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/dto/mark/MarkResponseDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/dto/mark/MarkedUserResponseDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/dto/match/MatchRequestDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/dto/match/MatchResponseDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/dto/match/MatchStatusUpdateByKeyDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/dto/message/MessageResponseDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/dto/notification/NotificationResponseDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/dto/notification/UnreadCountResponseDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/dto/review/ReviewRequestDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/dto/review/ReviewResponseDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/dto/user/UserLoginResponseDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/dto/user/UserProfileUpdateRequestDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/dto/user/UserSignupRequestDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/exception/GlobalExceptionHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/repository/coin/CoinRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/repository/coin/SDJpaCoinRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/repository/game/GameRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/repository/game/SDJpaGameRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/repository/gamemate/GameMateRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/repository/gamemate/SDJpaGameMateRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/repository/mark/MarkRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/repository/mark/SDJpaMarkRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/repository/match/MatchRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/repository/match/SDJpaMatchRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/repository/notification/NotificationRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/repository/notification/SDJpaNotificationRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/repository/refreshtoken/RefreshTokenRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/repository/review/ReviewRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/repository/review/SDJpaReviewRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/repository/user/SDJpaUserRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/repository/user/UserRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/security/CustomUserDetails.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/security/JwtAuthenticationFilter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/security/JwtUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/service/coin/CoinService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/service/email/EmailService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/service/email/VerificationCodeService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/service/gamemate/GamemateService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/service/mark/MarkService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/service/match/MatchService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/service/notification/NotificationService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/service/refreshtoken/RefreshTokenService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/service/review/ReviewService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/service/user/CustomUserDetailsService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/service/user/UserService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/resources/init.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/Coin/CoinChargeHistory.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/MatchDetail.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/MatchDetail.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/Register/Register.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/api/axios.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/assets/banner1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/assets/banner2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/assets/banner3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/assets/crown.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/assets/logo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/assets/logo_profile.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/assets/user10.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/assets/user11.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/assets/user12.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/assets/user13.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/assets/user14.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/assets/user15.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/assets/user8.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/assets/user9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/login/Findpassword.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/login/Login.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/login/Logout.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/login/useAuth.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/gamescord.test.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/gamescord.test.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/backend/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/backend/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/backend/settings.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/mvctest/MvctestApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/mvctest/config/CorsConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/config/CorsConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/mvctest/config/SecurityConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/mvctest/config/SwaggerConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/mvctest/controller/GamemateController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/mvctest/controller/OrderController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/mvctest/controller/PostController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/mvctest/controller/UserController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/mvctest/domain/File.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/domain/File.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/mvctest/domain/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/domain/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/mvctest/domain/Gamemate.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/domain/Gamemate.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/mvctest/domain/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/domain/Match.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/mvctest/domain/User.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/mvctest/dto/UserLoginRequestDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/dto/user/UserLoginRequestDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/mvctest/dto/UserResponseDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/dto/user/UserResponseDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/mvctest/dto/UserSignupRequestDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/mvctest/exception/GlobalExceptionHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/mvctest/repository/userrepository/UserMemoryRepositoryPort.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/mvctest/repository/userrepository/UserRepositoryPort.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/mvctest/service/UserService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/test/java/com/example/mvctest/MvctestApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/test/java/com/example/gamescord/GamescordApplicationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Coin/CoinRecharge.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Coin/CoinRecharge.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Coin/HeaderTabs.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Coin/HeaderTabs.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Coin/Payment.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Coin/Payment.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Coin/PaymentConfirmPopup.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Coin/PaymentConfirmPopup.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Coin/PaymentItem.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Coin/PaymentItem.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Home.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Home.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Home.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Home.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/assets/Overwatch.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/assets/Overwatch.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/css/CoinChargeHistory.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/css/CoinChargeHistory.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/css/CoinRecharge.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/css/CoinRecharge.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/css/Register.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/css/Register.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/login.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/login.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/page/MyPage/MyPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/page/MyPage/MyPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/page/MyPage/MyPage.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/page/MyPage/MyPage.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/page/MyPage/Sidebar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/page/MyPage/Sidebar.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/page/Search.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/page/Search.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/page/Search.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/page/Search.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/template/Header.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/template/Header.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/template/Header.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/template/Header.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/vite.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/vite.config.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,6 +238,26 @@
     <projectState path="$PROJECT_DIR$/backend">
       <ProjectState />
     </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$/backend">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="gamescord" type="f1a62948:ProjectNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -34,7 +276,7 @@
     "Gradle.backend.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "feature/frontend/Register",
+    "git-widget-placeholder": "feature/frontend/Match 병합 중",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/LeeSeongJin/Desktop/game-s-cord"
   }
