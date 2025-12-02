@@ -10,6 +10,8 @@ TRUNCATE TABLE marks;
 TRUNCATE TABLE coin;
 TRUNCATE TABLE profiles;
 TRUNCATE TABLE gamemates;
+TRUNCATE TABLE refresh_tokens;
+TRUNCATE TABLE files;
 TRUNCATE TABLE games;
 TRUNCATE TABLE users;
 SET FOREIGN_KEY_CHECKS = 1;
@@ -146,9 +148,3 @@ INSERT INTO notifications (notification_id, users_id, notification_type, match_i
                                                                                                                      (4, 12, 'MATCH_ACCEPTED', 2, 'ValoKing accepted your match request!', 1, NOW() - INTERVAL 1 DAY),
                                                                                                                      (5, 11, 'MATCH_ACCEPTED', 3, 'OverGirl accepted your match request!', 1, NOW() - INTERVAL 2 DAY),
                                                                                                                      (6, 11, 'MATCH_ACCEPTED', 5, 'LoaExpert accepted your match request!', 0, NOW() - INTERVAL 12 HOUR);
-
--- ============================================
--- Test Account Info:
--- Login: gamer001~genshinlove, normaluser1, normaluser2
--- Password: password123
--- ============================================
