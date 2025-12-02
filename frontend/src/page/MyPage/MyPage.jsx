@@ -87,18 +87,24 @@ function MyPage() {
   const PatchResults = async () => {
     if (!validate()) return;
     const token = localStorage.getItem("accessToken");
+
     try {
       const formData = new FormData();
 
-      // 이미지 파일
-      if (updatedUser.profileImageFile) {
-        formData.append("profileImage", updatedUser.profileImageFile);
-      }
+      const data = {
+        usersName: updatedUser.usersName,
+        gender: updatedUser.gender,
+        usersBirthday: updatedUser.usersBirthday,
+        usersDescription: updatedUser.usersDescription,
+      };
 
-      formData.append("usersName", updatedUser.usersName);
-      formData.append("gender", updatedUser.gender);
-      formData.append("usersBirthday", updatedUser.usersBirthday);
-      formData.append("usersDescription", updatedUser.usersDescription);
+      formData.append(
+        "data",
+        new Blob([JSON.stringify(data)], { type: "application/json" })
+      );
+      if (updatedUser.profileImageFile) {
+        formData.append("image", updatedUser.profileImageFile);
+      }
 
       const res = await api.patch("/users/me", formData, {
         headers: {
@@ -106,12 +112,12 @@ function MyPage() {
           "Content-Type": "multipart/form-data",
         },
       });
+
       setUser(res.data);
       setProfilePreview(res.data.profileImageUrl);
       setModify(false);
-      console.log(res.data);
     } catch (e) {
-      console.error("검색 결과 불러오기 실패:", e);
+      console.error("프로필 수정 실패:", e);
       alert("프로필 수정에 실패했습니다. 다시 시도해주세요.");
     }
   };
