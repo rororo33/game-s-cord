@@ -3,7 +3,7 @@ import "./MatchDetail.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import api from "./api/axios";
 
-import profileImage from "../assets/user1.png";
+import profileImage from "./assets/user1.png";
 import pubg from "../assets/Battleground.jpg";
 import lol from "../assets/LeaguofLeagends.jpg";
 import overwatch from "../assets/Overwatch.jpg";
@@ -146,7 +146,7 @@ const MatchDetail = () => {
 
   return (
     <div className="match-detail-page">
-      {/* ---------------- LEFT PANEL ---------------- */}
+
       <div className="left-panel">
         <img
           src={matchData.profileImageUrl || profileImage}
@@ -157,13 +157,13 @@ const MatchDetail = () => {
         <div className="username">{matchData.userName}</div>
         <div className="bio-text">{matchData.userDescription}</div>
 
-        {/* ⭐ 즐겨찾기 버튼 */}
+
         <button className="bookmark-btn" onClick={toggleMark}>
           {isMarked ? "⭐ 즐겨찾기 해제" : "☆ 즐겨찾기 추가"}
         </button>
       </div>
 
-      {/* ---------------- RIGHT PANEL ---------------- */}
+
       <div className="right-panel">
         <div className="game-list">
           {matchData.games?.map((game) => {
@@ -211,7 +211,7 @@ const MatchDetail = () => {
           </div>
         )}
 
-        {/* ---------------- REVIEW PANEL ---------------- */}
+
         <div className="review-panel">
           <div className="review-title">
             리뷰 <br />
