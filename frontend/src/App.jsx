@@ -10,6 +10,9 @@ import Register from "./Register/Register";
 import Search from "./page/Search";
 import MyPage from "./page/MyPage/MyPage";
 import Login from "./login/Login";
+import Requestdetail from "./requestdetail.jsx";
+import RequestReceived from "./RequestReceived/RequestReceived.jsx";
+import MarkPage from "./page/MyPage/MarkPage";
 
 const App = () => {
   return (
@@ -25,6 +28,9 @@ const App = () => {
           <Route path="/search" element={<Search />} />
           <Route path="/Mypage" element={<MyPage />} />
           <Route path="/matchdetail" element={<MatchDetail />} />
+          <Route path="/requestdetail" element={<Requestdetail />} />
+          <Route path="/requestReceived" element={<RequestReceived />} />
+          <Route path="/mark" element={<MarkPage />} />
         </Routes>
       </Template>
     </BrowserRouter>
