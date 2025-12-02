@@ -99,7 +99,7 @@ function MyPage(){
                 usersDescription: updatedUser.usersDescription,
             };
 
-            formData.append("data", new Blob([JSON.stringify(data)], { type: "application/json" }));
+             formData.append("data", JSON.stringify(data));
             if (updatedUser.profileImageFile) {
                 formData.append("image", updatedUser.profileImageFile);
             }
@@ -107,7 +107,7 @@ function MyPage(){
             const res = await api.patch("/users/me", formData, {
                 headers: {
                     Authorization: `Bearer ${token}`,
-                    "Content-Type": "multipart/form-data",
+                    //"Content-Type": "multipart/form-data",
                 },
             });
 
