@@ -6,7 +6,7 @@ import { MdOutlineMailOutline } from "react-icons/md";
 import { IoIosBarcode } from "react-icons/io";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../api/axios";
+import axios from "axios";
 
 //회원가입 컴포넌트
 const Register = () => {
@@ -162,7 +162,7 @@ const Register = () => {
     }
 
     try {
-      const response = await api.post("/users/signup", {
+      const response = await axios.post("/users/signup", {
         loginId: id,
         loginPwd: password,
         email: email,
