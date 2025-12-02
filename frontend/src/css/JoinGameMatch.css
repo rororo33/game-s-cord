@@ -365,14 +365,55 @@
   overflow: hidden;
 }
 
-.tier-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.tier-images {
+  display: flex;
+  flex-wrap: wrap; /* 여러 줄로 표시 가능하게 */
+  gap: 10px;
+  justify-content: space-between;
 }
 
-.plus-icon-sm {
-  cursor: pointer;
+.tier-image-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  width: 30%; /* 3개 항목이 한 줄에 배치되도록 */
+  box-sizing: border-box;
+}
+
+.tier-game-title {
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #333;
+  font-size: 0.9rem;
+}
+
+.tier-select-dropdown {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+  margin-bottom: 5px;
+  text-align: center;
+}
+
+.tier-select-dropdown.disabled {
+  background-color: #f5f5f5;
+  color: #aaa;
+  cursor: not-allowed;
+}
+
+.selected-tier-display {
+  font-size: 0.85rem;
+  color: #007bff; /* 선택된 티어를 강조 */
+  min-height: 20px;
+}
+
+/* 기존 tier-verification-box의 아이콘/텍스트 크기 조정 */
+.tier-verification-box .setting-header {
+  color: #555;
 }
 
 /* 등록/취소 버튼 */

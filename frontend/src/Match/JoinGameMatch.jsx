@@ -15,24 +15,70 @@ const availableGames = [
   { id: 3, name: "오버워치 2" },
 ];
 
-// 게임별 요금 입력 필드 컴포넌트
+// 게임 티어 목록 (예시)
+const availableTiers = [
+  { value: "", name: "티어 선택" },
+  { value: "BRONZE", name: "브론즈" },
+  { value: "SILVER", name: "실버" },
+  { value: "GOLD", name: "골드" },
+  { value: "PLATINUM", name: "플래티넘" },
+  { value: "DIAMOND", name: "다이아몬드" },
+  { value: "MASTER", name: "마스터" },
+  { value: "GRANDMASTER", name: "그랜드마스터" },
+];
+
+const GameTierSelect = ({ rate, onChange }) => {
+  const isGameSelected = rate.name !== "게임명 선택";
+
+  const title =
+    rate.name === "게임명 선택"
+      ? `게임 ${rate.id.slice(-1).toUpperCase()} 티어`
+      : rate.name;
+
+  // 선택된 티어 이름 찾기
+  const selectedTierName =
+    availableTiers.find((t) => t.value === rate.tier)?.name ||
+    availableTiers[0].name;
+
+  return (
+    <div className="tier-image-wrapper">
+      <p className="tier-game-title">{title}</p>
+      <select
+        name={`tier-select-${rate.id}`}
+        value={rate.tier}
+        onChange={(e) => onChange(rate.id, "tier", e.target.value)}
+        className={`tier-select-dropdown ${!isGameSelected ? "disabled" : ""}`}
+        disabled={!isGameSelected}
+      >
+        {availableTiers.map((tier) => (
+          <option key={tier.value} value={tier.value}>
+            {tier.name}
+          </option>
+        ))}
+      </select>
+      {/* 선택된 티어 표시 (선택되지 않은 경우 기본값) */}
+      <p className="selected-tier-display">
+        {isGameSelected ? selectedTierName : "게임을 먼저 선택"}
+      </p>
+    </div>
+  );
+};
+
+// 게임별 요금 입력 필드 컴포넌트 (변경 없음, 티어 로직은 GameTierSelect로 분리)
 const GameRateInput = ({ rate, onChange, selectedNames }) => (
   <div className="rate-input-row">
     <label>게임 명:</label>
     <select
-      name={`gameName-${rate.id}`} // 고유 ID 사용
+      name={`gameName-${rate.id}`}
       value={rate.name}
-      onChange={(e) => onChange(rate.id, "name", e.target.value)} // 고유 ID 전달
+      onChange={(e) => onChange(rate.id, "name", e.target.value)}
       className="game-select"
     >
       {availableGames
         .filter(
           (game) =>
-            // 1. 현재 선택된 게임명은 표시
             game.name === rate.name ||
-            // 2. '게임명 선택' 옵션은 항상 표시 (중복 허용)
             game.id === 0 ||
-            // 3. 아직 선택되지 않은 다른 게임들만 표시 (중복 방지)
             !selectedNames.includes(game.name)
         )
         .map((game) => (
@@ -48,21 +94,27 @@ const GameRateInput = ({ rate, onChange, selectedNames }) => (
         type="number"
         value={rate.price}
         placeholder="코인"
-        onChange={(e) => onChange(rate.id, "price", e.target.value)} // 고유 ID 전달
+        onChange={(e) => onChange(rate.id, "price", e.target.value)}
+        disabled={rate.name === "게임명 선택"}
       />
     </div>
   </div>
 );
 
 const JoinGameMatch = () => {
+  // 파일 객체 저장을 위한 상태 (FormData 전송용)
+  const [profileFiles, setProfileFiles] = useState(Array(5).fill(null));
+  // 미리보기 URL 저장을 위한 상태
   const [profileImages, setProfileImages] = useState(Array(5).fill(null));
+
   const [preferredGame, setPreferredGame] = useState("LOL");
+
   const [gameRates, setGameRates] = useState([
     {
-      id: "rate-a", // 불변의 고유 ID
-      gameId: 0, // 게임 자체 ID (0 = 게임명 선택)
+      id: "rate-a",
+      gameId: 0,
       name: "게임명 선택",
-      tier: "",
+      tier: "", // 티어 필드를 사용합니다.
       price: "",
       time: "",
       gender: "",
@@ -87,8 +139,13 @@ const JoinGameMatch = () => {
     },
   ]);
 
-  // 선택된 게임명 목록 (중복 방지용)
-  // '게임명 선택'은 중복되어도 괜찮으므로 필터링에서 제외
+  const [availableTime, setAvailableTime] = useState({
+    game: "",
+    time: "--:00",
+  });
+
+  const [introduction, setIntroduction] = useState("");
+
   const selectedNames = gameRates
     .map((g) => g.name)
     .filter((n) => n && n !== "게임명 선택");
@@ -96,13 +153,18 @@ const JoinGameMatch = () => {
   const handleRateChange = (id, field, value) => {
     setGameRates((prev) =>
       prev.map((rate) => {
-        if (rate.id !== id) return rate; // 고유 ID로 항목 식별
+        if (rate.id !== id) return rate;
 
-        // 게임명을 바꾸면 gameId도 함께 변경 (데이터 전송용)
         if (field === "name") {
           const found = availableGames.find((g) => g.name === value);
-          // gameId도 변경하되, 고유 ID(rate.id)는 그대로 유지
-          return { ...rate, name: value, gameId: found?.id ?? rate.gameId };
+          // 게임명 변경 시, gameId 변경 및 티어/가격 초기화
+          return {
+            ...rate,
+            name: value,
+            gameId: found?.id ?? rate.gameId,
+            tier: "",
+            price: "",
+          };
         }
 
         return { ...rate, [field]: value };
@@ -110,82 +172,103 @@ const JoinGameMatch = () => {
     );
   };
 
-  const [availableTime, setAvailableTime] = useState({
-    game: "",
-    time: "--:00",
-  });
-
-  const [tierImages, setTierImages] = useState([null, null, null]);
-  const [introduction, setIntroduction] = useState("");
-
   const handleImageChange = (index, event) => {
     const file = event.target.files[0];
     if (file) {
+      // 미리보기 URL 저장
       const newImages = [...profileImages];
       newImages[index] = URL.createObjectURL(file);
       setProfileImages(newImages);
-    }
-  };
 
-  const handleTierImageChange = (index, event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const newTierImages = [...tierImages];
-      newTierImages[index] = URL.createObjectURL(file);
-      setTierImages(newTierImages);
+      // 파일 객체 저장 (전송용)
+      const newFiles = [...profileFiles];
+      newFiles[index] = file;
+      setProfileFiles(newFiles);
     }
   };
 
   const handleSubmit = async () => {
-    // 유효성 검사: 2000 코인 초과 여부 확인
-    const isOverLimit = gameRates.some((g) => {
+    // 1. 유효성 검사: 2000 코인 초과 여부 확인
+    const invalidRate = gameRates.find((g) => {
       const price = Number(g.price);
-      // '게임명 선택'이 아니면서, 유효한 숫자이고, 2000을 초과하는 경우
       return g.name !== "게임명 선택" && !isNaN(price) && price > 2000;
     });
 
-    if (isOverLimit) {
+    if (invalidRate) {
       alert(
         "등록하려는 게임 코인 중 2000코인을 초과하는 항목이 있습니다. 코인을 2000이하로 설정해주세요."
       );
-      return; // 전송을 중단
+      return;
     }
 
-    // 2. 서버 전송 데이터 준비
+    // 1.2 유효성 검사: 게임 선택 시 티어 선택했는지 확인
+    const unselectedTier = gameRates.find(
+      (g) => g.name !== "게임명 선택" && !g.tier
+    );
+    if (unselectedTier) {
+      alert(`${unselectedTier.name}의 티어를 선택해주세요.`);
+      return;
+    }
+
+    // 1.3 유효성 검사: 메인 프로필 이미지 확인
+    if (!profileFiles[0]) {
+      alert("메인 프로필 이미지를 등록해야 합니다.");
+      return;
+    }
+
+    // 2. 서버 전송 데이터 (JSON data) 준비
     const gamesData = gameRates
-      .filter((g) => g.name !== "게임명 선택" && g.price)
+      .filter((g) => g.name !== "게임명 선택" && g.price && g.tier)
       .map((g) => ({
         gameId: g.gameId,
         tier: g.tier,
-        price: g.price,
+        price: Number(g.price),
         time: g.time,
         gender: g.gender,
       }));
 
-    const requestBody = {
+    const jsonData = {
       games: gamesData,
       introduction,
       preferredGame,
       availableTime,
+      profileImageCount: profileFiles.filter((f) => f).length,
     };
 
-    console.log("전송 데이터:", requestBody);
+    console.log("전송 데이터 (JSON):", jsonData);
 
-    // 3. 서버 전송
+    // 3. FormData 객체 생성 및 데이터 추가 (multipart/form-data)
+    const formData = new FormData();
+
+    // a. 'data' 필드: JSON 데이터를 문자열로 변환하여 추가
+    formData.append("data", JSON.stringify(jsonData));
+
+    // b. 'image' 필드: 프로필 이미지를 추가
+    profileFiles.forEach((file, index) => {
+      if (file) {
+        const fileNamePrefix =
+          index === 0 ? "profile_main" : `profile_sub_${index}`;
+        formData.append("image", file, `${fileNamePrefix}_${file.name}`);
+      }
+    });
+
+    // 4. 서버 전송
     try {
       const response = await fetch("/api/gamemates", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(requestBody),
+        body: formData,
       });
 
       if (response.ok) {
         alert("게임 메이트 등록이 완료되었습니다.");
       } else {
-        alert("등록 실패");
+        const errorText = await response.text();
+        alert(
+          `등록 실패: ${response.status} - ${errorText.substring(0, 100)}...`
+        );
       }
-    } catch {
-      alert("네트워크 오류 발생");
+    } catch (e) {
+      alert(`네트워크 오류 발생: ${e.message}`);
     }
   };
 
@@ -194,7 +277,7 @@ const JoinGameMatch = () => {
       <h1 className="page-header">게임 메이트 등록</h1>
 
       <div className="content-area">
-        {/* 왼쪽 영역 */}
+        {/* 왼쪽 영역 (이전과 동일) */}
         <div className="profile-section">
           <div className="profile-main-box">
             {profileImages[0] ? (
@@ -353,33 +436,17 @@ const JoinGameMatch = () => {
 
           <div className="setting-box tier-verification-box">
             <h3 className="setting-header">
-              <FaGamepad /> 게임 별 티어 인증
+              <FaGamepad /> 게임 별 티어 선택
             </h3>
 
             <div className="tier-images">
-              {tierImages.map((img, index) => (
-                <div key={index} className="tier-image-wrapper">
-                  {img ? (
-                    <img
-                      src={img}
-                      className="tier-image"
-                      alt={`티어 인증 이미지 ${index + 1}`}
-                    />
-                  ) : (
-                    <label
-                      htmlFor={`tier-upload-${index}`}
-                      className="plus-label"
-                    >
-                      <FaPlus className="plus-icon-sm" />
-                    </label>
-                  )}
-                  <input
-                    type="file"
-                    id={`tier-upload-${index}`}
-                    className="hidden-file-input"
-                    onChange={(e) => handleTierImageChange(index, e)}
-                  />
-                </div>
+              {/* gameRates의 3개 항목 각각에 대해 티어 선택 컴포넌트를 렌더링 */}
+              {gameRates.map((rate) => (
+                <GameTierSelect
+                  key={rate.id}
+                  rate={rate}
+                  onChange={handleRateChange}
+                />
               ))}
             </div>
           </div>
