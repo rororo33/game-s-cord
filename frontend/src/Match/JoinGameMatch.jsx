@@ -64,42 +64,64 @@ const GameTierSelect = ({ rate, onChange }) => {
   );
 };
 
-// 게임별 요금 입력 필드 컴포넌트 (변경 없음, 티어 로직은 GameTierSelect로 분리)
-const GameRateInput = ({ rate, onChange, selectedNames }) => (
-  <div className="rate-input-row">
-    <label>게임 명:</label>
-    <select
-      name={`gameName-${rate.id}`}
-      value={rate.name}
-      onChange={(e) => onChange(rate.id, "name", e.target.value)}
-      className="game-select"
-    >
-      {availableGames
-        .filter(
-          (game) =>
-            game.name === rate.name ||
-            game.id === 0 ||
-            !selectedNames.includes(game.name)
-        )
-        .map((game) => (
-          <option key={game.id} value={game.name}>
-            {game.name}
-          </option>
-        ))}
-    </select>
+// **수정된 컴포넌트: GameRateInput에서 gender 필드 제거**
+const GameRateInput = ({ rate, onChange, selectedNames }) => {
+  const isGameSelected = rate.name !== "게임명 선택";
 
-    <label className="rate-input-label">코인:</label>
-    <div className="rate-input-group">
-      <input
-        type="number"
-        value={rate.price}
-        placeholder="코인"
-        onChange={(e) => onChange(rate.id, "price", e.target.value)}
-        disabled={rate.name === "게임명 선택"}
-      />
+  return (
+    <div className="rate-input-group-extended">
+      {/* 게임 명 및 코인 입력 */}
+      <div className="rate-input-row">
+        <label>게임 명:</label>
+        <select
+          name={`gameName-${rate.id}`}
+          value={rate.name}
+          onChange={(e) => onChange(rate.id, "name", e.target.value)}
+          className="game-select"
+        >
+          {availableGames
+            .filter(
+              (game) =>
+                game.name === rate.name ||
+                game.id === 0 ||
+                !selectedNames.includes(game.name)
+            )
+            .map((game) => (
+              <option key={game.id} value={game.name}>
+                {game.name}
+              </option>
+            ))}
+        </select>
+
+        <label className="rate-input-label">코인:</label>
+        <div className="rate-input-group">
+          <input
+            type="number"
+            value={rate.price}
+            placeholder="코인"
+            onChange={(e) => onChange(rate.id, "price", e.target.value)}
+            disabled={!isGameSelected}
+          />
+        </div>
+      </div>
+
+      {/* **추가된 필드: 플레이 시간 (gender 필드 제거됨)** */}
+      <div className="rate-input-row rate-details-row">
+        {/* 플레이 시간 입력 */}
+        <label className="detail-label">시간:</label>
+        <input
+          type="text"
+          value={rate.time}
+          placeholder="예: 저녁 8시 이후"
+          onChange={(e) => onChange(rate.id, "time", e.target.value)}
+          disabled={!isGameSelected}
+          className="detail-input time-input"
+        />
+        {/* 성별 선택 필드 제거됨 */}
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 const JoinGameMatch = () => {
   // 파일 객체 저장을 위한 상태 (FormData 전송용)
@@ -109,15 +131,16 @@ const JoinGameMatch = () => {
 
   const [preferredGame, setPreferredGame] = useState("LOL");
 
+  // **수정된 상태: gender 필드 제거**
   const [gameRates, setGameRates] = useState([
     {
       id: "rate-a",
       gameId: 0,
       name: "게임명 선택",
-      tier: "", // 티어 필드를 사용합니다.
+      tier: "",
       price: "",
       time: "",
-      gender: "",
+      // gender 필드 제거
     },
     {
       id: "rate-b",
@@ -126,7 +149,7 @@ const JoinGameMatch = () => {
       tier: "",
       price: "",
       time: "",
-      gender: "",
+      // gender 필드 제거
     },
     {
       id: "rate-c",
@@ -135,7 +158,7 @@ const JoinGameMatch = () => {
       tier: "",
       price: "",
       time: "",
-      gender: "",
+      // gender 필드 제거
     },
   ]);
 
@@ -150,6 +173,7 @@ const JoinGameMatch = () => {
     .map((g) => g.name)
     .filter((n) => n && n !== "게임명 선택");
 
+  // **수정된 함수: time만 초기화, gender 초기화 로직 제거**
   const handleRateChange = (id, field, value) => {
     setGameRates((prev) =>
       prev.map((rate) => {
@@ -157,13 +181,15 @@ const JoinGameMatch = () => {
 
         if (field === "name") {
           const found = availableGames.find((g) => g.name === value);
-          // 게임명 변경 시, gameId 변경 및 티어/가격 초기화
+          // 게임명 변경 시, gameId 변경 및 티어/가격/시간 초기화
           return {
             ...rate,
             name: value,
             gameId: found?.id ?? rate.gameId,
             tier: "",
             price: "",
+            time: "", // time 필드는 유지
+            // gender 필드 초기화 제거
           };
         }
 
@@ -201,12 +227,14 @@ const JoinGameMatch = () => {
       return;
     }
 
-    // 1.2 유효성 검사: 게임 선택 시 티어 선택했는지 확인
-    const unselectedTier = gameRates.find(
-      (g) => g.name !== "게임명 선택" && !g.tier
+    // 1.2 유효성 검사: 게임 선택 시 티어, 가격, 시간 선택했는지 확인 (gender 제거)
+    const incompleteGameRate = gameRates.find(
+      (g) => g.name !== "게임명 선택" && (!g.tier || !g.price || !g.time)
     );
-    if (unselectedTier) {
-      alert(`${unselectedTier.name}의 티어를 선택해주세요.`);
+    if (incompleteGameRate) {
+      alert(
+        `${incompleteGameRate.name}에 대해 티어, 코인, 플레이 시간을 모두 설정해주세요.`
+      );
       return;
     }
 
@@ -218,14 +246,20 @@ const JoinGameMatch = () => {
 
     // 2. 서버 전송 데이터 (JSON data) 준비
     const gamesData = gameRates
-      .filter((g) => g.name !== "게임명 선택" && g.price && g.tier)
+      .filter((g) => g.name !== "게임명 선택" && g.price && g.tier && g.time)
       .map((g) => ({
         gameId: g.gameId,
         tier: g.tier,
         price: Number(g.price),
-        time: g.time,
-        gender: g.gender,
+        time: g.time, // time만 전송
+        // gender 제거
       }));
+
+    // API 명세상에 gender가 포함되어 있지만, 사용자 요청에 따라 UI와 로직에서 제거했으므로
+    // 서버에서 해당 필드가 필수가 아니거나, 백엔드에서 처리 가능한 것으로 가정하고 전송합니다.
+    // 만약 서버가 gender 필드를 필수로 요구한다면 이 코드는 서버 에러를 발생시킬 수 있습니다.
+    // 이 경우, 임의의 기본값(예: gender: "NONE")을 넣어 전송해야 합니다.
+    // 여기서는 사용자 요청을 최우선으로 하여 gender를 완전히 제거합니다.
 
     const jsonData = {
       games: gamesData,
@@ -277,7 +311,7 @@ const JoinGameMatch = () => {
       <h1 className="page-header">게임 메이트 등록</h1>
 
       <div className="content-area">
-        {/* 왼쪽 영역 (이전과 동일) */}
+        {/* 왼쪽 영역 (동일) */}
         <div className="profile-section">
           <div className="profile-main-box">
             {profileImages[0] ? (
@@ -372,7 +406,7 @@ const JoinGameMatch = () => {
         <div className="settings-section">
           <div className="setting-box">
             <h3 className="setting-header">
-              <MdOutlineAttachMoney /> 게임별 코인 등록
+              <MdOutlineAttachMoney /> 게임별 코인, 시간 등록
             </h3>
 
             <div className="rate-inputs">
