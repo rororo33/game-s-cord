@@ -5,47 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e9a366f9-2870-42ef-8e25-d42d6d6b1b49" name="변경" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/config/S3Config.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/domain/Profile.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/repository/file/FileRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/repository/file/SDJpaFileRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/repository/profile/ProfileRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/repository/profile/SDJpaProfileRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/service/s3/S3Service.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/resources/templates/email/password-reset.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/resources/templates/email/verification.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/GameMate.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jpa.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/backend/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/config/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/controller/AuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/controller/GamemateController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/controller/GamemateController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/domain/File.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/domain/File.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/domain/Gamemate.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/domain/Gamemate.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/domain/Review.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/domain/Review.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/domain/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/domain/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/dto/auth/PasswordResetDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/dto/auth/PasswordResetDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/dto/gamemate/GamemateRegistrationRequestDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/dto/gamemate/GamemateRegistrationRequestDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/dto/review/ReviewRequestDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/dto/review/ReviewRequestDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/dto/user/UserProfileUpdateRequestDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/dto/user/UserProfileUpdateRequestDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/dto/user/UserSignupRequestDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/dto/user/UserSignupRequestDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/repository/refreshtoken/RefreshTokenRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/repository/refreshtoken/RefreshTokenRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/repository/user/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/repository/user/UserRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/service/coin/CoinService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/service/coin/CoinService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/service/email/EmailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/service/email/EmailService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/service/gamemate/GamemateService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/service/gamemate/GamemateService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/service/refreshtoken/RefreshTokenService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/service/refreshtoken/RefreshTokenService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/service/user/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/gamescord/service/user/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/resources/init.sql" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/resources/init.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -94,7 +54,7 @@
     "Gradle.backend.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "feature/backend/develop1",
+    "git-widget-placeholder": "feature/frontend/Home",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/LeeSeongJin/Desktop/game-s-cord"
   }
