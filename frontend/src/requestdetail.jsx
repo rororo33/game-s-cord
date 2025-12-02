@@ -1,41 +1,71 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./requestdetail.css";
-
-const dummySent = [
-  { id: 1, nickname: "USER1", status: "accepted" }, // 수락됨
-  { id: 2, nickname: "USER2", status: "pending" },  // 응답없음
-  { id: 3, nickname: "USER3", status: "rejected" }, // 거절됨
-];
-
-const dummyReceived = [
-  { id: 1, nickname: "USER1", status: "waiting" },
-  { id: 2, nickname: "USER2", status: "waiting" },
-  { id: 3, nickname: "USER3", status: "waiting" },
-];
+import api from "./api/axios";
+import Sidebar from "./page/MyPage/Sidebar";
 
 export default function RequestHistoryPage() {
-  const [activeTab, setActiveTab] = useState("sent"); // sent = 매칭요청, received = 매칭수락
-  const [sentList] = useState(dummySent);
-  const [receivedList, setReceivedList] = useState(dummyReceived);
+  const [activeTab, setActiveTab] = useState("sent");
 
-  const handleDecision = (id, decision) => {
-    setReceivedList((prev) =>
-      prev.map((item) =>
-        item.id === id ? { ...item, status: decision } : item
-      )
-    );
+  const [sentList, setSentList] = useState([]);
+  const [receivedList, setReceivedList] = useState([]);
+
+  const getAuthHeader = () => ({
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+    },
+  });
+
+  const fetchMatchData = async () => {
+    try {
+      const sent = await api.get("/matches/sent", getAuthHeader());
+      const received = await api.get("/matches/received", getAuthHeader());
+
+      setSentList(sent.data);
+      setReceivedList(received.data);
+    } catch (error) {
+      console.error("매칭 내역 조회 실패:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchMatchData();
+  }, []);
+
+  const acceptMatch = async (matchId) => {
+    try {
+      await api.patch(`/matches/${matchId}/accept`, null, getAuthHeader());
+      fetchMatchData();
+    } catch (error) {
+      console.error("매칭 수락 실패:", error);
+    }
+  };
+
+
+  const declineMatch = async (matchId) => {
+    try {
+      await api.patch(`/api/matches/${matchId}/decline`, null, getAuthHeader());
+      fetchMatchData();
+    } catch (error) {
+      console.error("매칭 거절 실패:", error);
+    }
+  };
+
+
+  const getStatusDotClass = (status) => {
+    switch (status) {
+      case "ACCEPTED":
+        return "status-dot--accepted";
+      case "DECLINED":
+        return "status-dot--rejected";
+      default:
+        return "status-dot--pending";
+    }
   };
 
   return (
     <div className="page">
       <div className="request-layout">
-        <aside className="request-sidebar">
-          <ul>
-            <li className="disabled-menu">마이페이지</li>
-            <li className="active-menu">신청내역</li>
-            <li className="disabled-menu">결제 및 정산</li>
-          </ul>
-        </aside>
+        <Sidebar />
 
         <section className="request-content">
           <h1 className="request-title">신청내역</h1>
@@ -76,25 +106,18 @@ export default function RequestHistoryPage() {
 
               <ul className="request-list">
                 {sentList.map((item) => (
-                  <li key={item.id} className="request-row">
+                  <li key={item.ordersId} className="request-row">
                     <div className="request-row-left">
                       <span className="request-row-title">
-                        {item.nickname} 님과의 매칭
+                        {item.usersName || "상대"} 님과의 매칭
                       </span>
                     </div>
 
                     <div className="request-row-right">
                       <span className="request-row-status-label">현재상태 :</span>
-                      <span
-                        className={
-                          "status-dot " +
-                          (item.status === "accepted"
-                            ? "status-dot--accepted"
-                            : item.status === "rejected"
-                            ? "status-dot--rejected"
-                            : "status-dot--pending")
-                        }
-                      />
+
+                      <span className={`status-dot ${getStatusDotClass(item.orderStatus)}`} />
+
                       <button className="info-button" disabled>
                         상대 정보 확인하기
                       </button>
@@ -104,33 +127,26 @@ export default function RequestHistoryPage() {
               </ul>
             </>
           )}
-
           {activeTab === "received" && (
             <ul className="request-list">
               {receivedList.map((item) => (
-                <li key={item.id} className="request-row">
+                <li key={item.ordersId} className="request-row">
                   <div className="request-row-left">
                     <span className="request-row-title">
-                      {item.nickname} 님의 매칭요청
+                      {item.usersName || "상대"} 님의 매칭요청
                     </span>
                   </div>
 
                   <div className="request-row-right">
                     <button
-                      className={
-                        "pill-button pill-button--accept" +
-                        (item.status === "accepted" ? " pill-button--filled" : "")
-                      }
-                      onClick={() => handleDecision(item.id, "accepted")}
+                      className="pill-button pill-button--accept"
+                      onClick={() => acceptMatch(item.ordersId)}
                     >
                       수락
                     </button>
                     <button
-                      className={
-                        "pill-button pill-button--reject" +
-                        (item.status === "rejected" ? " pill-button--filled" : "")
-                      }
-                      onClick={() => handleDecision(item.id, "rejected")}
+                      className="pill-button pill-button--reject"
+                      onClick={() => declineMatch(item.ordersId)}
                     >
                       거절
                     </button>
