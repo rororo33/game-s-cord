@@ -1,13 +1,16 @@
 package com.example.gamescord.service.user;
 
+import com.example.gamescord.domain.File;
 import com.example.gamescord.domain.RefreshToken;
 import com.example.gamescord.domain.User;
 import com.example.gamescord.dto.user.*;
+import com.example.gamescord.repository.file.FileRepository;
 import com.example.gamescord.repository.user.UserRepository;
 import com.example.gamescord.security.JwtUtil;
 import com.example.gamescord.service.email.EmailService;
 import com.example.gamescord.service.email.VerificationCodeService;
 import com.example.gamescord.service.refreshtoken.RefreshTokenService;
+import com.example.gamescord.service.s3.S3Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,7 +21,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+import software.amazon.awssdk.services.s3.S3Client;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -31,6 +37,8 @@ public class UserService {
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
     private final RefreshTokenService refreshTokenService;
+    private final S3Service s3Service;
+    private final FileRepository fileRepository;
     private final VerificationCodeService verificationCodeService;
     private final EmailService emailService;
 
@@ -125,8 +133,45 @@ public class UserService {
 
     // 현재 로그인된 사용자의 프로필 수정
     @Transactional
-    public UserResponseDTO updateUserProfile(UserProfileUpdateRequestDTO requestDto) {
+    public UserResponseDTO updateUserProfile(UserProfileUpdateRequestDTO requestDto,
+                                             MultipartFile profileImageFile) throws IOException {
         User user = getCurrentUser();
+
+        File existingProfileFile = user.getFiles().isEmpty() ? null : user.getFiles().get(0);
+
+
+        if (profileImageFile != null && !profileImageFile.isEmpty()) {
+
+            // 3-1. 기존 파일이 있다면 S3에서 삭제하고 DB에서도 삭제
+            if (existingProfileFile != null) {
+                s3Service.deleteFile(existingProfileFile.getFilesUrl()); // S3에서 삭제 (filesUrl 필드 사용)
+                fileRepository.delete(existingProfileFile); // DB에서 File 엔티티 삭제
+                user.getFiles().remove(0); // User 엔티티의 리스트에서도 제거
+            }
+
+            // 3-2. 새로운 이미지 S3에 업로드 및 URL 획득
+            String newS3Url = s3Service.uploadFile(profileImageFile);
+
+            // 3-3. 새로운 File 엔티티 생성 및 저장
+            File newFile = new File();
+            newFile.setFilesUrl(newS3Url); // filesUrl 필드에 저장
+            newFile.setUsers(user); // User 엔티티와 관계 연결
+
+            fileRepository.save(newFile);
+
+            // User 엔티티의 List<File> files에 newFile을 추가
+            user.getFiles().add(newFile);
+
+            // *주의: UserResponseDTO에 URL을 반환하기 위해 File 엔티티의 URL을 사용합니다.*
+
+        } else if (requestDto.getProfileImageUrl() != null && requestDto.getProfileImageUrl().equals("DELETE")) {
+            // [선택 사항] 이미지 삭제 요청이 들어온 경우
+            if (existingProfileFile != null) {
+                s3Service.deleteFile(existingProfileFile.getFilesUrl());
+                fileRepository.delete(existingProfileFile);
+                user.getFiles().remove(0);
+            }
+        }
 
         if (requestDto.getUsersName() != null) user.setUsersName(requestDto.getUsersName());
         if (requestDto.getUsersDescription() != null) user.setUsersDescription(requestDto.getUsersDescription());
@@ -144,6 +189,7 @@ public class UserService {
         User user = getCurrentUser();
         return toUserResponseDTO(user);
     }
+
 
     // 비밀번호 재설정 요청
     @Transactional
