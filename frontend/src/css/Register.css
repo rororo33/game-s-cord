@@ -30,7 +30,8 @@
   background-color: #4372ff;
   color: #ffffff;
   font-size: 12px;
-  font-family: "IBMPlexSansJP", sans-serif; /* 버튼 안 글자만 적용 */
+  font-family: "Noto Sans KR", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif; /* 버튼 안 글자만 적용 */
   cursor: pointer;
 }
 
@@ -80,13 +81,7 @@
   opacity: 0.8; /* 더 투명하게 하고 싶다면 */
 }
 
-/* 폰트 임포트 */
-@font-face {
-  font-family: "IBMPlexSansJP";
-  src: url("../fonts/IBMPlexSansJP-Thin.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
-}
+
 
 /* 회원가입 버튼 */
 .register-btn {
@@ -99,7 +94,8 @@
   color: #ffffff;
   font-weight: bold;
   font-size: 16px;
-  font-family: "IBMPlexSansJP", sans-serif; /* 버튼 안 글자만 적용 */
+  font-family: "Noto Sans KR", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif; /* 버튼 안 글자만 적용 */
   cursor: pointer;
 }
 
@@ -114,6 +110,7 @@
   color: #ffffff;
   font-weight: bold;
   font-size: 16px;
-  font-family: "IBMPlexSansJP", sans-serif; /* 버튼 안 글자만 적용 */
+  font-family: "Noto Sans KR", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;/* 버튼 안 글자만 적용 */
   cursor: pointer;
 }

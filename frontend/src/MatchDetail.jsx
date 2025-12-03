@@ -149,7 +149,9 @@ const MatchDetail = () => {
 
       <div className="left-panel">
         <img
-          src={matchData.profileImageUrl || profileImage}
+          src={matchData.profileImageUrl && matchData.profileImageUrl !== "string" 
+            ? matchData.profileImageUrl 
+            : profileImage}
           alt="profile"
           className="profile-img"
         />
@@ -159,7 +161,7 @@ const MatchDetail = () => {
 
 
         <button className="bookmark-btn" onClick={toggleMark}>
-          {isMarked ? "⭐ 즐겨찾기 해제" : "☆ 즐겨찾기 추가"}
+          {isMarked ? "⭐" : "☆"}
         </button>
       </div>
 

@@ -13,6 +13,7 @@ import Login from "./login/Login";
 import Requestdetail from "./requestdetail.jsx";
 import RequestReceived from "./RequestReceived/RequestReceived.jsx";
 import MarkPage from "./page/MyPage/MarkPage";
+import FindPassword from "./login/Findpassword.jsx";
 
 const App = () => {
   return (
@@ -25,6 +26,7 @@ const App = () => {
           <Route path="/pay" element={<Payment />} />
           <Route path="/signup" element={<Register />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/find-password" element={<FindPassword />} />
           <Route path="/search" element={<Search />} />
           <Route path="/Mypage" element={<MyPage />} />
           <Route path="/matchdetail" element={<MatchDetail />} />
