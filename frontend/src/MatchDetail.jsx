@@ -186,9 +186,9 @@ const MatchDetail = () => {
                 <img
                   src={
                     game.iconUrl ||
-                    (game.name?.includes("배틀")
+                    (game.gameName?.includes("pu")
                       ? pubg
-                      : game.name?.includes("리그")
+                      : game.gameName?.includes("lea")
                       ? lol
                       : overwatch)
                   }
@@ -197,7 +197,7 @@ const MatchDetail = () => {
                 />
 
                 <div className="game-detail">
-                  <span className="game-name">{game.name}</span>
+                  <span className="game-name">{game.gameName}</span>
                   <span className="game-price">{game.price}원</span>
                 </div>
               </button>
