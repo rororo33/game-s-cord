@@ -15,11 +15,6 @@ const updateMatchStatus = async (matchId, action) => {
   try {
     const response = await fetch(url, {
       method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        // 중요: 실제 환경에서는 인증 토큰을 헤더에 추가해야 합니다.
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
     });
 
     if (!response.ok) {

@@ -123,9 +123,7 @@ const Header = () => {
     try {
       const token = localStorage.getItem("accessToken");
 
-      const res = await api.get("/notifications", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await api.get("/notifications");
       setNotifications(res.data);
       console.log(res.data);
     } catch (e) {
@@ -139,9 +137,7 @@ const Header = () => {
     const fetchUnreadCount = async () => {
       try {
         const token = localStorage.getItem("accessToken");
-        const res = await api.get("/notifications/unread-count", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const res = await api.get("/notifications/unread-count");
         setUnreadCount(res.data.unreadCount);
         console.log(res.data);
       } catch (e) {
@@ -174,10 +170,7 @@ const Header = () => {
         const token = localStorage.getItem("accessToken");
         await api.patch(
           "/notifications/read-all",
-          {},
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
+          {}
         );
         fetchNotifications();
         setUnreadCount(0);
@@ -192,9 +185,7 @@ const Header = () => {
     try {
       const token = localStorage.getItem("accessToken");
 
-      await api.delete(`/notifications/${notificationId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await api.delete(`/notifications/${notificationId}`);
 
       navigate("/search");
       setShowNoti(false);
