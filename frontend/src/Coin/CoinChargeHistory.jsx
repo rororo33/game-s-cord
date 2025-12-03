@@ -35,9 +35,8 @@ const CoinChargeHistory = () => {
         id: item.coinId || index, // key로 사용할 ID
         // "2025-11-24T10:34:50.317Z" 형태의 문자열을 로컬 날짜로 변환
         paymentDate: new Date(item.createdAt).toLocaleDateString(),
-        paymentMethod: item.transactionType || "결제 수단 정보 없음",
-        //TODO : 실제 금액 정보가 API에 없으므로 코인 수를 금액으로 임시 표시합니다.
-        chargeAmount: ` ₩ ${item.coinAmount}`,
+        paymentMethod: item.paymentMethod || "결제 수단 정보 없음",
+        chargeAmount: ` ₩ ${item.paymentAmount}`,
         coinCount: item.coinAmount, // 충전 코인 갯수
       }));
 
@@ -80,9 +79,7 @@ const CoinChargeHistory = () => {
       // API 응답 구조를 확인하여 성공 여부를 판단합니다.
       if (response.data && response.data.success) {
         // 성공 메시지 표시
-        alert(
-          `환불이 성공적으로 완료되었습니다. (환불 코인: ${response.data.coinAmount}, 현재 잔액: ${response.data.currentBalance})`
-        );
+        alert(`환불이 성공적으로 완료되었습니다.`);
 
         // 핵심: history 상태를 업데이트하여 환불된 항목을 목록에서 제거합니다.
         setHistory((prevHistory) =>
@@ -125,9 +122,9 @@ const CoinChargeHistory = () => {
   // 데이터가 없는 경우
   if (history.length === 0) {
     return (
-      <div className={styles.wrapper} >
-        <Sidebar/>
-        <div style={{flex : 1, marginRight:"80px", minHeight:"500px"}}>
+      <div className={styles.wrapper}>
+        <Sidebar />
+        <div style={{ flex: 1, marginRight: "80px", minHeight: "500px" }}>
           <HeaderTabs />
           <div className="empty-message">충전 내역이 없습니다.</div>
         </div>
@@ -137,9 +134,9 @@ const CoinChargeHistory = () => {
 
   // 내역 목록 렌더링
   return (
-    <div className={styles.wrapper} >
-      <Sidebar/>
-      <div style={{flex : 1, marginRight:"80px", minHeight:"500px"}}>
+    <div className={styles.wrapper}>
+      <Sidebar />
+      <div style={{ flex: 1, marginRight: "80px", minHeight: "500px" }}>
         <HeaderTabs />
         <div className="payment-list-wrapper">
           {history.map((item) => (

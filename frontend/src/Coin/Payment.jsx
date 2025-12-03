@@ -9,7 +9,6 @@ import api from "../api/axios";
 
 import "../css/Payment.css";
 
-
 const Payment = () => {
   const location = useLocation();
   const paymentData = location.state;
@@ -53,22 +52,10 @@ const Payment = () => {
       return;
     }
 
-    // 쉼표 제거
-    const stringWithoutComma = price.replace(/,/g, "");
-    // 정수로 변환
-    const numericPrice = parseInt(stringWithoutComma, 10);
-
-    // 쉼표 제거
-    const WithoutComma = points.replace(/,/g, "");
-    // 정수로 변환
-    const numericPoints = parseInt(WithoutComma, 10);
-
-    console.log(numericPoints, numericPrice, packageId);
     // 백엔드 요청 페이로드 구성
     const payload = {
-      paymentAmount: numericPrice,
-      coinAmount: numericPoints,
       packageId: packageId,
+      paymentMethod: selectedMethod,
     };
 
     // Axios 요청 Configuration (헤더에 토큰 포함)
@@ -85,8 +72,7 @@ const Payment = () => {
 
       // 성공 처리
       const successMessage =
-        response.data?.message ||
-        `${numericPoints} 코인 충전이 성공적으로 완료되었습니다.`;
+        response.data?.message || `코인 충전에 성공하였습니다.`;
       alert(successMessage);
       handleClosePopup();
 
@@ -124,29 +110,29 @@ const Payment = () => {
         <p className="method-title">방법 선택</p>
         <div
           className={`method-item ${
-            selectedMethod === "카드 결제" ? "selected" : ""
+            selectedMethod === "카드결제" ? "selected" : ""
           }`}
-          onClick={() => handleMethodSelect("카드 결제")}
+          onClick={() => handleMethodSelect("카드결제")}
         >
-          <img src={CardPayment} alt="카드 결제" />
+          <img src={CardPayment} alt="카드결제" />
           <span>카드 결제</span>
         </div>
         <div
           className={`method-item ${
-            selectedMethod === "계좌 이체" ? "selected" : ""
+            selectedMethod === "계좌이체" ? "selected" : ""
           }`}
-          onClick={() => handleMethodSelect("계좌 이체")}
+          onClick={() => handleMethodSelect("계좌이체")}
         >
-          <img src={AccountTransfer} alt="계좌 이체" />
+          <img src={AccountTransfer} alt="계좌이체" />
           <span>계좌 이체</span>
         </div>
         <div
           className={`method-item ${
-            selectedMethod === "간편 결제" ? "selected" : ""
+            selectedMethod === "간편결제" ? "selected" : ""
           }`}
-          onClick={() => handleMethodSelect("간편 결제")}
+          onClick={() => handleMethodSelect("간편결제")}
         >
-          <img src={EasyPayment} alt="간편 결제" />
+          <img src={EasyPayment} alt="간편결제" />
           <span>간편 결제</span>
         </div>
         <button className="pay-button" onClick={handlePayClick}>

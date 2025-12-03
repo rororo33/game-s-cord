@@ -91,20 +91,17 @@ function MyPage() {
     try {
       const formData = new FormData();
 
-      const data = {
-        usersName: updatedUser.usersName,
-        gender: updatedUser.gender,
-        usersBirthday: updatedUser.usersBirthday,
-        usersDescription: updatedUser.usersDescription,
-      };
-
-      formData.append(
-        "data",
-        new Blob([JSON.stringify(data)], { type: "application/json" })
-      );
+      formData.append("data", JSON.stringify(data));
       if (updatedUser.profileImageFile) {
         formData.append("image", updatedUser.profileImageFile);
       }
+
+      const res = await api.patch("/users/me", formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          //"Content-Type": "multipart/form-data",
+        },
+      });
 
       const res = await api.patch("/users/me", formData, {
         headers: {
