@@ -35,9 +35,9 @@ const CoinChargeHistory = () => {
         id: item.coinId || index, // key로 사용할 ID
         // "2025-11-24T10:34:50.317Z" 형태의 문자열을 로컬 날짜로 변환
         paymentDate: new Date(item.createdAt).toLocaleDateString(),
-        paymentMethod: item.transactionType || "결제 수단 정보 없음",
+        paymentMethod: item.paymentMethod || "결제 수단 정보 없음",
         //TODO : 실제 금액 정보가 API에 없으므로 코인 수를 금액으로 임시 표시합니다.
-        chargeAmount: ` ₩ ${item.coinAmount}`,
+        chargeAmount: ` ₩ ${item.paymentAmount}`,
         coinCount: item.coinAmount, // 충전 코인 갯수
       }));
 
@@ -125,9 +125,9 @@ const CoinChargeHistory = () => {
   // 데이터가 없는 경우
   if (history.length === 0) {
     return (
-      <div className={styles.wrapper} >
-        <Sidebar/>
-        <div style={{flex : 1, marginRight:"80px", minHeight:"500px"}}>
+      <div className={styles.wrapper}>
+        <Sidebar />
+        <div style={{ flex: 1, marginRight: "80px", minHeight: "500px" }}>
           <HeaderTabs />
           <div className="empty-message">충전 내역이 없습니다.</div>
         </div>
@@ -137,9 +137,9 @@ const CoinChargeHistory = () => {
 
   // 내역 목록 렌더링
   return (
-    <div className={styles.wrapper} >
-      <Sidebar/>
-      <div style={{flex : 1, marginRight:"80px", minHeight:"500px"}}>
+    <div className={styles.wrapper}>
+      <Sidebar />
+      <div style={{ flex: 1, marginRight: "80px", minHeight: "500px" }}>
         <HeaderTabs />
         <div className="payment-list-wrapper">
           {history.map((item) => (
