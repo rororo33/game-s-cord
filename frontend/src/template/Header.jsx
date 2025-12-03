@@ -168,6 +168,10 @@ const Header = () => {
   useEffect(() => {
     if (isLoggedIn) {
       fetchCoinbalance();
+      const intervalId = setInterval(() => {
+      fetchCoinbalance();
+    }, 10000);
+    return () => clearInterval(intervalId);
     }
   }, [isLoggedIn]);
 
@@ -437,7 +441,7 @@ const Header = () => {
         {isLoggedIn && (
         <Link className={styles.link} to="/coin">
           <img src={coin} className={styles.coin} />
-          <span>({coinBalance})</span>
+          <span>{coinBalance}</span>
         </Link>)}
 
         {isLoggedIn ? (
