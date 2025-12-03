@@ -157,11 +157,13 @@ function UserCard({ index, userId, name, tier, game, price, onClick, img }) {
   return (
     <div className={styles.user} onClick={onClick} style={{ cursor: "pointer" }}>
       <div className={styles.imgbox}>
+        <div style={{width: "150px", height: "140px", display:"flex", alignItems:"center", justifyContent:"center"}}>
         <img src={!img
                     ? userImages[index % userImages.length]
                     : img.startsWith("http://example.com/")
                         ? userImages[index % userImages.length]
                         : encodeURI(img)} alt="user profile" />
+        </div>
         <div className={styles.biobox}>
           <div
             style={{
@@ -173,7 +175,7 @@ function UserCard({ index, userId, name, tier, game, price, onClick, img }) {
           >
             {name}
           </div>
-          <div style={{ marginBottom: "2px" }}>{game}</div>
+          <div style={{ marginBottom: "2px" }}>{translateGameName(game)}</div>
           <div style={{ marginBottom: "5px", fontSize: "15px" }}>Level : {tier}</div>
           <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
             <img
@@ -236,6 +238,19 @@ const UserList = memo(function UserList({ title, users }) {
     </div>
   );
 });
+
+function translateGameName(game) {
+  switch (game) {
+    case "League of Legends":
+      return "리그 오브 레전드";
+    case "Battlegrounds":
+      return "배틀 그라운드";
+    case "Overwatch":
+      return "오버워치";
+    default:
+      return game;
+  }
+}
 
 function GameComponent({ game, image, gameId }) {
   const navigate = useNavigate();
