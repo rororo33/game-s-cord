@@ -3,7 +3,7 @@ import { useEffect, useState, useRef } from "react";
 import api from "../api/axios";
 import styles from "./Search.module.css"
 import coin from "../assets/coin.jpg"
-import crown from "../assets/crown.jpg"
+import crown from "../assets/crown.png"
 import logo_img from "../assets/logo_profile.png";
 
 function Search() {
@@ -191,12 +191,12 @@ function Search() {
         <div className={styles.Userbio}>
           <div style={{fontSize:"18px", fontWeight:"bold"}}>{name}</div>
           <div style={{marginBottom:"-3px", display:"flex", alignItems:"center"}}>
-            <img src={crown} style={{width:"18px", height:"14px", marginLeft:"1px", marginRight:"4px"}}></img> 
-            <div>Level : {star}</div> 
+            <img src={crown} style={{width:"16px", height:"12px", marginLeft:"2px", marginRight:"5px", marginTop:"2px"}}></img> 
+            <div style={{fontWeight:"500", opacity:"0.95"}}>Level : {star}</div> 
           </div>
           <div style={{display:"flex", alignItems:"center", gap:"3px"}}>
             <img src={coin} style={{width:"20px", borderRadius:"50%"}}/>
-            <div style={{marginBottom:"1px"}}>{price}코인/판</div>
+            <div style={{marginBottom:"1px", color: "#f1a100ff", fontSize:"15px", fontWeight:"500"}}>{price}코인/판</div>
           </div>
         </div>
       </div>

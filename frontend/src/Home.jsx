@@ -143,7 +143,7 @@ function UserCard({ index, userId, name, tier, game, price, onClick, img }) {
             {name}
           </div>
           <div style={{ marginBottom: "2px" }}>{translateGameName(game)}</div>
-          <div style={{ marginBottom: "5px", fontSize: "15px" }}>Level : {tier}</div>
+          <div style={{ marginBottom: "4.5px", fontSize: "15px", marginLeft:"1px" }}>Level : {tier}</div>
           <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
             <img
               src={coin}
