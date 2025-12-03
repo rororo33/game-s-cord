@@ -99,7 +99,7 @@ function MyPage(){
                 usersDescription: updatedUser.usersDescription,
             };
 
-             formData.append("data", JSON.stringify(data));
+            formData.append("data", JSON.stringify(data));
             if (updatedUser.profileImageFile) {
                 formData.append("image", updatedUser.profileImageFile);
             }
@@ -146,9 +146,13 @@ function MyPage(){
                     <div style={{margin: "0px 50px", display:"flex", flexDirection:"column"}}>
                         <div className={styles.imgbox}>
                             <img
-                                src={profilePreview && profilePreview.startsWith("http://example.com/")
+                                src={
+                                    !profilePreview
                                     ? defaultImg
-                                    : profilePreview || defaultImg}
+                                    : profilePreview.startsWith("http://example.com/")
+                                        ? defaultImg
+                                        : encodeURI(profilePreview)
+                                }
                                 className={modify ? styles.imgDark : ""}
                                 style={{ width: "200px", maxHeight:"200px", borderRadius: "10px" }}
                                 alt="profile"
