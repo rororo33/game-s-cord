@@ -48,7 +48,7 @@ const FindPassword = () => {
         "/auth/reset-password",
         { 
           email: email, 
-          verificationCode: code, 
+          code: code, 
           newPassword: newPassword 
         }
       );
