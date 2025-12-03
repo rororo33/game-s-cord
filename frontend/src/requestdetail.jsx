@@ -40,7 +40,7 @@ export default function RequestHistoryPage() {
 
   const declineMatch = async (matchId) => {
     try {
-      await api.patch(`/api/matches/${matchId}/decline`, null);
+      await api.patch(`/matches/${matchId}/decline`, null);
       fetchMatchData();
     } catch (error) {
       console.error("매칭 거절 실패:", error);
