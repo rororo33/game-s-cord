@@ -1,11 +1,19 @@
 import React, { useState } from "react";
+
 import "../css/JoinGameMatch.css";
+
 import { FaPlus, FaClock, FaGamepad } from "react-icons/fa";
+
 import { MdOutlineAttachMoney } from "react-icons/md";
+
 import { GiGamepad } from "react-icons/gi";
+
 import PUBGIcon from "../assets/smallBattle.png";
+
 import LOLIcon from "../assets/smallLOL.png";
+
 import OverIcon from "../assets/smallOver.png";
+
 import api from "../api/axios";
 
 // 게임 목록
@@ -34,9 +42,8 @@ const GameTierSelect = ({ rate, onChange }) => {
   const title =
     rate.name === "게임명 선택"
       ? `게임 ${rate.id.slice(-1).toUpperCase()} 티어`
-      : rate.name;
+      : rate.name; // 선택된 티어 이름 찾기
 
-  // 선택된 티어 이름 찾기
   const selectedTierName =
     availableTiers.find((t) => t.value === rate.tier)?.name ||
     availableTiers[0].name;
@@ -65,7 +72,7 @@ const GameTierSelect = ({ rate, onChange }) => {
   );
 };
 
-// GameRateInput 컴포넌트 (time 제거)
+// **수정된 컴포넌트: GameRateInput에 start, end 필드 추가**
 const GameRateInput = ({ rate, onChange, selectedNames }) => {
   const isGameSelected = rate.name !== "게임명 선택";
 
@@ -93,7 +100,6 @@ const GameRateInput = ({ rate, onChange, selectedNames }) => {
               </option>
             ))}
         </select>
-
         <label className="rate-input-label">코인:</label>
         <div className="rate-input-group">
           <input
@@ -111,13 +117,12 @@ const GameRateInput = ({ rate, onChange, selectedNames }) => {
 
 const JoinGameMatch = () => {
   // 파일 객체 저장을 위한 상태 (FormData 전송용)
-  const [profileFiles, setProfileFiles] = useState(Array(5).fill(null));
-  // 미리보기 URL 저장을 위한 상태
+  const [profileFiles, setProfileFiles] = useState(Array(5).fill(null)); // 미리보기 URL 저장을 위한 상태
+
   const [profileImages, setProfileImages] = useState(Array(5).fill(null));
 
-  const [preferredGame, setPreferredGame] = useState("LOL");
+  const [preferredGame, setPreferredGame] = useState("LOL"); // **수정된 상태: time 필드를 제거하고, start와 end 필드 추가**
 
-  // **수정된 상태: time 필드 제거**
   const [gameRates, setGameRates] = useState([
     {
       id: "rate-a",
@@ -125,7 +130,8 @@ const JoinGameMatch = () => {
       name: "게임명 선택",
       tier: "",
       price: "",
-      // time 필드 제거
+      start: "18:00", // 시작 시간 필드 추가
+      end: "23:00", // 종료 시간 필드 추가
     },
     {
       id: "rate-b",
@@ -133,7 +139,8 @@ const JoinGameMatch = () => {
       name: "게임명 선택",
       tier: "",
       price: "",
-      // time 필드 제거
+      start: "18:00",
+      end: "23:00",
     },
     {
       id: "rate-c",
@@ -141,35 +148,39 @@ const JoinGameMatch = () => {
       name: "게임명 선택",
       tier: "",
       price: "",
-      // time 필드 제거
+      start: "18:00",
+      end: "23:00",
     },
-  ]);
+  ]); // **availableTime 상태는 사용하지 않으므로 제거하거나 빈 객체로 유지**
 
-  // **제거된 상태: availableTime 상태 제거 (더 이상 사용하지 않음)**
-  // const [availableTime, setAvailableTime] = useState({ game: "", time: "--:00" });
+  const [availableTime, setAvailableTime] = useState({
+    game: "",
+    start: "18:00",
+    end: "23:00",
+  });
 
   const [introduction, setIntroduction] = useState("");
 
   const selectedNames = gameRates
     .map((g) => g.name)
-    .filter((n) => n && n !== "게임명 선택");
+    .filter((n) => n && n !== "게임명 선택"); // **수정된 함수: start/end 초기화 로직 추가**
 
-  // **수정된 함수: time 초기화 로직 제거**
   const handleRateChange = (id, field, value) => {
     setGameRates((prev) =>
       prev.map((rate) => {
         if (rate.id !== id) return rate;
 
         if (field === "name") {
-          const found = availableGames.find((g) => g.name === value);
-          // 게임명 변경 시, gameId 변경 및 티어/가격 초기화 (time 초기화 제거)
+          const found = availableGames.find((g) => g.name === value); // 게임명 변경 시, gameId 변경 및 티어/가격/시간 초기화
+
           return {
             ...rate,
             name: value,
             gameId: found?.id ?? rate.gameId,
             tier: "",
             price: "",
-            // time 필드 초기화 제거
+            start: "18:00", // start 초기화
+            end: "23:00", // end 초기화
           };
         }
 
@@ -180,13 +191,13 @@ const JoinGameMatch = () => {
 
   const handleImageChange = (index, event) => {
     const file = event.target.files[0];
+
     if (file) {
       // 미리보기 URL 저장
       const newImages = [...profileImages];
       newImages[index] = URL.createObjectURL(file);
-      setProfileImages(newImages);
+      setProfileImages(newImages); // 파일 객체 저장 (전송용)
 
-      // 파일 객체 저장 (전송용)
       const newFiles = [...profileFiles];
       newFiles[index] = file;
       setProfileFiles(newFiles);
@@ -194,10 +205,16 @@ const JoinGameMatch = () => {
   };
 
   const handleSubmit = async () => {
+    // -----------------------------
+    // 1. 유효성 검사
+    // -----------------------------
+
+    // 1) 가격 2000 초과 검사
     const invalidRate = gameRates.find((g) => {
       const price = Number(g.price);
       return g.name !== "게임명 선택" && !isNaN(price) && price > 2000;
     });
+
     if (invalidRate) {
       alert(
         "등록하려는 게임 코인 중 2000코인을 초과하는 항목이 있습니다. 코인을 2000이하로 설정해주세요."
@@ -205,34 +222,51 @@ const JoinGameMatch = () => {
       return;
     }
 
+    // 2) 필수 입력값 체크
     const incompleteGameRate = gameRates.find(
-      (g) => g.name !== "게임명 선택" && (!g.tier || !g.price)
+      (g) =>
+        g.name !== "게임명 선택" && (!g.tier || !g.price || !g.start || !g.end)
     );
+
     if (incompleteGameRate) {
       alert(
-        `${incompleteGameRate.name}에 대해 티어, 코인을 모두 설정해주세요.`
+        `${incompleteGameRate.name}에 대해 티어, 코인, 이용 시간을 모두 설정해주세요.`
       );
       return;
     }
 
-    const gamesData = gameRates
-      .filter((g) => g.name !== "게임명 선택" && g.price && g.tier)
-      .map((g) => {
-        const PLACEHOLDER_START_TIME = "18:00:00";
-        const PLACEHOLDER_END_TIME = "23:00:00";
-        return {
-          gameId: g.gameId,
-          price: Number(g.price),
-          tier: g.tier,
-          start: g.start || PLACEHOLDER_START_TIME,
-          end: g.end || PLACEHOLDER_END_TIME,
-        };
-      });
+    // 3) 메인 프로필 이미지 체크
+    if (!profileFiles[0]) {
+      alert("메인 프로필 이미지를 등록해야 합니다.");
+      return;
+    }
 
-    const jsonData = { games: gamesData, introduction };
+    // -----------------------------
+    // 2. JSON 데이터 구성 (요구사항 맞춤)
+    // -----------------------------
+    const gamesData = gameRates
+      .filter(
+        (g) => g.name !== "게임명 선택" && g.price && g.tier && g.start && g.end
+      )
+      .map((g) => ({
+        gameId: g.gameId,
+        price: Number(g.price),
+        tier: g.tier,
+        start: g.start + ":00",
+        end: g.end + ":00",
+      }));
+
+    // **요구사항에 맞춘 최소 JSON**
+    const jsonData = {
+      games: gamesData,
+      introduction: introduction,
+    };
 
     console.log("전송 데이터 (JSON):", jsonData);
 
+    // -----------------------------
+    // 3. FormData 구성
+    // -----------------------------
     const formData = new FormData();
     formData.append("data", JSON.stringify(jsonData));
 
@@ -244,46 +278,30 @@ const JoinGameMatch = () => {
       }
     });
 
-    const token = localStorage.getItem("accessToken");
-    if (!token) {
-      alert("인증 토큰이 없습니다. 로그인 상태를 확인해주세요.");
-      return;
-    }
-
+    // -----------------------------
+    // 4. Axios 전송
+    // -----------------------------
     try {
-      const response = await api.post("/gamemates", formData, {
-        headers: { Authorization: `Bearer ${token}` },
+      await api.post("/api/gamemates", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       });
+
       alert("게임 메이트 등록이 완료되었습니다.");
-    } catch (error) {
-      if (error.response) {
-        const status = error.response.status;
-        let errorData = error.response.data;
-        let errorText;
-
-        if (typeof errorData === "object" && errorData !== null) {
-          try {
-            errorText = JSON.stringify(errorData).substring(0, 100);
-          } catch {
-            errorText = "서버 응답 데이터(객체) 처리 오류";
-          }
-        } else {
-          errorText = (errorData || "서버 오류").toString().substring(0, 100);
-        }
-
-        alert(`등록 실패: ${status} - ${errorText}...`);
-      } else {
-        alert(`네트워크 오류 발생: ${error.message}`);
-      }
+    } catch (e) {
+      console.error("등록 실패:", e);
+      alert(
+        `등록 실패: ${e.response?.status} - ${e.response?.data || e.message}`
+      );
     }
   };
 
   return (
     <div className="join-game-match-container">
       <h1 className="page-header">게임 메이트 등록</h1>
-
       <div className="content-area">
-        {/* 왼쪽 영역 (동일) */}
+        {/* 왼쪽 영역 */}
         <div className="profile-section">
           <div className="profile-main-box">
             {profileImages[0] ? (
@@ -295,12 +313,14 @@ const JoinGameMatch = () => {
             ) : (
               <FaPlus className="plus-icon-lg" />
             )}
+
             <input
               type="file"
               id="main-image-upload"
               className="hidden-file-input"
               onChange={(e) => handleImageChange(0, e)}
             />
+
             <label
               htmlFor="main-image-upload"
               className="image-overlay"
@@ -319,12 +339,14 @@ const JoinGameMatch = () => {
                 ) : (
                   <FaPlus className="plus-icon-sm" />
                 )}
+
                 <input
                   type="file"
                   id={`sub-image-upload-${index + 1}`}
                   className="hidden-file-input"
                   onChange={(e) => handleImageChange(index + 1, e)}
                 />
+
                 <label
                   htmlFor={`sub-image-upload-${index + 1}`}
                   className="sub-image-label"
@@ -335,6 +357,7 @@ const JoinGameMatch = () => {
 
           <div className="section-group introduction">
             <label className="section-title">소개</label>
+
             <textarea
               className="intro-textarea"
               value={introduction}
@@ -343,8 +366,7 @@ const JoinGameMatch = () => {
             />
           </div>
 
-          {/* **제거된 영역: 이용가능 시간대 (availableTime)** */}
-          {/* <div className="available-time">
+          <div className="available-time">
             <div className="available-time-header">
               <FaClock className="clock-icon" />
               <label className="section-title">이용가능 시간대</label>
@@ -352,6 +374,7 @@ const JoinGameMatch = () => {
 
             <div className="time-game-name-input-row">
               <p className="game-name-label">게임명:</p>
+
               <input
                 type="text"
                 value={availableTime.game}
@@ -361,25 +384,36 @@ const JoinGameMatch = () => {
               />
             </div>
 
-            <div className="time-input-group">
-              <label>시간:</label>
+            <div className="rate-input-row time-input-row">
+              <label>이용 시간:</label>
+
               <input
                 type="time"
-                className="time-input"
-                value={availableTime.time}
+                value={availableTime.start}
                 onChange={(e) =>
-                  setAvailableTime({ ...availableTime, time: e.target.value })
+                  setAvailableTime({ ...availableTime, start: e.target.value })
                 }
+                className="time-input"
+              />
+
+              <span className="time-separator">~</span>
+
+              <input
+                type="time"
+                value={availableTime.end}
+                onChange={(e) =>
+                  setAvailableTime({ ...availableTime, end: e.target.value })
+                }
+                className="time-input"
               />
             </div>
-          </div> */}
+          </div>
         </div>
-
         {/* 오른쪽 섹션 */}
         <div className="settings-section">
           <div className="setting-box">
             <h3 className="setting-header">
-              <MdOutlineAttachMoney /> 게임별 코인 등록
+              <MdOutlineAttachMoney /> 게임별 코인, 이용 시간 등록
             </h3>
 
             <div className="rate-inputs">
@@ -406,32 +440,33 @@ const JoinGameMatch = () => {
                 onClick={() => setPreferredGame("PUBG")}
               >
                 <img src={PUBGIcon} alt="배틀그라운드 아이콘" />
+
                 <input
                   type="checkbox"
                   checked={preferredGame === "PUBG"}
                   readOnly
                 />
               </div>
-
               {/* OverWatch */}
               <div
                 className="game-option"
                 onClick={() => setPreferredGame("OverWatch")}
               >
                 <img src={OverIcon} alt="오버워치 아이콘" />
+
                 <input
                   type="checkbox"
                   checked={preferredGame === "OverWatch"}
                   readOnly
                 />
               </div>
-
               {/* LOL */}
               <div
                 className="game-option"
                 onClick={() => setPreferredGame("LOL")}
               >
                 <img src={LOLIcon} alt="리그 오브 레전드 아이콘" />
+
                 <input
                   type="checkbox"
                   checked={preferredGame === "LOL"}
@@ -448,6 +483,7 @@ const JoinGameMatch = () => {
 
             <div className="tier-images">
               {/* gameRates의 3개 항목 각각에 대해 티어 선택 컴포넌트를 렌더링 */}
+
               {gameRates.map((rate) => (
                 <GameTierSelect
                   key={rate.id}
