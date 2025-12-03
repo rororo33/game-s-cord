@@ -38,7 +38,7 @@ const Header = () => {
   const [notifications, setNotifications] = useState([]);
   const [showNoti, setShowNoti] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
-  const [notiEnabled, setNotiEnabled] = useState(true); 
+  const [notiEnabled, setNotiEnabled] = useState(true);
 
   const serviceRef = useRef(null);
   const suggestionRef = useRef(null);
@@ -119,14 +119,14 @@ const Header = () => {
     }
   };
   //코인 잔액확인 api
-  const fetchCoinbalance = async () =>{
+  const fetchCoinbalance = async () => {
     try {
       const res = await api.get("/coins/balance");
       setCoinBalance(res.data.balance);
-    } catch(error){
+    } catch (error) {
       console.error("코인 잔액 로드 실패:", error);
     }
-  }
+  };
 
   // 알림 목록 불러오기
   const fetchNotifications = async () => {
@@ -169,9 +169,9 @@ const Header = () => {
     if (isLoggedIn) {
       fetchCoinbalance();
       const intervalId = setInterval(() => {
-      fetchCoinbalance();
-    }, 10000);
-    return () => clearInterval(intervalId);
+        fetchCoinbalance();
+      }, 10000);
+      return () => clearInterval(intervalId);
     }
   }, [isLoggedIn]);
 
@@ -182,16 +182,13 @@ const Header = () => {
       navigate("/login");
       return;
     }
-    
+
     const newState = !showNoti;
     setShowNoti(newState);
     if (newState) {
       try {
         const token = localStorage.getItem("accessToken");
-        await api.patch(
-          "/notifications/read-all",
-          {}
-        );
+        await api.patch("/notifications/read-all", {});
         fetchNotifications();
         setUnreadCount(0);
       } catch (e) {
@@ -226,12 +223,16 @@ const Header = () => {
       default:
         return gameName;
     }
-} 
+  }
 
   return (
     <div className={styles.wrapper}>
       <div className={styles.section}>
-        <Link className={`${styles.link} ${styles.logobox}`} to="/" onClick={() => setsearch(false)}>
+        <Link
+          className={`${styles.link} ${styles.logobox}`}
+          to="/"
+          onClick={() => setsearch(false)}
+        >
           <img src={logo} className={styles.logo} />
         </Link>
 
@@ -331,17 +332,23 @@ const Header = () => {
                     key={idx}
                     className={styles.suggestionItem}
                     onClick={() => {
-                      navigate("/matchdetail", { state: { userId : item.userId } });
+                      navigate("/matchdetail", {
+                        state: { userId: item.userId },
+                      });
                       setShowSuggestions(false);
                       setQuery("");
                     }}
                   >
                     <img
-                      src={!item.profileImageUrl
+                      src={
+                        !item.profileImageUrl
                           ? logo_img
-                          : item.profileImageUrl.startsWith("http://example.com/")
-                              ? logo_img
-                              : encodeURI(item.profileImageUrl)}
+                          : item.profileImageUrl.startsWith(
+                              "http://example.com/"
+                            )
+                          ? logo_img
+                          : encodeURI(item.profileImageUrl)
+                      }
                       className={styles.suggestionAvatar}
                     />
 
@@ -350,10 +357,10 @@ const Header = () => {
                         {item.userName}
                       </div>
                       <div className={styles.suggestionSkill}>
-                        Skill:{" "} 
+                        Skill:{" "}
                         {(item.games || [])
-                        .map((g) => translateGameName(g.gameName))
-                        .join(", ")}
+                          .map((g) => translateGameName(g.gameName))
+                          .join(", ")}
                       </div>
                     </div>
 
@@ -366,7 +373,6 @@ const Header = () => {
             </ul>
           )}
         </form>
-
         <FontAwesomeIcon
           className={
             search ? `${styles.hidden} ${styles.searchicon}` : styles.searchicon
@@ -374,7 +380,6 @@ const Header = () => {
           onClick={() => setsearch(!search)}
           icon={faMagnifyingGlass}
         />
-
         {/* 알림 */}
         <div ref={notiRef} className={styles.notiWrapper}>
           <div className={styles.bellWrapper} onClick={handleBellClick}>
@@ -422,7 +427,13 @@ const Header = () => {
 
                       {/* ACCEPTED 타입이면 상대방 게임 ID 표시 */}
                       {n.notificationType === "ACCEPTED" && n.matchId && (
-                        <div style={{ fontSize: "12px", marginTop: "4px", color: "#666" }}>
+                        <div
+                          style={{
+                            fontSize: "12px",
+                            marginTop: "4px",
+                            color: "#666",
+                          }}
+                        >
                           매칭 게임 ID: {n.matchId}
                         </div>
                       )}
@@ -439,11 +450,11 @@ const Header = () => {
         </div>
 
         {isLoggedIn && (
-        <Link className={styles.link} to="/coin">
-          <img src={coin} className={styles.coin} />
-          <span>{coinBalance}</span>
-        </Link>)}
-
+          <Link className={styles.link} to="/coin">
+            <img src={coin} className={styles.coin} />
+            <span>{coinBalance}</span>
+          </Link>
+        )}
         {isLoggedIn ? (
           <>
             <Link className={`${styles.link} ${styles.login}`} to="/Mypage">

@@ -37,8 +37,6 @@ public class SecurityConfig {
                                 "/api/users/login",
                                 "/api/auth/refresh",
                                 "/api/auth/request-verification",
-                                "/api/users/check-id",
-
                                 "/api/auth/request-password-reset",
                                 "/api/auth/reset-password",
                                 "/api/users/check-id",

@@ -3,6 +3,7 @@ import MatchDetail from "./MatchDetail";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./Home";
 import Template from "./template/Template";
+import JoinGameMatch from "./Match/JoinGameMatch.jsx";
 import CoinRecharge from "./Coin/CoinRecharge";
 import CoinChargeHistory from "./Coin/CoinChargeHistory";
 import Payment from "./Coin/Payment";
@@ -21,6 +22,7 @@ const App = () => {
       <Template>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/match" element={<JoinGameMatch />} /> {/*임시 라우트*/}
           <Route path="/coin" element={<CoinRecharge />} />
           <Route path="/coinHistory" element={<CoinChargeHistory />} />
           <Route path="/pay" element={<Payment />} />
@@ -29,6 +31,7 @@ const App = () => {
           <Route path="/find-password" element={<FindPassword />} />
           <Route path="/search" element={<Search />} />
           <Route path="/Mypage" element={<MyPage />} />
+          <Route path="/gameMate" element={<JoinGameMatch />} />
           <Route path="/matchdetail" element={<MatchDetail />} />
           <Route path="/requestdetail" element={<Requestdetail />} />
           <Route path="/requestReceived" element={<RequestReceived />} />

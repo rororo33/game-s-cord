@@ -3,7 +3,10 @@ import { useState, useRef, useEffect, memo } from "react";
 import api from "./api/axios";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleChevronLeft, faCircleChevronRight } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCircleChevronLeft,
+  faCircleChevronRight,
+} from "@fortawesome/free-solid-svg-icons";
 import LeagueofLeagends from "./assets/LeaguofLeagends.jpg";
 import Battleground from "./assets/Battleground.jpg";
 import overwatch from "./assets/Overwatch.jpg";
@@ -51,7 +54,11 @@ function useScroll(ref, scrollAmount) {
 
 function Banner({ rawBanners }) {
   // [마지막, 1,2,3, 첫번째] 형태로 양 끝에 복제
-  const banners = [rawBanners[rawBanners.length - 1], ...rawBanners, rawBanners[0]];
+  const banners = [
+    rawBanners[rawBanners.length - 1],
+    ...rawBanners,
+    rawBanners[0],
+  ];
 
   const [index, setIndex] = useState(1); // 실제 시작은 1
   const [transition, setTransition] = useState(true);
@@ -122,14 +129,31 @@ function Banner({ rawBanners }) {
 
 function UserCard({ index, userId, name, tier, game, price, onClick, img }) {
   return (
-    <div className={styles.user} onClick={onClick} style={{ cursor: "pointer" }}>
+    <div
+      className={styles.user}
+      onClick={onClick}
+      style={{ cursor: "pointer" }}
+    >
       <div className={styles.imgbox}>
-        <div style={{width: "150px", height: "140px", display:"flex", alignItems:"center", justifyContent:"center"}}>
-        <img src={!img
-                    ? logo_img
-                    : img.startsWith("http://example.com/")
-                        ? logo_img
-                        : encodeURI(img)} alt="user profile" />
+        <div
+          style={{
+            width: "150px",
+            height: "140px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <img
+            src={
+              !img
+                ? logo_img
+                : img.startsWith("http://example.com/")
+                ? logo_img
+                : encodeURI(img)
+            }
+            alt="user profile"
+          />
         </div>
         <div className={styles.biobox}>
           <div
@@ -143,11 +167,24 @@ function UserCard({ index, userId, name, tier, game, price, onClick, img }) {
             {name}
           </div>
           <div style={{ marginBottom: "2px" }}>{translateGameName(game)}</div>
-          <div style={{ marginBottom: "4.5px", fontSize: "15px", marginLeft:"1px" }}>Level : {tier}</div>
+          <div
+            style={{
+              marginBottom: "4.5px",
+              fontSize: "15px",
+              marginLeft: "1px",
+            }}
+          >
+            Level : {tier}
+          </div>
           <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
             <img
               src={coin}
-              style={{ width: "20px", height: "20px", marginLeft: "0", marginTop: "3px" }}
+              style={{
+                width: "20px",
+                height: "20px",
+                marginLeft: "0",
+                marginTop: "3px",
+              }}
               alt="coin"
             />
             <div style={{ color: "#f1a100ff" }}>{price}/판</div>
