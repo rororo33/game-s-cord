@@ -208,9 +208,10 @@ const MatchDetail = () => {
         {selectedGame && (
           <div className="game-detail-panel">
             <h3>{selectedGame.name}</h3>
-            <p>게임 유형: {selectedGame.gameType || "N/A"}</p>
+            <p>게임 유형: {selectedGame.gameName || "N/A"}</p>
             <p>가격: {selectedGame.price}원</p>
-            <p>설명: {selectedGame.description || "등록된 설명이 없습니다."}</p>
+            <p>티어: {selectedGame.tier || "등록된 설명이 없습니다."}</p>
+            <p>시간: {selectedGame.start}~{selectedGame.end}</p>
 
             <button className="match-request-btn" onClick={handleMatchRequest}>
               매치 신청하기
