@@ -434,10 +434,11 @@ const Header = () => {
           )}
         </div>
 
+        {isLoggedIn && (
         <Link className={styles.link} to="/coin">
           <img src={coin} className={styles.coin} />
           <span>({coinBalance})</span>
-        </Link>
+        </Link>)}
 
         {isLoggedIn ? (
           <>
