@@ -204,7 +204,7 @@ const Header = () => {
 
       await api.delete(`/notifications/${notificationId}`);
 
-      navigate("/search");
+      navigate("/requestdetail");
       setShowNoti(false);
       fetchNotifications();
     } catch (e) {

@@ -72,3 +72,9 @@
   transform: scale(1.2);
   cursor: pointer;
 }
+
+.emptyMessage{
+  margin: 30px 0 0 40px;
+  font-size: 20px;
+  height: 280px;
+}
