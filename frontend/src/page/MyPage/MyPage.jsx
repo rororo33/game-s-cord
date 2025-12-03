@@ -39,7 +39,11 @@ function MyPage(){
             newErrors.usersName = "사용자 이름은 10자 이하여야 합니다.";
             isValid = false;
         }
-        if ((updatedUser.usersDescription || "").length > 255) {
+        const desc = (updatedUser.usersDescription || "").trim();
+        if (!desc || desc.length < 10) {
+            newErrors.usersDescription = "자기소개는 최소 10자 이상 입력해 주세요.";
+            isValid = false;
+        } else if (desc.length > 255) {
             newErrors.usersDescription = "자기소개는 255자 이하여야 합니다.";
             isValid = false;
         }
