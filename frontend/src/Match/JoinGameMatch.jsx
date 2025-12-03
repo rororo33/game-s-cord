@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import "../css/JoinGameMatch.css"; // CSS 파일 경로는 필요에 따라 수정하세요.
-import { FaClock, FaGamepad } from "react-icons/fa";
+import "../css/JoinGameMatch.css";
+import { FaPlus, FaClock, FaGamepad } from "react-icons/fa";
 import { MdOutlineAttachMoney } from "react-icons/md";
 import { GiGamepad } from "react-icons/gi";
 import PUBGIcon from "../assets/smallBattle.png";
 import LOLIcon from "../assets/smallLOL.png";
 import OverIcon from "../assets/smallOver.png";
-import api from "../api/axios";
 
+// 게임 목록
 const availableGames = [
   { id: 0, name: "게임명 선택" },
   { id: 1, name: "리그 오브 레전드" },
@@ -15,6 +15,7 @@ const availableGames = [
   { id: 3, name: "오버워치 2" },
 ];
 
+// 게임 티어 목록 (예시)
 const availableTiers = [
   { value: "", name: "티어 선택" },
   { value: "BRONZE", name: "브론즈" },
@@ -28,11 +29,13 @@ const availableTiers = [
 
 const GameTierSelect = ({ rate, onChange }) => {
   const isGameSelected = rate.name !== "게임명 선택";
+
   const title =
     rate.name === "게임명 선택"
       ? `게임 ${rate.id.slice(-1).toUpperCase()} 티어`
       : rate.name;
 
+  // 선택된 티어 이름 찾기
   const selectedTierName =
     availableTiers.find((t) => t.value === rate.tier)?.name ||
     availableTiers[0].name;
@@ -53,6 +56,7 @@ const GameTierSelect = ({ rate, onChange }) => {
           </option>
         ))}
       </select>
+      {/* 선택된 티어 표시 (선택되지 않은 경우 기본값) */}
       <p className="selected-tier-display">
         {isGameSelected ? selectedTierName : "게임을 먼저 선택"}
       </p>
@@ -60,10 +64,13 @@ const GameTierSelect = ({ rate, onChange }) => {
   );
 };
 
+// GameRateInput 컴포넌트 (time 제거)
 const GameRateInput = ({ rate, onChange, selectedNames }) => {
   const isGameSelected = rate.name !== "게임명 선택";
+
   return (
     <div className="rate-input-group-extended">
+      {/* 게임 명 및 코인 입력 */}
       <div className="rate-input-row">
         <label>게임 명:</label>
         <select
@@ -102,17 +109,43 @@ const GameRateInput = ({ rate, onChange, selectedNames }) => {
 };
 
 const JoinGameMatch = () => {
+  // 파일 객체 저장을 위한 상태 (FormData 전송용)
+  const [profileFiles, setProfileFiles] = useState(Array(5).fill(null));
+  // 미리보기 URL 저장을 위한 상태
+  const [profileImages, setProfileImages] = useState(Array(5).fill(null));
+
   const [preferredGame, setPreferredGame] = useState("LOL");
+
+  // **수정된 상태: time 필드 제거**
   const [gameRates, setGameRates] = useState([
-    { id: "rate-a", gameId: 0, name: "게임명 선택", tier: "", price: "" },
-    { id: "rate-b", gameId: 0, name: "게임명 선택", tier: "", price: "" },
-    { id: "rate-c", gameId: 0, name: "게임명 선택", tier: "", price: "" },
+    {
+      id: "rate-a",
+      gameId: 0,
+      name: "게임명 선택",
+      tier: "",
+      price: "",
+      // time 필드 제거
+    },
+    {
+      id: "rate-b",
+      gameId: 0,
+      name: "게임명 선택",
+      tier: "",
+      price: "",
+      // time 필드 제거
+    },
+    {
+      id: "rate-c",
+      gameId: 0,
+      name: "게임명 선택",
+      tier: "",
+      price: "",
+      // time 필드 제거
+    },
   ]);
 
-  const [availableTime, setAvailableTime] = useState({
-    game: "",
-    time: "00:00",
-  });
+  // **제거된 상태: availableTime 상태 제거 (더 이상 사용하지 않음)**
+  // const [availableTime, setAvailableTime] = useState({ game: "", time: "--:00" });
 
   const [introduction, setIntroduction] = useState("");
 
@@ -120,37 +153,62 @@ const JoinGameMatch = () => {
     .map((g) => g.name)
     .filter((n) => n && n !== "게임명 선택");
 
+  // **수정된 함수: time 초기화 로직 제거**
   const handleRateChange = (id, field, value) => {
     setGameRates((prev) =>
       prev.map((rate) => {
         if (rate.id !== id) return rate;
+
         if (field === "name") {
           const found = availableGames.find((g) => g.name === value);
+          // 게임명 변경 시, gameId 변경 및 티어/가격 초기화 (time 초기화 제거)
           return {
             ...rate,
             name: value,
             gameId: found?.id ?? rate.gameId,
             tier: "",
             price: "",
+            // time 필드 초기화 제거
           };
         }
+
         return { ...rate, [field]: value };
       })
     );
   };
 
+  const handleImageChange = (index, event) => {
+    const file = event.target.files[0];
+    if (file) {
+      // 미리보기 URL 저장
+      const newImages = [...profileImages];
+      newImages[index] = URL.createObjectURL(file);
+      setProfileImages(newImages);
+
+      // 파일 객체 저장 (전송용)
+      const newFiles = [...profileFiles];
+      newFiles[index] = file;
+      setProfileFiles(newFiles);
+    }
+  };
+
   const handleSubmit = async () => {
+    // 1. 유효성 검사: 2000 코인 초과 여부 확인
     const invalidRate = gameRates.find((g) => {
       const price = Number(g.price);
       return g.name !== "게임명 선택" && !isNaN(price) && price > 2000;
     });
+
     if (invalidRate) {
-      alert("2000코인을 초과한 항목이 있습니다.");
+      alert(
+        "등록하려는 게임 코인 중 2000코인을 초과하는 항목이 있습니다. 코인을 2000이하로 설정해주세요."
+      );
       return;
     }
 
+    // 1.2 유효성 검사: 게임 선택 시 티어, 가격 선택했는지 확인 (time 제거)
     const incompleteGameRate = gameRates.find(
-      (g) => g.name !== "게임명 선택" && (!g.tier || !g.price)
+      (g) => g.name !== "게임명 선택" && (!g.tier || !g.price) // time 유효성 검사 제거
     );
     if (incompleteGameRate) {
       alert(
@@ -159,54 +217,171 @@ const JoinGameMatch = () => {
       return;
     }
 
+    // 1.3 유효성 검사: 메인 프로필 이미지 확인
+    if (!profileFiles[0]) {
+      alert("메인 프로필 이미지를 등록해야 합니다.");
+      return;
+    }
+
+    // 2. 서버 전송 데이터 (JSON data) 준비
     const gamesData = gameRates
-      .filter((g) => g.name !== "게임명 선택" && g.price && g.tier)
+      .filter((g) => g.name !== "게임명 선택" && g.price && g.tier) // time 필터링 제거
       .map((g) => ({
         gameId: g.gameId,
         tier: g.tier,
         price: Number(g.price),
+        // time 필드 제거
       }));
 
     const jsonData = {
       games: gamesData,
       introduction,
       preferredGame,
-      availableTime,
+      // availableTime 필드 제거
+      profileImageCount: profileFiles.filter((f) => f).length,
     };
 
-    try {
-      const token = localStorage.getItem("accessToken");
-      const headers = { "Content-Type": "application/json" };
-      if (token) headers["Authorization"] = `Bearer ${token}`;
+    console.log("전송 데이터 (JSON):", jsonData);
 
-      const response = await api.post("/api/gamemates", jsonData, {
-        headers: {
-          Authorization: token ? `Bearer ${token}` : "",
-        },
+    // 3. FormData 객체 생성 및 데이터 추가 (multipart/form-data)
+    const formData = new FormData();
+
+    // a. 'data' 필드: JSON 데이터를 문자열로 변환하여 추가
+    formData.append("data", JSON.stringify(jsonData));
+
+    // b. 'image' 필드: 프로필 이미지를 추가
+    profileFiles.forEach((file, index) => {
+      if (file) {
+        const fileNamePrefix =
+          index === 0 ? "profile_main" : `profile_sub_${index}`;
+        formData.append("image", file, `${fileNamePrefix}_${file.name}`);
+      }
+    });
+
+    // 4. 서버 전송
+    try {
+      const response = await fetch("/api/gamemates", {
+        method: "POST",
+        body: formData,
       });
 
-      if (response.ok) alert("등록 완료되었습니다.");
-      else {
+      if (response.ok) {
+        alert("게임 메이트 등록이 완료되었습니다.");
+      } else {
         const errorText = await response.text();
         alert(
           `등록 실패: ${response.status} - ${errorText.substring(0, 100)}...`
         );
       }
     } catch (e) {
-      alert(`네트워크 오류: ${e.message}`);
+      alert(`네트워크 오류 발생: ${e.message}`);
     }
   };
 
   return (
     <div className="join-game-match-container">
       <h1 className="page-header">게임 메이트 등록</h1>
+
       <div className="content-area">
+        {/* 왼쪽 영역 (동일) */}
+        <div className="profile-section">
+          <div className="profile-main-box">
+            {profileImages[0] ? (
+              <img
+                src={profileImages[0]}
+                className="profile-image"
+                alt="메인 프로필 이미지"
+              />
+            ) : (
+              <FaPlus className="plus-icon-lg" />
+            )}
+            <input
+              type="file"
+              id="main-image-upload"
+              className="hidden-file-input"
+              onChange={(e) => handleImageChange(0, e)}
+            />
+            <label
+              htmlFor="main-image-upload"
+              className="image-overlay"
+            ></label>
+          </div>
+
+          <div className="profile-sub-buttons">
+            {profileImages.slice(1).map((img, index) => (
+              <div key={index + 1} className="sub-image-wrapper">
+                {img ? (
+                  <img
+                    src={img}
+                    className="profile-image-sm"
+                    alt={`서브 프로필 이미지 ${index + 1}`}
+                  />
+                ) : (
+                  <FaPlus className="plus-icon-sm" />
+                )}
+                <input
+                  type="file"
+                  id={`sub-image-upload-${index + 1}`}
+                  className="hidden-file-input"
+                  onChange={(e) => handleImageChange(index + 1, e)}
+                />
+                <label
+                  htmlFor={`sub-image-upload-${index + 1}`}
+                  className="sub-image-label"
+                ></label>
+              </div>
+            ))}
+          </div>
+
+          <div className="section-group introduction">
+            <label className="section-title">소개</label>
+            <textarea
+              className="intro-textarea"
+              value={introduction}
+              placeholder="자신을 자유롭게 소개해주세요"
+              onChange={(e) => setIntroduction(e.target.value)}
+            />
+          </div>
+
+          {/* **제거된 영역: 이용가능 시간대 (availableTime)** */}
+          {/* <div className="available-time">
+            <div className="available-time-header">
+              <FaClock className="clock-icon" />
+              <label className="section-title">이용가능 시간대</label>
+            </div>
+
+            <div className="time-game-name-input-row">
+              <p className="game-name-label">게임명:</p>
+              <input
+                type="text"
+                value={availableTime.game}
+                onChange={(e) =>
+                  setAvailableTime({ ...availableTime, game: e.target.value })
+                }
+              />
+            </div>
+
+            <div className="time-input-group">
+              <label>시간:</label>
+              <input
+                type="time"
+                className="time-input"
+                value={availableTime.time}
+                onChange={(e) =>
+                  setAvailableTime({ ...availableTime, time: e.target.value })
+                }
+              />
+            </div>
+          </div> */}
+        </div>
+
+        {/* 오른쪽 섹션 */}
         <div className="settings-section">
-          {/* 게임별 코인, 시간 등록 */}
           <div className="setting-box">
             <h3 className="setting-header">
-              <MdOutlineAttachMoney /> 게임별 코인, 시간 등록
+              <MdOutlineAttachMoney /> 게임별 코인 등록
             </h3>
+
             <div className="rate-inputs">
               {gameRates.map((rate) => (
                 <GameRateInput
@@ -218,39 +393,45 @@ const JoinGameMatch = () => {
               ))}
             </div>
           </div>
-          {/* 선호 게임 설정 */}
+
           <div className="setting-game">
             <h3 className="setting-header">
               <GiGamepad /> 선호 게임 설정
             </h3>
+
             <div className="preference-games">
+              {/* PUBG */}
               <div
                 className="game-option"
                 onClick={() => setPreferredGame("PUBG")}
               >
-                <img src={PUBGIcon} alt="PUBG" />
+                <img src={PUBGIcon} alt="배틀그라운드 아이콘" />
                 <input
                   type="checkbox"
                   checked={preferredGame === "PUBG"}
                   readOnly
                 />
               </div>
+
+              {/* OverWatch */}
               <div
                 className="game-option"
                 onClick={() => setPreferredGame("OverWatch")}
               >
-                <img src={OverIcon} alt="OverWatch" />
+                <img src={OverIcon} alt="오버워치 아이콘" />
                 <input
                   type="checkbox"
                   checked={preferredGame === "OverWatch"}
                   readOnly
                 />
               </div>
+
+              {/* LOL */}
               <div
                 className="game-option"
                 onClick={() => setPreferredGame("LOL")}
               >
-                <img src={LOLIcon} alt="LOL" />
+                <img src={LOLIcon} alt="리그 오브 레전드 아이콘" />
                 <input
                   type="checkbox"
                   checked={preferredGame === "LOL"}
@@ -259,12 +440,14 @@ const JoinGameMatch = () => {
               </div>
             </div>
           </div>
-          {/* 게임 별 티어 선택 */}
+
           <div className="setting-box tier-verification-box">
             <h3 className="setting-header">
               <FaGamepad /> 게임 별 티어 선택
             </h3>
+
             <div className="tier-images">
+              {/* gameRates의 3개 항목 각각에 대해 티어 선택 컴포넌트를 렌더링 */}
               {gameRates.map((rate) => (
                 <GameTierSelect
                   key={rate.id}
@@ -275,52 +458,6 @@ const JoinGameMatch = () => {
             </div>
           </div>
 
-          {/* 👇 이 섹션이 가로로 배치됩니다. */}
-          <div className="info-and-time-container">
-            {/* 소개 섹션 */}
-            <div className="section-group introduction">
-              <label className="section-title">소개</label>
-              <textarea
-                className="intro-textarea"
-                value={introduction}
-                placeholder="소개를 적어주세요"
-                onChange={(e) => setIntroduction(e.target.value)}
-              />
-            </div>
-            {/* 이용가능 시간대 섹션 */}
-            <div className="available-time">
-              <div className="available-time-header">
-                <FaClock className="clock-icon" />
-                <label className="section-title">이용가능 시간대</label>
-              </div>
-
-              <div className="time-game-name-input-row">
-                <p className="game-name-label">게임명:</p>
-                <input
-                  type="text"
-                  value={availableTime.game}
-                  onChange={(e) =>
-                    setAvailableTime({ ...availableTime, game: e.target.value })
-                  }
-                />
-              </div>
-
-              <div className="time-input-group">
-                <label>시간:</label>
-                <input
-                  type="time"
-                  className="time-input"
-                  value={availableTime.time}
-                  onChange={(e) =>
-                    setAvailableTime({ ...availableTime, time: e.target.value })
-                  }
-                />
-              </div>
-            </div>
-          </div>
-          {/* 👆 가로 배치 섹션 끝 */}
-
-          {/* 등록/취소 버튼 */}
           <div className="action-buttons">
             <button className="register-button" onClick={handleSubmit}>
               등록하기
