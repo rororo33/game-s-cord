@@ -229,7 +229,7 @@ const JoinGameMatch = () => {
     });
 
     try {
-      await api.post("/api/gamemates", formData, {
+      await api.post("/gamemates", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       alert("게임 메이트 등록이 완료되었습니다.");
