@@ -100,9 +100,22 @@ function MarkPage(){
                 <h1>즐겨찾기</h1>
                 
                 <div className={styles.userContainer}>
-                    {(users || []).map((item, index) => (
-                        <UserComponent key={index} index={index} id={item.markedUserId} name={item.markedUserName} img={item.markedUserProfileImageUrl} isFavorite={item.isFavorite}/>
-                    ))}
+                     {users && users.length > 0 ? (
+                        users.map((item, index) => (
+                        <UserComponent
+                            key={index}
+                            index={index}
+                            id={item.markedUserId}
+                            name={item.markedUserName}
+                            img={item.markedUserProfileImageUrl}
+                            isFavorite={item.isFavorite}
+                        />
+                        ))
+                    ) : (
+                        <div className={styles.emptyBox}>
+                            <div className={styles.emptyMessage}>즐겨찾기한 유저가 없습니다.</div>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
