@@ -159,8 +159,8 @@ function MyPage() {
                 }
                 className={modify ? styles.imgDark : ""}
                 style={{
-                  width: "200px",
-                  maxHeight: "200px",
+                  width: "300px",
+                  maxHeight: "300px",
                   borderRadius: "10px",
                 }}
                 alt="profile"
