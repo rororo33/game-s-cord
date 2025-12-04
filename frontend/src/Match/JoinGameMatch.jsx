@@ -8,6 +8,8 @@ import PUBGIcon from "../assets/smallBattle.png";
 import LOLIcon from "../assets/smallLOL.png";
 import OverIcon from "../assets/smallOver.png";
 import api from "../api/axios";
+import Sidebar from "../page/MyPage/Sidebar";
+import styles from ".././page/MyPage/MyPage.module.css";
 
 // 게임 목록
 const availableGames = [
@@ -225,114 +227,120 @@ const JoinGameMatch = () => {
   };
 
   return (
-    <div className="join-game-match-container">
-      <h1 className="page-header">게임 메이트 등록</h1>
-      <div className="content-area">
-        <div className="profile-section"></div>
-        <div className="settings-section">
-          <div className="setting-box">
-            <h3 className="setting-header">
-              <MdOutlineAttachMoney /> 게임별 코인 등록
-            </h3>
-            <div className="rate-inputs">
-              {gameRates.map((rate) => (
-                <GameRateInput
-                  key={rate.id}
-                  rate={rate}
-                  onChange={handleRateChange}
-                  selectedNames={selectedNames}
-                />
-              ))}
-            </div>
-          </div>
-          <div className="setting-game">
-            <h3 className="setting-header">
-              <GiGamepad /> 선호 게임 설정
-            </h3>
-            <div className="preference-games">
-              <div
-                className="game-option"
-                onClick={() => setPreferredGame("PUBG")}
-              >
-                <img src={PUBGIcon} alt="배틀그라운드 아이콘" />
-                <input
-                  type="checkbox"
-                  checked={preferredGame === "PUBG"}
-                  readOnly
-                />
-              </div>
-              <div
-                className="game-option"
-                onClick={() => setPreferredGame("OverWatch")}
-              >
-                <img src={OverIcon} alt="오버워치 아이콘" />
-                <input
-                  type="checkbox"
-                  checked={preferredGame === "OverWatch"}
-                  readOnly
-                />
-              </div>
-              <div
-                className="game-option"
-                onClick={() => setPreferredGame("LOL")}
-              >
-                <img src={LOLIcon} alt="리그 오브 레전드 아이콘" />
-                <input
-                  type="checkbox"
-                  checked={preferredGame === "LOL"}
-                  readOnly
-                />
+    <div className={styles.wrapper}>
+      <Sidebar />
+      <div className="join-game-match-container">
+        <h1 className="page-header">게임 메이트 등록</h1>
+        <div className="content-area">
+          <div className="profile-section"></div>
+          <div className="settings-section">
+            <div className="setting-box">
+              <h3 className="setting-header">
+                <MdOutlineAttachMoney /> 게임별 코인 등록
+              </h3>
+              <div className="rate-inputs">
+                {gameRates.map((rate) => (
+                  <GameRateInput
+                    key={rate.id}
+                    rate={rate}
+                    onChange={handleRateChange}
+                    selectedNames={selectedNames}
+                  />
+                ))}
               </div>
             </div>
-          </div>
-          <div className="setting-box tier-verification-box">
-            <h3 className="setting-header">
-              <FaGamepad /> 게임 별 티어 선택
-            </h3>
-            <div className="tier-images">
-              {gameRates.map((rate) => (
-                <GameTierSelect
-                  key={rate.id}
-                  rate={rate}
-                  onChange={handleRateChange}
+            <div className="setting-game">
+              <h3 className="setting-header">
+                <GiGamepad /> 선호 게임 설정
+              </h3>
+              <div className="preference-games">
+                <div
+                  className="game-option"
+                  onClick={() => setPreferredGame("PUBG")}
+                >
+                  <img src={PUBGIcon} alt="배틀그라운드 아이콘" />
+                  <input
+                    type="checkbox"
+                    checked={preferredGame === "PUBG"}
+                    readOnly
+                  />
+                </div>
+                <div
+                  className="game-option"
+                  onClick={() => setPreferredGame("OverWatch")}
+                >
+                  <img src={OverIcon} alt="오버워치 아이콘" />
+                  <input
+                    type="checkbox"
+                    checked={preferredGame === "OverWatch"}
+                    readOnly
+                  />
+                </div>
+                <div
+                  className="game-option"
+                  onClick={() => setPreferredGame("LOL")}
+                >
+                  <img src={LOLIcon} alt="리그 오브 레전드 아이콘" />
+                  <input
+                    type="checkbox"
+                    checked={preferredGame === "LOL"}
+                    readOnly
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="setting-box tier-verification-box">
+              <h3 className="setting-header">
+                <FaGamepad /> 게임 별 티어 선택
+              </h3>
+              <div className="tier-images">
+                {gameRates.map((rate) => (
+                  <GameTierSelect
+                    key={rate.id}
+                    rate={rate}
+                    onChange={handleRateChange}
+                  />
+                ))}
+              </div>
+            </div>
+            <div className="available-time">
+              <div className="available-time-header">
+                <FaClock className="clock-icon" />
+                <label className="section-title">이용가능 시간대</label>
+              </div>
+              <div className="time-game-name-input-row"></div>
+              <div className="rate-input-row time-input-row">
+                <label>이용 시간:</label>
+                <input
+                  type="time"
+                  value={availableTime.start}
+                  onChange={(e) =>
+                    setAvailableTime({
+                      ...availableTime,
+                      start: e.target.value,
+                    })
+                  }
+                  className="time-input"
                 />
-              ))}
+                <span className="time-separator">~</span>
+                <input
+                  type="time"
+                  value={availableTime.end}
+                  onChange={(e) =>
+                    setAvailableTime({ ...availableTime, end: e.target.value })
+                  }
+                  className="time-input"
+                />
+              </div>
             </div>
-          </div>
-          <div className="available-time">
-            <div className="available-time-header">
-              <FaClock className="clock-icon" />
-              <label className="section-title">이용가능 시간대</label>
+            <div className="action-buttons">
+              <button className="register-button" onClick={handleSubmit}>
+                등록하기
+              </button>
+              <button className="cancel-button" onClick={() => navigate(-1)}>
+                취소
+              </button>
             </div>
-            <div className="time-game-name-input-row"></div>
-            <div className="rate-input-row time-input-row">
-              <label>이용 시간:</label>
-              <input
-                type="time"
-                value={availableTime.start}
-                onChange={(e) =>
-                  setAvailableTime({ ...availableTime, start: e.target.value })
-                }
-                className="time-input"
-              />
-              <span className="time-separator">~</span>
-              <input
-                type="time"
-                value={availableTime.end}
-                onChange={(e) =>
-                  setAvailableTime({ ...availableTime, end: e.target.value })
-                }
-                className="time-input"
-              />
-            </div>
-          </div>
-          <div className="action-buttons">
-            <button className="register-button" onClick={handleSubmit}>
-              등록하기
-            </button>
-            <button className="cancel-button" onClick={() => navigate(-1)}>
-              취소
-            </button>
           </div>
         </div>
       </div>
