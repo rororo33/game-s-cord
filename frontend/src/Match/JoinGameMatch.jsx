@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../css/JoinGameMatch.css";
 import { FaClock, FaGamepad } from "react-icons/fa";
 import { MdOutlineAttachMoney } from "react-icons/md";
@@ -137,6 +138,8 @@ const JoinGameMatch = () => {
     start: "18:00",
     end: "23:00",
   });
+
+  const navigate = useNavigate();
 
   const selectedNames = gameRates
     .map((g) => g.name)
@@ -326,7 +329,9 @@ const JoinGameMatch = () => {
             <button className="register-button" onClick={handleSubmit}>
               등록하기
             </button>
-            <button className="cancel-button">취소</button>
+            <button className="cancel-button" onClick={() => navigate(-1)}>
+              취소
+            </button>
           </div>
         </div>
       </div>
