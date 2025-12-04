@@ -321,9 +321,10 @@
     border-radius: 12px;
     margin-bottom: 30px; /* 리뷰 패널과의 간격 */
     border: 1px solid #eee; /* 테두리 추가 */
+    overflow: visible;
 }
 .game-detail-name {
-    font-size: 45px;
+    font-size: 30px !important; 
     font-weight:bold;
     line-height: 1.6;
     color: #000000;
@@ -350,6 +351,8 @@
 
 .game-detail-img {
     width: 100%;
-    height: auto;
+    max-height: 400px;
+    object-fit: contain;    /* 이미지 절대 잘리지 않음 */
     border-radius: 8px;
+    display: block;
 }
