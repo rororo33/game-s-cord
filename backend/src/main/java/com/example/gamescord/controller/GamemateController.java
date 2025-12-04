@@ -90,6 +90,14 @@ public class GamemateController {
         return ResponseEntity.ok(registrationStatus);
     }
 
+    @GetMapping
+    @SecurityRequirement(name = "bearerAuth")
+    public ResponseEntity<GamemateProfileResponseDTO> getMyGamemateProfile(
+            @AuthenticationPrincipal CustomUserDetails userDetails) {
+        GamemateProfileResponseDTO profile = gamemateService.getGamemateProfile(userDetails.getId());
+        return ResponseEntity.ok(profile);
+    }
+
     @GetMapping("/search")
     public ResponseEntity<List<GamemateResponseDTO>> searchGamemates(@RequestParam String userName) {
         List<GamemateResponseDTO> results = gamemateService.searchGamematesByUserName(userName);
