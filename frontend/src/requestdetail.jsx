@@ -109,14 +109,17 @@ export default function RequestHistoryPage() {
                 <li key={item.ordersId} className="request-row">
                   <div className="request-row-left">
                     <span className="request-row-title">
-                      {item.orderedUsername || "상대"} 님과의 매칭   게임명:{getGameName(item.ordersGameId)}
+                      {item.orderedUsername || "상대"} 님과의 매칭
+                    </span>
+                    <span style={{marginRight:16}}>
+                      게임명:{getGameName(item.ordersGameId)}
                     </span>
                   </div>
                   
 
                   <div className="request-row-right">
                     <span className="request-row-title">
-                      {item.orderedUsername || "상대"} 님과의 매칭 게임명:{getGameName(item.ordersGameId)}
+                      
                     </span>
                     <span className="request-row-status-label">요청 대기중</span>
 
