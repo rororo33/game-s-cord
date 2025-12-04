@@ -6,11 +6,12 @@ classDiagram
 
     class AuthController {
         <<Controller>>
-        -RefreshTokenService refreshTokenService
-        -JwtUtil jwtUtil
-        -UserService userService
-        -EmailService emailService
-        -VerificationCodeService verificationCodeService
+        -refreshTokenService: RefreshTokenService
+        -jwtUtil: JwtUtil
+        -userService: UserService
+        -emailService: EmailService
+        -verificationCodeService: VerificationCodeService
+        +AuthController(refreshTokenService: RefreshTokenService, jwtUtil: JwtUtil, userService: UserService, emailService: EmailService, verificationCodeService: VerificationCodeService)
         +requestVerificationCode(request: EmailVerificationRequestDTO): ResponseEntity<?>
         +requestPasswordReset(request: PasswordResetRequestDTO): ResponseEntity<?>
         +resetPassword(request: PasswordResetDTO): ResponseEntity<?>
@@ -26,31 +27,33 @@ classDiagram
 
     class EmailVerificationRequestDTO {
         <<DTO>>
-        -String email
+        -email: String
     }
     class PasswordResetRequestDTO {
         <<DTO>>
-        -String email
+        -email: String
     }
     class PasswordResetDTO {
         <<DTO>>
-        -String token
-        -String newPassword
+        -email: String
+        -code: String
+        -newPassword: String
     }
     class TokenRefreshRequestDTO {
         <<DTO>>
-        -String refreshToken
+        -refreshToken: String
     }
     class TokenRefreshResponseDTO {
         <<DTO>>
-        -String accessToken
+        -accessToken: String
+        +TokenRefreshResponseDTO(accessToken: String)
     }
     class MessageResponseDTO {
         <<DTO>>
-        -String message
+        -message: String
     }
 
-    %% Relationships
+
     AuthController ..> UserService : uses
     AuthController ..> RefreshTokenService : uses
     AuthController ..> EmailService : uses
@@ -77,9 +80,10 @@ classDiagram
 |                | userService               | UserService                 | private    | 사용자 관련 비즈니스 로직을 처리하는 서비스              |
 |                | emailService              | EmailService                | private    | 이메일 발송 관련 비즈니스 로직을 처리하는 서비스         |
 |                | verificationCodeService   | VerificationCodeService     | private    | 이메일 인증 코드 관련 비즈니스 로직을 처리하는 서비스      |
-| **Operations** | requestVerificationCode   | ResponseEntity              | public     | 회원가입을 위한 이메일 인증 코드 발송을 요청하는 API 엔드포인트 |
+| **Operations** | AuthController            | void                        | public     | 생성자 (Lombok @RequiredArgsConstructor)         |
+|                | requestVerificationCode   | ResponseEntity              | public     | 회원가입을 위한 이메일 인증 코드 발송을 요청하는 API 엔드포인트 |
 |                | requestPasswordReset      | ResponseEntity              | public     | 비밀번호 재설정 이메일 발송을 요청하는 API 엔드포인트        |
-|                | resetPassword             | ResponseEntity              | public     | 토큰과 새 비밀번호로 비밀번호를 재설정하는 API 엔드포인트    |
+|                | resetPassword             | ResponseEntity              | public     | 코드와 새 비밀번호로 비밀번호를 재설정하는 API 엔드포인트    |
 |                | refreshToken              | ResponseEntity              | public     | 리프레시 토큰으로 새로운 액세스 토큰을 발급하는 API 엔드포인트 |
 |                | logoutUser                | ResponseEntity              | public     | 사용자를 로그아웃 처리하는 API 엔드포인트 (리프레시 토큰 삭제) |
 
@@ -99,7 +103,7 @@ classDiagram
 | 구분             | Name                      | Type   | Visibility | Description          |
 |:---------------|:--------------------------|:-------|:-----------|:---------------------|
 | **class**      | **PasswordResetRequestDTO** |        |            | 비밀번호 재설정 요청 DTO |
-| **Attributes** | email                     | String | private    | 재설정 링크를 받을 이메일 주소 |
+| **Attributes** | email                     | String | private    | 재설정 인증코드를 받을 이메일 주소 |
 
 <br>
 
@@ -108,7 +112,8 @@ classDiagram
 | 구분             | Name              | Type   | Visibility | Description      |
 |:---------------|:------------------|:-------|:-----------|:-----------------|
 | **class**      | **PasswordResetDTO** |        |            | 비밀번호 재설정 DTO |
-| **Attributes** | token             | String | private    | 이메일로 받은 재설정 토큰 |
+| **Attributes** | email             | String | private    | 사용자 이메일      |
+|                | code              | String | private    | 이메일로 받은 인증코드 |
 |                | newPassword       | String | private    | 새로 설정할 비밀번호   |
 
 <br>
@@ -128,6 +133,7 @@ classDiagram
 |:---------------|:--------------------------|:-------|:-----------|:----------------|
 | **class**      | **TokenRefreshResponseDTO** |        |            | 토큰 리프레시 응답 DTO |
 | **Attributes** | accessToken               | String | private    | 새로 발급된 액세스 토큰 |
+| **Operations** | TokenRefreshResponseDTO   | void   | public     | 생성자 (Lombok @AllArgsConstructor) |
 
 <br>
 

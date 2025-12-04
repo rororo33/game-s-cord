@@ -6,7 +6,8 @@ classDiagram
 
     class MarkController {
         <<Controller>>
-        -MarkService markService
+        -markService: MarkService
+        +MarkController(markService: MarkService)
         +addMark(userDetails: CustomUserDetails, markedUserId: Long): ResponseEntity~MarkResponseDTO~
         +getMarkedUsers(userDetails: CustomUserDetails): ResponseEntity~List~MarkedUserResponseDTO~~
         +deleteMark(userDetails: CustomUserDetails, markedUserId: Long): ResponseEntity~Void~
@@ -14,8 +15,9 @@ classDiagram
 
     class MarkService {
         <<Service>>
-        -MarkRepository markRepository
-        -UserRepository userRepository
+        -markRepository: MarkRepository
+        -userRepository: UserRepository
+        +MarkService(markRepository: MarkRepository, userRepository: UserRepository)
         +addMark(markingUserId: Long, markedUserId: Long): MarkResponseDTO
         +getMarkedUsers(markingUserId: Long): List~MarkedUserResponseDTO~
         +deleteMark(markingUserId: Long, markedUserId: Long): void
@@ -23,9 +25,9 @@ classDiagram
 
     class MarkRepository {
         <<Repository>>
-        -SDJpaMarkRepository markRepository
-        -EntityManager em
-        -JPAQueryFactory queryFactory
+        -markRepository: SDJpaMarkRepository
+        -em: EntityManager
+        -queryFactory: JPAQueryFactory
         +MarkRepository(em: EntityManager)
         +saveMark(mark: Mark): void
         +findMarkByUsersId(usersId: Long): List~Mark~
@@ -35,32 +37,33 @@ classDiagram
 
     class Mark {
         <<Entity>>
-        -Long id
-        -User users
-        -Long markedUsersId
+        -id: Long
+        -users: User
+        -markedUsersId: Long
     }
 
     class MarkedUserResponseDTO {
         <<DTO>>
-        -Long markedUserId
-        -String markedUserName
-        -String markedUserProfileImageUrl
+        -markedUserId: Long
+        -markedUserName: String
+        -markedUserProfileImageUrl: String
         +fromEntity(markedUser: User): MarkedUserResponseDTO
     }
 
     class MarkResponseDTO {
         <<DTO>>
-        -Long markId
-        -Long markingUserId
-        -Long markedUserId
+        -markId: Long
+        -markingUserId: Long
+        -markedUserId: Long
         +fromEntity(mark: Mark): MarkResponseDTO
     }
 
     class User { <<Entity>> }
     class UserRepository { <<Repository>> }
     class SDJpaMarkRepository { <<interface>> }
+    class JpaRepository { <<interface>> }
     
-    %% Relationships
+
     MarkController ..> MarkService : uses
     MarkService ..> MarkRepository : uses
     MarkService ..> UserRepository : uses
@@ -82,9 +85,10 @@ classDiagram
 |:---------------|:-------------------|:--------------------------------------------|:-----------|:----------------------------------------------------------------------|
 | **class**      | **MarkController** |                                             |            | 즐겨찾기 관련 HTTP 요청을 처리하는 REST 컨트롤러                                |
 | **Attributes** | markService        | MarkService                                 | private    | 즐겨찾기 비즈니스 로직을 처리하는 서비스 객체                                   |
-| **Operations** | addMark            | ResponseEntity~MarkResponseDTO~             | public     | 특정 사용자를 즐겨찾기에 추가하는 API 엔드포인트                            |
-|                | getMarkedUsers     | ResponseEntity~List~MarkedUserResponseDTO~~ | public     | 현재 로그인된 사용자가 즐겨찾기한 모든 사용자 목록을 조회하는 API 엔드포인트     |
-|                | deleteMark         | ResponseEntity~Void~                        | public     | 특정 사용자를 즐겨찾기에서 삭제하는 API 엔드포인트                            |
+| **Operations** | MarkController     | void                                        | public     | 생성자 (Lombok @RequiredArgsConstructor)                              |
+|                | addMark            | ResponseEntity~MarkResponseDTO~             | public     | 특정 사용자를 즐겨찾기에 추가하는 API (`POST /{markedUserId}`)          |
+|                | getMarkedUsers     | ResponseEntity~List~MarkedUserResponseDTO~~ | public     | 현재 로그인된 사용자가 즐겨찾기한 모든 사용자 목록을 조회하는 API (`GET`)   |
+|                | deleteMark         | ResponseEntity~Void~                        | public     | 특정 사용자를 즐겨찾기에서 삭제하는 API (`DELETE /{markedUserId}`)      |
 
 <br>
 
@@ -95,7 +99,8 @@ classDiagram
 | **class**      | **MarkService** |                             |            | 즐겨찾기 관련 비즈니스 로직을 처리하는 서비스 객체                          |
 | **Attributes** | markRepository  | MarkRepository              | private    | 즐겨찾기 정보(Mark)에 대한 데이터베이스 연산을 담당하는 리포지토리         |
 |                | userRepository  | UserRepository              | private    | 사용자 정보(User)에 대한 데이터베이스 연산을 담당하는 리포지토리            |
-| **Operations** | addMark         | MarkResponseDTO             | public     | 특정 사용자를 즐겨찾기에 추가하는 비즈니스 로직                          |
+| **Operations** | MarkService     | void                        | public     | 생성자 (Lombok @RequiredArgsConstructor)                 |
+|                | addMark         | MarkResponseDTO             | public     | 특정 사용자를 즐겨찾기에 추가하는 비즈니스 로직                          |
 |                | getMarkedUsers  | List~MarkedUserResponseDTO~ | public     | 특정 사용자가 즐겨찾기한 모든 사용자의 정보를 조회하는 비즈니스 로직         |
 |                | deleteMark      | void                        | public     | 특정 사용자를 즐겨찾기 목록에서 삭제하는 비즈니스 로직                     |
 
@@ -107,8 +112,10 @@ classDiagram
 |:---------------|:------------------------------|:--------------------|:-----------|:----------------------------------------------|
 | **class**      | **MarkRepository**            |                     |            | DB에 저장된 즐겨찾기 정보를 관리하기 위한 클래스                 |
 | **Attributes** | markRepository                | SDJpaMarkRepository | private    | Spring Data JPA 기능을 사용하기 위함            |
+|                | em                            | EntityManager       | private    | 엔티티 객체를 관리해주는 객체                      |
 |                | queryFactory                  | JPAQueryFactory     | private    | Query DSL 기능을 사용하기 위한 객체                      |
-| **Operations** | saveMark                      | void                | public     | 즐겨찾기 정보를 DB에 저장하는 함수                          |
+| **Operations** | MarkRepository                | void                | public     | 생성자                                        |
+|                | saveMark                      | void                | public     | 즐겨찾기 정보를 DB에 저장하는 함수                          |
 |                | findMarkByUsersId             | List~Mark~          | public     | 사용자 ID로 해당 유저의 모든 즐겨찾기 정보를 조회하는 함수     |
 |                | findByUsersIdAndMarkedUsersId | Mark                | public     | 특정 사용자가 특정 사용자를 즐겨찾기 했는지 확인하는 함수 |
 |                | deleteMark                    | void                | public     | 즐겨찾기 정보를 DB에서 삭제하는 함수                         |

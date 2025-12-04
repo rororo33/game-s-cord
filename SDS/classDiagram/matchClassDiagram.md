@@ -6,10 +6,11 @@ classDiagram
 
     class MatchController {
         <<Controller>>
-        -MatchService matchService
+        -matchService: MatchService
+        +MatchController(matchService: MatchService)
         +requestMatch(userDetails: CustomUserDetails, requestDto: MatchRequestDTO): ResponseEntity~MatchResponseDTO~
-        +getSentMatches(userDetails: CustomUserDetails): ResponseEntity~List~MatchResponseDTO~~
-        +getReceivedMatches(userDetails: CustomUserDetails): ResponseEntity~List~MatchResponseDTO~~
+        +getSentMatches(userDetails: CustomUserDetails): ResponseEntity~List~MatchListResponseDTO~~
+        +getReceivedMatches(userDetails: CustomUserDetails): ResponseEntity~List~MatchListResponseDTO~~
         +acceptMatch(matchId: Long, userDetails: CustomUserDetails): ResponseEntity~MatchResponseDTO~
         +declineMatch(matchId: Long, userDetails: CustomUserDetails): ResponseEntity~MatchResponseDTO~
         +updateMatchStatus(requestDto: MatchStatusUpdateByKeyDTO, userDetails: CustomUserDetails): ResponseEntity~MatchResponseDTO~
@@ -18,14 +19,15 @@ classDiagram
 
     class MatchService {
         <<Service>>
-        -MatchRepository matchRepository
-        -UserRepository userRepository
-        -GameMateRepository gameMateRepository
-        -CoinService coinService
-        -NotificationService notificationService
+        -matchRepository: MatchRepository
+        -userRepository: UserRepository
+        -gameMateRepository: GameMateRepository
+        -coinService: CoinService
+        -notificationService: NotificationService
+        +MatchService(matchRepository: MatchRepository, userRepository: UserRepository, gameMateRepository: GameMateRepository, coinService: CoinService, notificationService: NotificationService)
         +requestMatch(requesterId: Long, requestDto: MatchRequestDTO): MatchResponseDTO
-        +getSentMatches(userId: Long): List~MatchResponseDTO~
-        +getReceivedMatches(userId: Long): List~MatchResponseDTO~
+        +getSentMatches(userId: Long): List~MatchListResponseDTO~
+        +getReceivedMatches(userId: Long): List~MatchListResponseDTO~
         +acceptMatch(matchId: Long, userId: Long): MatchResponseDTO
         +declineMatch(matchId: Long, userId: Long): MatchResponseDTO
         +updateMatchStatus(requestDto: MatchStatusUpdateByKeyDTO, currentUserId: Long): MatchResponseDTO
@@ -34,9 +36,9 @@ classDiagram
 
     class MatchRepository {
         <<Repository>>
-        -SDJpaMatchRepository matchRepository
-        -EntityManager em
-        -JPAQueryFactory queryFactory
+        -matchRepository: SDJpaMatchRepository
+        -em: EntityManager
+        -queryFactory: JPAQueryFactory
         +MatchRepository(em: EntityManager)
         +saveMatch(match: Match): void
         +findById(id: Long): Optional~Match~
@@ -49,47 +51,50 @@ classDiagram
 
     class Match {
         <<Entity>>
-        -Long id
-        -User users
-        -Long orderedUsersId
-        -Long orderUsersId
-        -Long ordersGameId
-        -String orderStatus
+        -id: Long
+        -users: User
+        -orderedUsersId: Long
+        -orderUsersId: Long
+        -ordersGameId: Long
+        -orderStatus: String
     }
 
     class MatchRequestDTO {
         <<DTO>>
-        -Long orderedUsersId
-        -Long ordersGameId
+        -orderedUsersId: Long
+        -ordersGameId: Long
     }
 
     class MatchResponseDTO {
         <<DTO>>
-        -Long ordersId
-        -Long usersId
-        -Long orderedUsersId
-        -Long orderUsersId
-        -Long ordersGameId
-        -String orderStatus
+        -ordersId: Long
+        -usersId: Long
+        -orderedUsersId: Long
+        -orderUsersId: Long
+        -ordersGameId: Long
+        -orderStatus: String
+        +of(match: Match): MatchResponseDTO
+    }
+    
+    class MatchListResponseDTO {
+        <<DTO>>
+        -ordersId: Long
+        -usersId: Long
+        -orderedUsersId: Long
+        -orderUsersId: Long
+        -ordersGameId: Long
+        -orderStatus: String
+        -orderedUsername: String
     }
 
     class MatchStatusUpdateByKeyDTO {
         <<DTO>>
-        -Long orderUsersId
-        -Long orderedUsersId
-        -Long ordersGameId
-        -String orderStatus
+        -orderUsersId: Long
+        -orderedUsersId: Long
+        -ordersGameId: Long
+        -orderStatus: String
     }
 
-    class User { <<Entity>> }
-    class Gamemate { <<Entity>> }
-    class UserRepository { <<Repository>> }
-    class GameMateRepository { <<Repository>> }
-    class CoinService { <<Service>> }
-    class NotificationService { <<Service>> }
-    class SDJpaMatchRepository { <<interface>> }
-
-    %% Relationships
     MatchController ..> MatchService : uses
     MatchService ..> MatchRepository : uses
     MatchService ..> UserRepository : uses
@@ -99,9 +104,6 @@ classDiagram
     MatchRepository ..> SDJpaMatchRepository : uses
     SDJpaMatchRepository --|> JpaRepository : extends
     Match ..> User : uses
-    MatchController ..> MatchRequestDTO : uses
-    MatchController ..> MatchResponseDTO : uses
-    MatchController ..> MatchStatusUpdateByKeyDTO : uses
 ```
 
 <br>
@@ -112,13 +114,14 @@ classDiagram
 |:---------------|:--------------------|:-----------------------------------|:-----------|:-------------------------------------------------|
 | **class**      | **MatchController** |                                    |            | 매칭 관련 HTTP 요청을 처리하는 REST 컨트롤러           |
 | **Attributes** | matchService        | MatchService                       | private    | 매칭 비즈니스 로직을 처리하는 서비스 객체                |
-| **Operations** | requestMatch        | ResponseEntity~MatchResponseDTO~   | public     | 새로운 매칭을 요청하는 API 엔드포인트                  |
-|                | getSentMatches      | ResponseEntity~List~MatchResponseDTO~~ | public     | 현재 유저가 보낸 매칭 요청 목록을 조회하는 API 엔드포인트 |
-|                | getReceivedMatches  | ResponseEntity~List~MatchResponseDTO~~ | public     | 현재 유저가 받은 매칭 요청 목록을 조회하는 API 엔드포인트 |
-|                | acceptMatch         | ResponseEntity~MatchResponseDTO~   | public     | 받은 매칭 요청을 수락하는 API 엔드포인트               |
-|                | declineMatch        | ResponseEntity~MatchResponseDTO~   | public     | 받은 매칭 요청을 거절하는 API 엔드포인트               |
-|                | updateMatchStatus   | ResponseEntity~MatchResponseDTO~   | public     | (사용되지 않음) 키 값으로 매칭 상태를 업데이트하는 API 엔드포인트 |
-|                | cancelMatch         | ResponseEntity~MatchResponseDTO~   | public     | 보낸 매칭 요청을 취소하는 API 엔드포인트               |
+| **Operations** | MatchController     | void                               | public     | 생성자 (Lombok @RequiredArgsConstructor)         |
+|                | requestMatch        | ResponseEntity~MatchResponseDTO~   | public     | 새로운 매칭을 요청 (`POST`)                      |
+|                | getSentMatches      | ResponseEntity~List~MatchListResponseDTO~~ | public     | 보낸 매칭 요청 목록을 조회 (`GET /sent`)           |
+|                | getReceivedMatches  | ResponseEntity~List~MatchListResponseDTO~~ | public     | 받은 매칭 요청 목록을 조회 (`GET /received`)       |
+|                | acceptMatch         | ResponseEntity~MatchResponseDTO~   | public     | 받은 매칭 요청을 수락 (`PATCH /{matchId}/accept`)  |
+|                | declineMatch        | ResponseEntity~MatchResponseDTO~   | public     | 받은 매칭 요청을 거절 (`PATCH /{matchId}/decline`) |
+|                | updateMatchStatus   | ResponseEntity~MatchResponseDTO~   | public     | 키 값으로 매칭 상태를 업데이트 (`PATCH /status`)       |
+|                | cancelMatch         | ResponseEntity~MatchResponseDTO~   | public     | 보낸 매칭 요청을 취소 (`DELETE /{matchId}`)        |
 
 <br>
 
@@ -127,18 +130,15 @@ classDiagram
 | 구분             | Name                  | Type                 | Visibility | Description                                                        |
 |:---------------|:----------------------|:---------------------|:-----------|:-------------------------------------------------------------------|
 | **class**      | **MatchService**      |                      |            | 매칭 관련 비즈니스 로직을 처리하는 서비스 클래스                              |
-| **Attributes** | matchRepository       | MatchRepository      | private    | 매칭 정보(Match)에 대한 데이터베이스 연산을 담당하는 리포지토리               |
-|                | userRepository        | UserRepository       | private    | 사용자 정보(User)에 대한 데이터베이스 연산을 담당하는 리포지토리                |
-|                | gameMateRepository    | GameMateRepository   | private    | 게임메이트 정보(Gamemate)에 대한 데이터베이스 연산을 담당하는 리포지토리      |
-|                | coinService           | CoinService          | private    | 코인 관련 비즈니스 로직(사용, 지급, 환불)을 처리하는 서비스                  |
-|                | notificationService   | NotificationService  | private    | 알림 관련 비즈니스 로직을 처리하는 서비스                                    |
-| **Operations** | requestMatch          | MatchResponseDTO     | public     | 새로운 매칭을 요청하는 비즈니스 로직 (코인 사용, 알림 생성 포함)                |
-|                | getSentMatches        | List~MatchResponseDTO~ | public     | 보낸 매칭 요청 목록을 조회하는 비즈니스 로직                               |
-|                | getReceivedMatches    | List~MatchResponseDTO~ | public     | 받은 매칭 요청 목록을 조회하는 비즈니스 로직                               |
-|                | acceptMatch           | MatchResponseDTO     | public     | 매칭을 수락하는 비즈니스 로직 (코인 지급, 알림 생성 포함)                     |
-|                | declineMatch          | MatchResponseDTO     | public     | 매칭을 거절하는 비즈니스 로직 (코인 환불, 알림 생성, 매칭 삭제 포함)              |
-|                | updateMatchStatus     | MatchResponseDTO     | public     | (사용되지 않음) 키 값으로 매칭 상태를 업데이트하는 비즈니스 로직               |
-|                | cancelMatchByUser     | MatchResponseDTO     | public     | 사용자가 보낸 매칭 요청을 취소하는 비즈니스 로직 (코인 환불, 매칭 삭제 포함)      |
+| **Attributes** | ... (dependencies)    | ...                  | private    | ...                                                                |
+| **Operations** | MatchService          | void                 | public     | 생성자 (Lombok @RequiredArgsConstructor)                         |
+|                | requestMatch          | MatchResponseDTO     | public     | 새로운 매칭을 요청하는 비즈니스 로직                                 |
+|                | getSentMatches        | List~MatchListResponseDTO~ | public     | 보낸 매칭 요청 목록을 조회하는 비즈니스 로직                               |
+|                | getReceivedMatches    | List~MatchListResponseDTO~ | public     | 받은 매칭 요청 목록을 조회하는 비즈니스 로직                               |
+|                | acceptMatch           | MatchResponseDTO     | public     | 매칭을 수락하는 비즈니스 로직                                      |
+|                | declineMatch          | MatchResponseDTO     | public     | 매칭을 거절하는 비즈니스 로직                                      |
+|                | updateMatchStatus     | MatchResponseDTO     | public     | 키 값으로 매칭 상태를 업데이트하는 비즈니스 로직                         |
+|                | cancelMatchByUser     | MatchResponseDTO     | public     | 사용자가 보낸 매칭 요청을 취소하는 비즈니스 로직                         |
 
 <br>
 
@@ -148,8 +148,10 @@ classDiagram
 |:---------------|:------------------------|:---------------|:-----------|:-------------------------------------------------------|
 | **class**      | **MatchRepository**     |                |            | DB에 저장된 매칭 정보를 관리하기 위한 클래스                     |
 | **Attributes** | matchRepository         | SDJpaMatchRepository | private    | Spring Data JPA 기능을 사용하기 위함                     |
+|                | em                      | EntityManager  | private    | 엔티티 객체를 관리해주는 객체                                |
 |                | queryFactory            | JPAQueryFactory  | private    | Query DSL 기능을 사용하기 위한 객체                          |
-| **Operations** | saveMatch               | void           | public     | 매칭 정보를 DB에 저장/수정하는 함수                          |
+| **Operations** | MatchRepository         | void           | public     | 생성자                                                 |
+|                | saveMatch               | void           | public     | 매칭 정보를 DB에 저장/수정하는 함수                          |
 |                | findById                | Optional~Match~ | public     | ID로 특정 매칭 정보를 조회하는 함수                          |
 |                | findPendingMatch        | Match          | public     | 요청자, 피요청자, 게임 ID로 대기중인 특정 매칭 정보를 조회하는 함수 |
 |                | deleteMatch             | void           | public     | 매칭 정보를 DB에서 삭제하는 함수                             |
@@ -195,6 +197,17 @@ classDiagram
 |                | ordersGameId         | Long             | private    | 매칭된 게임의 ID                                 |
 |                | orderStatus          | String           | private    | 매칭의 현재 상태                               |
 | **Operations** | of                   | MatchResponseDTO | public     | Match 엔티티를 DTO로 변환하는 정적 팩토리 메서드 |
+
+<br>
+
+## MatchListResponseDTO 클래스 정보
+
+| 구분             | Name                 | Type             | Visibility | Description                                  |
+|:---------------|:---------------------|:-----------------|:-----------|:---------------------------------------------|
+| **class**      | **MatchListResponseDTO** | | | 매칭 목록 조회 응답 DTO |
+| **Attributes** | ordersId             | Long             | private    | 매칭의 고유 ID                                   |
+|                | ... (other fields)   | ...              | private    | ...                                          |
+|                | orderedUsername      | String           | private    | 상대방 사용자 이름                             |
 
 <br>
 
