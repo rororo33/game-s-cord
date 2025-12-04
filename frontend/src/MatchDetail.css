@@ -100,7 +100,9 @@
   width: 80px;
   height: 80px;
   border-radius: 8px;
-  margin-right: 10px;         
+  margin-right: 10px;     
+  object-fit: cover;
+  object-position: center;    
 }
 
 .game-detail {
@@ -112,15 +114,16 @@
 .game-name {
   font-size: 20px;
   font-weight: 600;
-  margin-bottom: 5px;           
+  margin-bottom: 5px;
+  padding: 0 5px;     
 }
 
 .game-price {
+  display: flex;
+  align-items: center;
   font-weight: 600;
   color: #333;
 }
-
-
 
 
 .selected-game-info {
@@ -133,7 +136,6 @@
   width: 150px;
   height: 150px;
   border-radius: 8px;
-  object-fit: cover;
 }
 
 .selected-game-details {
@@ -335,6 +337,7 @@
     height: 20px;
     width: 20px;
     margin-right: 10px;
+    border-radius: 50%;
 }
 .game-detail-panel p:not(.game-detail-name) {
     font-size: 15px;

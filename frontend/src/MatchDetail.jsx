@@ -207,9 +207,10 @@ const MatchDetail = () => {
 
                 <div className="game-detail">
                   <span className="game-name">{game.gameName}</span>
-                  <span className="game-price">
+                  <div className="game-price" style={{marginTop:"1.5px"}}>
                     <img src={coin} className="game-detail-coin"></img>
-                     {game.price}/판</span>
+                    <div> {game.price}/판 </div>
+                  </div>
                 </div>
               </button>
             );
@@ -226,9 +227,9 @@ const MatchDetail = () => {
               className="game-detail-img" 
               />
             <p className="game-detail-name">{selectedGame.gameName || "N/A"}</p>
-            <p>
+            <p style={{display:"flex", alignItems:"center"}}>
               <img src={coin} className="game-detail-coin"></img>
-               {selectedGame.price}/판</p>
+              <p style={{margin:"0", marginBottom:"1.5px"}}>{selectedGame.price}/판</p></p>
             <p>티어: {selectedGame.tier || "등록된 설명이 없습니다."}</p>
             <p>가능 시간대: {selectedGame.start}~{selectedGame.end}</p>
             <button className="match-request-btn" onClick={handleMatchRequest}>
