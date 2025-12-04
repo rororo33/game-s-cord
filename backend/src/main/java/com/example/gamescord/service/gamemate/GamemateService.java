@@ -7,7 +7,9 @@ import com.example.gamescord.domain.User;
 import com.example.gamescord.dto.gamemate.GamemateProfileResponseDTO;
 import com.example.gamescord.dto.gamemate.GamemateRegistrationRequestDTO;
 import com.example.gamescord.dto.gamemate.GamemateResponseDTO;
+import com.example.gamescord.dto.gamemate.GamemateUpdateRequestDTO;
 import com.example.gamescord.repository.profile.ProfileRepository;
+
 import com.example.gamescord.repository.user.UserRepository;
 import com.example.gamescord.repository.game.GameRepository;
 import com.example.gamescord.repository.gamemate.GameMateRepository;
@@ -104,20 +106,15 @@ public class GamemateService {
     }
 
     @Transactional
-    public List<GamemateResponseDTO> updateGamemate(Long userId, GamemateRegistrationRequestDTO requestDto) {
+    public List<GamemateResponseDTO> updateGamemate(Long userId, GamemateUpdateRequestDTO requestDto) {
         User user = userRepository.findById(userId);
         if (user == null) {
             throw new IllegalArgumentException("사용자를 찾을 수 없습니다.");
         }
 
-        if (requestDto.getIntroduction() != null) {
-            user.setUsersDescription(requestDto.getIntroduction());
-            userRepository.saveUser(user);
-        }
-
         List<Gamemate> updatedGamemates = new ArrayList<>();
         if (requestDto.getGames() != null && !requestDto.getGames().isEmpty()) {
-            for (GamemateRegistrationRequestDTO.GameInfo gameInfo : requestDto.getGames()) {
+            for (GamemateUpdateRequestDTO.GameInfo gameInfo : requestDto.getGames()) {
                 Game game = gameRepository.findGameById(gameInfo.getGameId());
                 if (game == null) {
                     throw new IllegalArgumentException("게임을 찾을 수 없습니다: ID " + gameInfo.getGameId());

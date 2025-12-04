@@ -3,6 +3,7 @@ package com.example.gamescord.controller;
 import com.example.gamescord.dto.gamemate.GamemateRegistrationRequestDTO;
 import com.example.gamescord.dto.gamemate.GamemateResponseDTO;
 import com.example.gamescord.dto.gamemate.GamemateProfileResponseDTO;
+import com.example.gamescord.dto.gamemate.GamemateUpdateRequestDTO;
 import com.example.gamescord.security.CustomUserDetails;
 import com.example.gamescord.service.gamemate.GamemateService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -72,7 +73,7 @@ public class GamemateController {
     @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<List<GamemateResponseDTO>> updateGamemate(
             @AuthenticationPrincipal CustomUserDetails userDetails,
-            @Valid @RequestBody GamemateRegistrationRequestDTO requestDto) {
+            @Valid @RequestBody GamemateUpdateRequestDTO requestDto) {
 
         List<GamemateResponseDTO> responseDtos =
                 gamemateService.updateGamemate(userDetails.getId(), requestDto);
