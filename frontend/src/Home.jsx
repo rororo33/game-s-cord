@@ -138,7 +138,7 @@ function UserCard({ index, userId, name, tier, game, price, onClick, img }) {
         <div
           style={{
             width: "150px",
-            height: "140px",
+            height: "150px",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -153,6 +153,7 @@ function UserCard({ index, userId, name, tier, game, price, onClick, img }) {
                 : encodeURI(img)
             }
             alt="user profile"
+            style={{width:"140px", height:"140px", objectFit:"cover", borderRadius:"10px"}}
           />
         </div>
         <div className={styles.biobox}>
