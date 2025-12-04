@@ -245,7 +245,9 @@ function MyPage() {
                 )}
               </>
             ) : (
-              <div className={styles.readonlyBox}>
+              <div className={`${styles.readonlyBox} ${
+                !user.usersName ? styles.placeholder : ""
+              }`}>
                 {user.usersName || "닉네임을 등록해주세요"}
               </div>
             )}
