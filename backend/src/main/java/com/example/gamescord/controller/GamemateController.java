@@ -3,6 +3,7 @@ package com.example.gamescord.controller;
 import com.example.gamescord.dto.gamemate.GamemateRegistrationRequestDTO;
 import com.example.gamescord.dto.gamemate.GamemateResponseDTO;
 import com.example.gamescord.dto.gamemate.GamemateProfileResponseDTO;
+import com.example.gamescord.dto.gamemate.GamemateUpdateRequestDTO;
 import com.example.gamescord.security.CustomUserDetails;
 import com.example.gamescord.service.gamemate.GamemateService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/gamemates")
@@ -66,6 +68,34 @@ public class GamemateController {
                 .body(null);
             // 또는 .body(new ErrorResponseDTO("파일 업로드 처리 오류")); 와 같이 적절한 응답 DTO 사용
         }
+    }
+
+    @PatchMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @SecurityRequirement(name = "bearerAuth")
+    public ResponseEntity<List<GamemateResponseDTO>> updateGamemate(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @Valid @RequestBody GamemateUpdateRequestDTO requestDto) {
+
+        List<GamemateResponseDTO> responseDtos =
+                gamemateService.updateGamemate(userDetails.getId(), requestDto);
+
+        return ResponseEntity.ok(responseDtos);
+    }
+
+    @GetMapping("/isRegistered")
+    @SecurityRequirement(name = "bearerAuth")
+    public ResponseEntity<Map<Long, Boolean>> isRegistered(
+            @AuthenticationPrincipal CustomUserDetails userDetails) {
+        Map<Long, Boolean> registrationStatus = gamemateService.checkRegistrationStatus(userDetails.getId());
+        return ResponseEntity.ok(registrationStatus);
+    }
+
+    @GetMapping
+    @SecurityRequirement(name = "bearerAuth")
+    public ResponseEntity<GamemateProfileResponseDTO> getMyGamemateProfile(
+            @AuthenticationPrincipal CustomUserDetails userDetails) {
+        GamemateProfileResponseDTO profile = gamemateService.getGamemateProfile(userDetails.getId());
+        return ResponseEntity.ok(profile);
     }
 
     @GetMapping("/search")

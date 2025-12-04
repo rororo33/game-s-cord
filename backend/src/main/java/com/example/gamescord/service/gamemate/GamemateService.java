@@ -7,7 +7,9 @@ import com.example.gamescord.domain.User;
 import com.example.gamescord.dto.gamemate.GamemateProfileResponseDTO;
 import com.example.gamescord.dto.gamemate.GamemateRegistrationRequestDTO;
 import com.example.gamescord.dto.gamemate.GamemateResponseDTO;
+import com.example.gamescord.dto.gamemate.GamemateUpdateRequestDTO;
 import com.example.gamescord.repository.profile.ProfileRepository;
+
 import com.example.gamescord.repository.user.UserRepository;
 import com.example.gamescord.repository.game.GameRepository;
 import com.example.gamescord.repository.gamemate.GameMateRepository;
@@ -25,10 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 import software.amazon.awssdk.services.s3.S3Client;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -103,6 +102,66 @@ public class GamemateService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
+    public List<GamemateResponseDTO> updateGamemate(Long userId, GamemateUpdateRequestDTO requestDto) {
+        User user = userRepository.findById(userId);
+        if (user == null) {
+            throw new IllegalArgumentException("사용자를 찾을 수 없습니다.");
+        }
+
+        // 1. 요청에 포함된 게임 ID들을 Set으로 변환합니다.
+        Set<Long> requestedGameIds = requestDto.getGames().stream()
+                .map(GamemateUpdateRequestDTO.GameInfo::getGameId)
+                .collect(Collectors.toSet());
+
+        // 2. 사용자의 현재 모든 게임메이트 등록 정보를 가져옵니다.
+        List<Gamemate> existingGamemates = gameMateRepository.findGamematesByUsersId(userId);
+
+        // 3. 요청에 포함되지 않은 기존 등록 정보를 삭제합니다.
+        List<Gamemate> gamematesToDelete = existingGamemates.stream()
+                .filter(existing -> !requestedGameIds.contains(existing.getGames().getId()))
+                .collect(Collectors.toList());
+
+        for (Gamemate toDelete : gamematesToDelete) {
+            gameMateRepository.deleteGamemate(toDelete);
+        }
+
+        // 4. 요청에 포함된 정보를 기준으로 등록하거나 업데이트합니다.
+        List<Gamemate> finalGamemates = new ArrayList<>();
+        for (GamemateUpdateRequestDTO.GameInfo gameInfo : requestDto.getGames()) {
+            Game game = gameRepository.findGameById(gameInfo.getGameId());
+            if (game == null) {
+                // 이 게임 ID가 유효하지 않으면 건너뛰거나 예외를 발생시킬 수 있습니다.
+                continue;
+            }
+
+            // 기존 등록 정보가 있는지 확인하고, 없으면 새로 만듭니다.
+            Gamemate gamemate = existingGamemates.stream()
+                    .filter(existing -> existing.getGames().getId().equals(gameInfo.getGameId()))
+                    .findFirst()
+                    .orElse(new Gamemate());
+
+            if (gamemate.getId() == null) { // 새 엔티티인 경우
+                gamemate.setUsers(user);
+                gamemate.setGames(game);
+            }
+
+            // 정보 업데이트
+            gamemate.setPrice(gameInfo.getPrice());
+            gamemate.setTier(gameInfo.getTier());
+            gamemate.setStart(gameInfo.getStart());
+            gamemate.setEnd(gameInfo.getEnd());
+
+            gameMateRepository.saveGamemate(gamemate);
+            finalGamemates.add(gamemate);
+        }
+
+        // 5. 최종 결과를 DTO로 변환하여 반환합니다.
+        return finalGamemates.stream()
+                .map(GamemateResponseDTO::fromEntity)
+                .collect(Collectors.toList());
+    }
+
     @Transactional(readOnly = true)
     public List<GamemateResponseDTO> searchGamematesByUserName(String userName) {
         List<Gamemate> gamemates = gameMateRepository.findGamematesByUsersName(userName);
@@ -115,18 +174,22 @@ public class GamemateService {
     public GamemateProfileResponseDTO getGamemateProfile(Long userId) {
         User user = userRepository.findById(userId);
 
-        // 전체 평점 계산
+        // 전체 평점 및 리뷰 개수 계산
         List<Integer> allScores = reviewRepository.findAllScoresByUserId(userId);
         double overallAverageScore = allScores.stream()
                 .mapToInt(Integer::intValue)
                 .average()
                 .orElse(0.0);
+        int overallReviewCount = allScores.size();
 
-        // 게임별 평점 계산
+        // 게임별 평점 및 리뷰 개수 계산
         List<Gamemate> gamemates = gameMateRepository.findGamematesByUsersId(userId);
         List<GamemateProfileResponseDTO.GameProfile> gameProfiles = gamemates.stream()
                 .map(gamemate -> {
                     Double averageScore = reviewRepository.findAverageScoreByGamemateId(gamemate.getId());
+                    Long reviewCountLong = reviewRepository.countByGamemateId(gamemate.getId());
+                    int reviewCount = (reviewCountLong != null) ? reviewCountLong.intValue() : 0;
+
                     return GamemateProfileResponseDTO.GameProfile.builder()
                             .gameId(gamemate.getGames().getId())
                             .gameName(gamemate.getGames().getGamesName())
@@ -135,6 +198,7 @@ public class GamemateService {
                             .start(gamemate.getStart().toString().substring(0,5))
                             .end(gamemate.getEnd().toString().substring(0,5))
                             .averageScore(formatScore(averageScore))
+                            .reviewCount(reviewCount)
                             .build();
                 })
                 .collect(Collectors.toList());
@@ -145,8 +209,30 @@ public class GamemateService {
                 .userDescription(user.getUsersDescription())
                 .profileImageUrl(user.getProfileImageUrl())
                 .overallAverageScore(formatScore(overallAverageScore))
+                .overallReviewCount(overallReviewCount)
                 .games(gameProfiles)
                 .build();
+    }
+
+    @Transactional(readOnly = true)
+    public Map<Long, Boolean> checkRegistrationStatus(Long userId) {
+        // 1. 모든 게임 목록을 가져옵니다.
+        List<Game> allGames = gameRepository.findAll();
+
+        // 2. 현재 사용자가 등록한 모든 게임메이트 정보를 가져옵니다.
+        List<Gamemate> userGamemates = gameMateRepository.findGamematesByUsersId(userId);
+
+        // 3. 사용자가 등록한 게임 ID를 Set으로 만들어 빠른 조회를 지원합니다.
+        Set<Long> registeredGameIds = userGamemates.stream()
+                .map(gamemate -> gamemate.getGames().getId())
+                .collect(Collectors.toSet());
+
+        // 4. 결과를 담을 Map을 생성하고, 각 게임에 대해 등록 여부를 확인합니다.
+        return allGames.stream()
+                .collect(Collectors.toMap(
+                        Game::getId,
+                        game -> registeredGameIds.contains(game.getId())
+                ));
     }
 
     @Transactional
