@@ -321,7 +321,7 @@
     border-radius: 12px;
     margin-bottom: 30px; /* 리뷰 패널과의 간격 */
     border: 1px solid #eee; /* 테두리 추가 */
-    overflow: visible;
+    overflow: auto;
 }
 .game-detail-name {
     font-size: 30px !important; 
@@ -336,7 +336,7 @@
     width: 20px;
     margin-right: 10px;
 }
-.game-detail-panel p {
+.game-detail-panel p:not(.game-detail-name) {
     font-size: 15px;
     font-weight:bold;
     line-height: 1.6;
@@ -344,15 +344,14 @@
     margin-bottom: 10px;
 }
 
-.game-detail-panel p strong {
-    font-weight: 600;
-    color: #000000;
+.game-detail-panel {
+    overflow: auto;
 }
 
 .game-detail-img {
     width: 100%;
     max-height: 400px;
-    object-fit: contain;    /* 이미지 절대 잘리지 않음 */
+    object-fit: contain;
     border-radius: 8px;
     display: block;
 }
