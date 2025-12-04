@@ -31,8 +31,8 @@ public class GamemateResponseDTO {
                 .price(gamemate.getPrice())
                 .tier(gamemate.getTier())
                 .gender(gamemate.getUsers().getGender())
-                .start(gamemate.getStart().toString())
-                .end(gamemate.getEnd().toString())
+                .start(gamemate.getStart().toString().substring(0, 5))
+                .end(gamemate.getEnd().toString().substring(0, 5))
                 .build();
     }
 
