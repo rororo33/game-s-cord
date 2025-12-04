@@ -19,6 +19,7 @@ function MyPage() {
     profileImageFile: "",
   });
   const [profilePreview, setProfilePreview] = useState(null);
+  const [isLoaded, setIsLoaded] = useState(false);
   const navigate = useNavigate();
 
   const validate = () => {
@@ -83,6 +84,8 @@ function MyPage() {
       console.log(res.data);
     } catch (e) {
       console.error("검색 결과 불러오기 실패:", e);
+    } finally {
+      setIsLoaded(true);
     }
   };
 
@@ -149,7 +152,18 @@ function MyPage() {
             }}
           >
             <div className={styles.imgbox}>
-              <img
+              {!isLoaded && (
+                // 로딩 중: 회색 박스 스켈레톤
+                <div
+                  style={{
+                    width: "240px",
+                    height: "240px",
+                    borderRadius: "20px",
+                    background: "#f0f0f0",
+                  }}
+                />
+              )}
+              {isLoaded && ( <img
                 src={
                   !profilePreview
                     ? defaultImg
@@ -161,13 +175,12 @@ function MyPage() {
                 style={{
                   width: "240px",
                   height: "240px",
-                  borderRadius: "10px",
                   objectFit: "cover",
                   objectPosition:"center",
                   borderRadius:"20px",
                 }}
                 alt="profile"
-              />
+              /> )}
               <input
                 id="profileUpload"
                 type="file"
