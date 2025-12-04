@@ -139,6 +139,13 @@ const MatchDetail = () => {
       alert("리뷰 등록에 실패했습니다.");
     }
   };
+  const getGameImage = (gameName) => {
+    if (!gameName) return null;
+    if (gameName.includes("Battle")) return pubg;
+    if (gameName.includes("League")) return lol;
+    if (gameName.includes("Overwatch")) return overwatch;
+    return null;
+  };
 
   if (!matchData) return null;
 
@@ -211,6 +218,13 @@ const MatchDetail = () => {
 
         {selectedGame && (
           <div className="game-detail-panel">
+            <img 
+              src={selectedGame.iconUrl && selectedGame.iconUrl !== "string" 
+              ? selectedGame.iconUrl 
+              : getGameImage(selectedGame.gameName)}
+              alt={selectedGame.gameName}
+              className="game-detail-img" 
+              />
             <p className="game-detail-name">{selectedGame.gameName || "N/A"}</p>
             <p>
               <img src={coin} className="game-detail-coin"></img>
