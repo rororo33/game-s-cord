@@ -181,12 +181,12 @@ function Search() {
       onClick={() => navigate("/matchdetail", { state: { userId } })}
       style={{ cursor: "pointer" }}
       >
-        <div style={{height:"200px", display:"flex", alignItems:"end", justifyContent:"center"}}>
+        <div style={{height:"200px", width:"240px", display:"flex", alignItems:"center", justifyContent:"center", overflow:"hidden"}}>
           <img src={!img
                         ? logo_img
                         : img.startsWith("http://example.com/")
                             ? logo_img
-                            : encodeURI(img)} style={{height:"170px"}}></img>
+                            : encodeURI(img)} style={{maxWidth:"240px", height:"200px", objectFit:"cover", objectPosition:"center" }}></img>
         </div>
         <div className={styles.Userbio}>
           <div style={{fontSize:"18px", fontWeight:"bold"}}>{name}</div>

@@ -159,9 +159,12 @@ function MyPage() {
                 }
                 className={modify ? styles.imgDark : ""}
                 style={{
-                  width: "300px",
-                  maxHeight: "300px",
+                  width: "240px",
+                  height: "240px",
                   borderRadius: "10px",
+                  objectFit: "cover",
+                  objectPosition:"center",
+                  borderRadius:"20px",
                 }}
                 alt="profile"
               />
