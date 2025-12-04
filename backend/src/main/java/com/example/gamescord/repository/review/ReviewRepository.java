@@ -54,6 +54,14 @@ public class ReviewRepository {
                 .fetchOne();
     }
 
+    public Long countByGamemateId(Long gamemateId) {
+        return queryFactory
+                .select(review.count())
+                .from(review)
+                .where(review.gamemates.id.eq(gamemateId))
+                .fetchOne();
+    }
+
     public List<Integer> findAllScoresByUserId(Long userId) {
         return queryFactory
                 .select(review.score)

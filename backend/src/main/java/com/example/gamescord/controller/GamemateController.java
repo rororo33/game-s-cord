@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/gamemates")
@@ -79,6 +80,14 @@ public class GamemateController {
                 gamemateService.updateGamemate(userDetails.getId(), requestDto);
 
         return ResponseEntity.ok(responseDtos);
+    }
+
+    @GetMapping("/isRegistered")
+    @SecurityRequirement(name = "bearerAuth")
+    public ResponseEntity<Map<Long, Boolean>> isRegistered(
+            @AuthenticationPrincipal CustomUserDetails userDetails) {
+        Map<Long, Boolean> registrationStatus = gamemateService.checkRegistrationStatus(userDetails.getId());
+        return ResponseEntity.ok(registrationStatus);
     }
 
     @GetMapping("/search")

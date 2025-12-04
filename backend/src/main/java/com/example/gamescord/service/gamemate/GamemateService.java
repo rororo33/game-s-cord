@@ -27,10 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 import software.amazon.awssdk.services.s3.S3Client;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -154,18 +151,22 @@ public class GamemateService {
     public GamemateProfileResponseDTO getGamemateProfile(Long userId) {
         User user = userRepository.findById(userId);
 
-        // 전체 평점 계산
+        // 전체 평점 및 리뷰 개수 계산
         List<Integer> allScores = reviewRepository.findAllScoresByUserId(userId);
         double overallAverageScore = allScores.stream()
                 .mapToInt(Integer::intValue)
                 .average()
                 .orElse(0.0);
+        int overallReviewCount = allScores.size();
 
-        // 게임별 평점 계산
+        // 게임별 평점 및 리뷰 개수 계산
         List<Gamemate> gamemates = gameMateRepository.findGamematesByUsersId(userId);
         List<GamemateProfileResponseDTO.GameProfile> gameProfiles = gamemates.stream()
                 .map(gamemate -> {
                     Double averageScore = reviewRepository.findAverageScoreByGamemateId(gamemate.getId());
+                    Long reviewCountLong = reviewRepository.countByGamemateId(gamemate.getId());
+                    int reviewCount = (reviewCountLong != null) ? reviewCountLong.intValue() : 0;
+
                     return GamemateProfileResponseDTO.GameProfile.builder()
                             .gameId(gamemate.getGames().getId())
                             .gameName(gamemate.getGames().getGamesName())
@@ -174,6 +175,7 @@ public class GamemateService {
                             .start(gamemate.getStart().toString().substring(0,5))
                             .end(gamemate.getEnd().toString().substring(0,5))
                             .averageScore(formatScore(averageScore))
+                            .reviewCount(reviewCount)
                             .build();
                 })
                 .collect(Collectors.toList());
@@ -184,8 +186,30 @@ public class GamemateService {
                 .userDescription(user.getUsersDescription())
                 .profileImageUrl(user.getProfileImageUrl())
                 .overallAverageScore(formatScore(overallAverageScore))
+                .overallReviewCount(overallReviewCount)
                 .games(gameProfiles)
                 .build();
+    }
+
+    @Transactional(readOnly = true)
+    public Map<Long, Boolean> checkRegistrationStatus(Long userId) {
+        // 1. 모든 게임 목록을 가져옵니다.
+        List<Game> allGames = gameRepository.findAll();
+
+        // 2. 현재 사용자가 등록한 모든 게임메이트 정보를 가져옵니다.
+        List<Gamemate> userGamemates = gameMateRepository.findGamematesByUsersId(userId);
+
+        // 3. 사용자가 등록한 게임 ID를 Set으로 만들어 빠른 조회를 지원합니다.
+        Set<Long> registeredGameIds = userGamemates.stream()
+                .map(gamemate -> gamemate.getGames().getId())
+                .collect(Collectors.toSet());
+
+        // 4. 결과를 담을 Map을 생성하고, 각 게임에 대해 등록 여부를 확인합니다.
+        return allGames.stream()
+                .collect(Collectors.toMap(
+                        Game::getId,
+                        game -> registeredGameIds.contains(game.getId())
+                ));
     }
 
     @Transactional

@@ -6,6 +6,8 @@ import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class GameRepository {
 
@@ -21,6 +23,10 @@ public class GameRepository {
 
   public Game findGameById(Long id) {
     return gameRepository.findById(id).orElse(null);
+  }
+
+  public List<Game> findAll() {
+    return gameRepository.findAll();
   }
 
 }
