@@ -231,7 +231,7 @@ const JoinGameMatch = () => {
         <div className="settings-section">
           <div className="setting-box">
             <h3 className="setting-header">
-              <MdOutlineAttachMoney /> 게임별 코인, 이용 시간 등록
+              <MdOutlineAttachMoney /> 게임별 코인 등록
             </h3>
             <div className="rate-inputs">
               {gameRates.map((rate) => (
