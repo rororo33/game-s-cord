@@ -15,21 +15,20 @@ Use Case Diagram은 시스템 내 주요 행위자(Actor)와 Use Case 간의 관
 
 아래 기능들은 본 시스템의 핵심 사용자 경험 흐름을 구성한다:
 
-1) 로그인  
-2) 로그아웃  
-3) 회원가입  
-4) 매칭수락  
-5) 매칭거절  
-6) 게임 메이트 검색  
-7) 프로필 관리  
-8) 게임 메이트 등록  
-9) 알림 시스템  
-10) 즐겨찾기  
-11) 코인 충전  
-12) 코인 환불  
-13) 코인 지급  
-14) 게임 메이트 상세정보 확인  
-15) 리뷰 작성  
+1. 로그인
+2. 로그아웃
+3. 회원가입
+4. 매칭수락
+5. 매칭거절
+6. 게임 메이트 검색
+7. 프로필 관리
+8. 게임 메이트 등록
+9. 알림 시스템
+10. 즐겨찾기
+11. 코인 충전
+12. 코인 환불
+13. 게임 메이트 상세정보 확인
+14. 리뷰 작성
 
 ### Use Case Diagram
 
@@ -43,7 +42,6 @@ Use Case Diagram은 시스템 내 주요 행위자(Actor)와 Use Case 간의 관
 
 ### ※ 다음 섹션부터는 각 Use Case별 상세 동작을 서술한다.
 
-
 <h2>2.2 Use case description</h2>
 
 <h3>Use Case #1 : 회원가입</h3>
@@ -56,7 +54,7 @@ Use Case Diagram은 시스템 내 주요 행위자(Actor)와 Use Case 간의 관
 <tr><td>Scope</td><td>game-s-cord</td></tr>
 <tr><td>Level</td><td>User Level</td></tr>
 <tr><td>Author</td><td>백유진</td></tr>
-<tr><td>Last Update</td><td>2025. 11. 03</td></tr>
+<tr><td>Last Update</td><td>2025. 12. 06</td></tr>
 <tr><td>Status</td><td>Analysis</td></tr>
 <tr><td>Primary Actor</td><td>User</td></tr>
 <tr><td>Preconditions</td><td>사용자는 아직 계정이 없으며, 시스템에 가입하기 위한 정보를 준비해야 한다.</td></tr>
@@ -68,10 +66,13 @@ Use Case Diagram은 시스템 내 주요 행위자(Actor)와 Use Case 간의 관
 <tr><th colspan="2">MAIN SUCCESS SCENARIO</th></tr>
 <tr><td width="30%">Step</td><td>Action</td></tr>
 <tr><td>1</td><td>사용자가 웹 헤더에서 회원가입 버튼을 클릭하여 회원가입 페이지에 진입한다.</td></tr>
-<tr><td>2</td><td>사용자가 아이디, 비밀번호, 닉네임, 생년월일 등 필수 가입 정보를 입력하여 회원가입을 시도한다.</td></tr>
-<tr><td>3</td><td>시스템은 입력된 정보를 검증한다.</td></tr>
-<tr><td>4</td><td>정보가 유효하면 계정이 생성되어 회원가입이 완료된다.</td></tr>
-<tr><td>5</td><td>자동으로 로그인 상태가 되며, 메인 페이지로 리다이렉트된다.</td></tr>
+<tr><td>2</td><td>사용자가 아이디, 비밀번호, 이메일, 인증코드, 이름, 생년월일 등 필수 가입 정보를 입력한다.</td></tr>
+<tr><td>3</td><td>사용자가 아이디 중복 확인을 시도한다.</td></tr>
+<tr><td>4</td><td>사용자가 이메일 인증 요청 버튼을 클릭한다.</td></tr>
+<tr><td>5</td><td>사용자가 받은 인증코드를 입력한다.</td></tr>
+<tr><td>6</td><td>사용자가 register 버튼을 클릭한다..</td></tr>
+<tr><td>7</td><td>시스템은 입력된 정보를 검증한다.</td></tr>
+<tr><td>8</td><td>정보가 유효하면 계정이 생성되어 회원가입이 완료되고 메인 페이지로 리다이렉트된다..</td></tr>
 
 <!-- EXTENSION -->
 <tr><th colspan="2">EXTENSION SCENARIOS</th></tr>
@@ -88,23 +89,48 @@ Use Case Diagram은 시스템 내 주요 행위자(Actor)와 Use Case 간의 관
 
 <!-- Step 3 -->
 <tr>
-  <td rowspan="12" align="center">3</td>
-  <td><b>3a</b> 필수 항목 미입력 시</td>
+  <td rowspan="2" align="center">3</td>
+  <td><b>3a</b> 사용자가 중복 확인 버튼을 클릭했을 때 이미 사용중인 아이디가 있는 경우</td>
 </tr>
-<tr><td>3a.1 “필수 항목을 모두 입력해주세요” 메시지를 표시한다.</td></tr>
-<tr><td>3a.2 사용자의 입력을 다시 요청한다.</td></tr>
+<tr>
+  <td>3a.1 “이미 사용 중인 아이디입니다. 다른 아이디를 사용해주세요.” 메시지를 표시한다. </td>
+</tr>
 
-<tr><td><b>3b</b> 이미 존재하는 아이디 입력 시</td></tr>
-<tr><td>3b.1 “이미 사용 중인 아이디입니다” 메시지를 표시한다.</td></tr>
-<tr><td>3b.2 사용자의 입력을 다시 요청한다.</td></tr>
+<!-- Step 7 -->
+<tr>
+  <td rowspan="24" align="center">7</td>
+  <td><b>7a</b> 필수 항목 미입력 시</td>
+</tr>
+<tr><td>7a.1 “필수 항목을 모두 입력해주세요” 메시지를 표시한다.</td></tr>
+<tr><td>7a.2 사용자의 입력을 다시 요청한다.</td></tr>
 
-<tr><td><b>3c</b> 비밀번호 규정(8~16자, 숫자/영문/특수문자 포함) 미준수 시</td></tr>
-<tr><td>3c.1 “비밀번호 규정을 확인해주세요” 메시지를 표시한다.</td></tr>
-<tr><td>3c.2 사용자의 입력을 다시 요청한다.</td></tr>
+<tr><td><b>7b</b> ID 규정(6자 이상 20자 이하) 미준수 시</td></tr>
+<tr><td>7b.1 “아이디는 6자 이상 20자 이하로 입력해주세요.” 메시지를 표시한다.</td></tr>
+<tr><td>7b.2 사용자의 입력을 다시 요청한다.</td></tr>
 
-<tr><td><b>3d</b> 생년월일 입력 오류 시</td></tr>
-<tr><td>3d.1 “유효한 생년월일을 입력해주세요” 메시지를 표시한다.</td></tr>
-<tr><td>3d.2 사용자의 입력을 다시 요청한다.</td></tr>
+<tr><td><b>7c</b> 비밀번호 규정(8~16자, 숫자/영문/특수문자 포함) 미준수 시</td></tr>
+<tr><td>7c.1 “비밀번호 규정을 확인해주세요” 메시지를 표시한다.</td></tr>
+<tr><td>7c.2 사용자의 입력을 다시 요청한다.</td></tr>
+
+<tr><td><b>7c</b> 이메일이 유효한 형식(example@domain.com)이 아닌 경우</td></tr>
+<tr><td>7c.1 “유효한 이메일 주소를 입력해주세요!” 메시지를 표시한다.</td></tr>
+<tr><td>7c.2 사용자의 입력을 다시 요청한다.</td></tr>
+
+<tr><td><b>7d</b> 이메일 인증 코드를 입력하지 않았을 경우</td></tr>
+<tr><td>7d.1 “이메일 인증 코드를 입력해주세요!” 메시지를 표시한다.</td></tr>
+<tr><td>7d.2 사용자의 입력을 다시 요청한다.</td></tr>
+
+<tr><td><b>7e</b> 이메일 인증이 완료되지 않았을 경우 </td></tr>
+<tr><td>7e.1 “이메일 인증을 완료해야 회원가입이 가능합니다!” 메시지를 표시한다.</td></tr>
+<tr><td>7e.2 사용자의 입력을 다시 요청한다.</td></tr>
+
+<tr><td><b>7f</b> 생년월일이 YYYY-MM-DD 형식 미준수 시</td></tr>
+<tr><td>7f.1 “유효한 생년월일을 입력해주세요!” 메시지를 표시한다.</td></tr>
+<tr><td>7f.2 사용자의 입력을 다시 요청한다.</td></tr>
+
+<tr><td><b>7g</b> ID 중복 확인 상태가 완료되지 않았을 경우 </td></tr>
+<tr><td>7g.1 “아이디 중복 확인이 필요합니다!” 메시지를 표시한다.</td></tr>
+<tr><td>7g.2 사용자에게 중복 확인을 요청한다..</td></tr>
 
 <!-- RELATED -->
 <tr><th colspan="2">RELATED INFORMATION</th></tr>
@@ -114,7 +140,6 @@ Use Case Diagram은 시스템 내 주요 행위자(Actor)와 Use Case 간의 관
 <tr><td>Due Date</td><td>2025. 11. 24</td></tr>
 
 </table>
-
 
 <br>
 <h3>Use Case #2 : 로그인</h3>
@@ -277,7 +302,7 @@ Use Case Diagram은 시스템 내 주요 행위자(Actor)와 Use Case 간의 관
 </table>
 
 <br>
-<h3>Use Case #5 : 게임 메이트 등록</h3>
+<h3>Use Case #5 : 게임 메이트 등록/수정</h3>
 
 <table border="1" width="100%" cellspacing="0" cellpadding="6">
 
@@ -287,20 +312,20 @@ Use Case Diagram은 시스템 내 주요 행위자(Actor)와 Use Case 간의 관
 <tr><td>Scope</td><td>game-s-cord</td></tr>
 <tr><td>Level</td><td>User Level</td></tr>
 <tr><td>Author</td><td>백유진</td></tr>
-<tr><td>Last Update</td><td>2025. 11. 03</td></tr>
+<tr><td>Last Update</td><td>2025. 12. 06</td></tr>
 <tr><td>Status</td><td>Analysis</td></tr>
 <tr><td>Primary Actor</td><td>User</td></tr>
 <tr><td>Preconditions</td><td>사용자가 로그인 상태여야 한다.</td></tr>
-<tr><td>Trigger</td><td>사용자가 마이페이지에서 메이트 등록 버튼을 클릭한다.</td></tr>
+<tr><td>Trigger</td><td>사용자가 마이페이지에서 메이트 등록/수정 버튼을 클릭한다.</td></tr>
 <tr><td>Success Post Condition</td><td>게임 메이트 등록이 완료되고 서비스 제공 가능 상태가 된다.</td></tr>
 <tr><td>Failed Post Condition</td><td>입력 정보가 유효하지 않으면 등록이 제한된다.</td></tr>
 
 <!-- MAIN -->
 <tr><th colspan="2">MAIN SUCCESS SCENARIO</th></tr>
 <tr><td width="30%">Step</td><td>Action</td></tr>
-<tr><td>1</td><td>사용자가 메이트 등록 버튼을 클릭한다.</td></tr>
+<tr><td>1</td><td>사용자가 마이페이지에서 메이트 등록/수정 버튼을 클릭한다.</td></tr>
 <tr><td>2</td><td>사용자가 메이트 지원서를 작성한다.</td></tr>
-<tr><td>3</td><td>사용자가 게임 실력, 요금, 이용 가능 시간대, 선호 게임, 성별 등을 설정한다.</td></tr>
+<tr><td>3</td><td>사용자가 게임 별 티어, 요금, 이용 가능 시간대등을 설정한다.</td></tr>
 <tr><td>4</td><td>사용자가 확인 버튼을 클릭하면 시스템은 정보를 저장하고 등록을 완료한다.</td></tr>
 
 <!-- EXTENSION -->
@@ -308,16 +333,13 @@ Use Case Diagram은 시스템 내 주요 행위자(Actor)와 Use Case 간의 관
 <tr><td>Step</td><td>Branching Action</td></tr>
 
 <tr>
-  <td rowspan="6" align="center">3</td>
-  <td><b>3a</b> 티어 스크린샷 미첨부 시</td>
+  <td rowspan="4" align="center">3</td>
+  <td><b>3a</b> 티어, 코인, 이용가능 시간대 미선택시</td>
 </tr>
-<tr><td>3a.1 등록을 제한하고 첨부 안내 메시지를 표시한다.</td></tr>
+<tr><td>3a.1 등록을 제한하고 오류 메시지를 표시한다.</td></tr>
 
-<tr><td><b>3b</b> 요금이 최소/최대 범위를 벗어난 경우</td></tr>
+<tr><td><b>3b</b> 요금이 최대 범위를 벗어난 경우</td></tr>
 <tr><td>3b.1 등록을 제한하고 요금 범위 안내 메시지를 표시한다.</td></tr>
-
-<tr><td><b>3c</b> 등록을 위한 요구 사항을 모두 입력하지 않은 경우</td></tr>
-<tr><td>3c.1 모든 필드를 입력하라는 안내 메시지를 출력한다.</td></tr>
 
 <tr>
   <td rowspan="2" align="center">4</td>
@@ -552,42 +574,8 @@ Use Case Diagram은 시스템 내 주요 행위자(Actor)와 Use Case 간의 관
 <tr><td>Due Date</td><td>2025. 12. 03</td></tr>
 
 </table>
-<h3>Use Case #12 : 코인 지급</h3>
 
-<table border="1" width="100%" cellspacing="0" cellpadding="6">
-
-<tr><th colspan="2">GENERAL CHARACTERISTICS</th></tr>
-<tr><td width="30%">Summary</td><td>시스템은 조건 충족 시 자동으로 코인을 지급한다.</td></tr>
-<tr><td>Scope</td><td>game-s-cord</td></tr>
-<tr><td>Level</td><td>System Level</td></tr>
-<tr><td>Author</td><td>이성진</td></tr>
-<tr><td>Last Update</td><td>2025. 11. 04</td></tr>
-<tr><td>Status</td><td>Analysis</td></tr>
-<tr><td>Primary Actor</td><td>System</td></tr>
-<tr><td>Preconditions</td><td>사용자가 이벤트 조건을 만족해야 한다.</td></tr>
-<tr><td>Trigger</td><td>시스템이 조건 충족 이벤트를 감지한다.</td></tr>
-<tr><td>Success Post Condition</td><td>코인이 자동 지급되고 잔액이 업데이트된다.</td></tr>
-<tr><td>Failed Post Condition</td><td>지급 실패 메시지를 사용자에게 표시.</td></tr>
-
-<tr><th colspan="2">MAIN SUCCESS SCENARIO</th></tr>
-<tr><td>1</td><td>시스템은 사용자 활동을 모니터링한다.</td></tr>
-<tr><td>2</td><td>조건 충족 이벤트를 감지한다.</td></tr>
-<tr><td>3</td><td>시스템은 지급할 코인 양을 확인한다.</td></tr>
-<tr><td>4</td><td>시스템은 코인 트랜잭션을 생성하여 계정에 반영한다.</td></tr>
-<tr><td>5</td><td>시스템은 알림을 사용자에게 전송한다.</td></tr>
-<tr><td>6</td><td>Use case 종료.</td></tr>
-
-<tr><th colspan="2">EXTENSION SCENARIOS</th></tr>
-<tr><td>4</td><td><b>4a</b> DB 트랜잭션 실패 → 롤백 후 재시도 → 실패 시 오류 알림.</td></tr>
-
-<tr><th colspan="2">RELATED INFORMATION</th></tr>
-<tr><td>Performance</td><td>≤ 500 ms</td></tr>
-<tr><td>Frequency</td><td>이벤트마다 발생</td></tr>
-<tr><td>Concurrency</td><td>중복 지급 방지 로직 필요</td></tr>
-<tr><td>Due Date</td><td>2025. 12. 03</td></tr>
-
-</table>
-<h3>Use Case #13 : 코인 환불</h3>
+<h3>Use Case #12 : 코인 환불</h3>
 
 <table border="1" width="100%" cellspacing="0" cellpadding="6">
 
@@ -623,7 +611,7 @@ Use Case Diagram은 시스템 내 주요 행위자(Actor)와 Use Case 간의 관
 <tr><td>Due Date</td><td>2025. 12. 03</td></tr>
 
 </table>
-<h3>Use Case #14 : 리뷰 작성</h3>
+<h3>Use Case #13 : 리뷰 작성</h3>
 
 <table border="1" width="100%" cellspacing="0" cellpadding="6">
 
@@ -657,7 +645,7 @@ Use Case Diagram은 시스템 내 주요 행위자(Actor)와 Use Case 간의 관
 <tr><td>Due Date</td><td>2025. 12. 03</td></tr>
 
 </table>
-<h3>Use Case #15 : 알림 시스템</h3>
+<h3>Use Case #14 : 알림 시스템</h3>
 
 <table border="1" width="100%" cellspacing="0" cellpadding="6">
 
