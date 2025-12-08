@@ -35,7 +35,7 @@ Use Case Diagram은 시스템 내 주요 행위자(Actor)와 Use Case 간의 관
 ### Use Case Diagram
 
 <div align="center">
-<img src="./usecasediagram.png" width="600"/>
+<img src="./UseCaseDiagram.jpg" width="600"/>
 </div>
 
 <p align="center">그림 2-1. Use Case Diagram</p>
