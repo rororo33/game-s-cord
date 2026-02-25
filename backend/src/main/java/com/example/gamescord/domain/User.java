@@ -22,12 +22,12 @@ public class User {
   @Column(name = "users_id", nullable = false)
   private Long id;
 
-  @Size(max = 255, min = 6)
+  @Size(max = 255)
   @NotNull
   @Column(name = "login_id", nullable = false, unique = true)
   private String loginId;
 
-  @Size(max = 255, min = 8)
+  @Size(max = 255)
   @NotNull
   @Column(name = "login_pwd", nullable = false)
   private String loginPwd;
@@ -41,12 +41,12 @@ public class User {
   @Column(name = "point", nullable = false)
   private Long point;
 
-  @Size(max = 10, min = 2)
+  @Size(max = 10)
   @NotNull
   @Column(name = "users_name", nullable = false, length = 10)
   private String usersName;
 
-  @Size(max = 255, min = 10)
+  @Size(max = 255)
   @Column(name = "users_description")
   private String usersDescription;
 

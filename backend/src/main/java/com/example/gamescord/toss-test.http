@@ -1,0 +1,14 @@
+POST https://api.tosspayments.com/v1/payments/key-in
+Authorization: Basic dGVzdF9za196WExrS0V5cE5BcldtbzUwblgzbG1lYXhZRzVSOg==
+Content-Type: application/json
+
+{
+  "amount": 4680,
+  "orderId": "GAMESCORD-1C6A168234B2486C",
+  "orderName": "500코인 충전",
+  "cardNumber": "4330123412341234",
+  "cardExpirationYear": "24",
+  "cardExpirationMonth": "01",
+  "cardPassword": "00",
+  "customerBirthday": "880101"
+}
